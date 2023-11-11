@@ -1,0 +1,5 @@
+export enum TipoConduce{
+    ACARREO = 'ACARREO',
+    CONTROLHORA = 'CONTROLHORA',
+    CONTROLVIAJE = 'CONTROLVIAJE'
+}
