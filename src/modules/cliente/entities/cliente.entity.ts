@@ -16,6 +16,7 @@ import {
 import { Contacto } from '../../contacto/entities/contacto.entity';
 import { Proyecto } from '../../proyecto/entities/proyecto.entity';
 import { Status } from '../../../EntityStatus/entity.estatus.enum';
+import{Factura} from '../../factura/entities/factura.entity';
 @Entity('clientes')
 export class Cliente {
     @PrimaryGeneratedColumn('uuid')
@@ -36,7 +37,8 @@ export class Cliente {
 
     @OneToMany(() => Proyecto, (proyecto) => proyecto.cliente)
     proyectos: Proyecto[];
-   
+    @OneToMany(() => Factura, (factura) => factura.cliente)
+    facturas: Factura[];
 
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
     createdAt: Date;

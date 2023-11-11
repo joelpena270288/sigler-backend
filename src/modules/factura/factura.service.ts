@@ -100,6 +100,7 @@ return savedFactura;
         
     },
 	where:{
+		id: id,
 		status: Not(StatusFactura.CANCELADA)
 	}
     

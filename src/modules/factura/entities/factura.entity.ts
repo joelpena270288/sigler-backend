@@ -21,6 +21,7 @@ import { TipoImpuestoFactura } from './factura-impuesto.enum';
 import { PreFactura } from '../../pre-factura/entities/pre-factura.entity';
 
 import { ServicioProcesado } from '../../servicio-procesado/entities/servicio-procesado.entity';
+import { Cliente } from '../../cliente/entities/cliente.entity';
   @Entity('facturas') 
 export class Factura {
 
@@ -43,6 +44,13 @@ export class Factura {
       nullable: false,
     })
     proyecto: Proyecto;
+    @ManyToOne(() => Cliente, (cliente) => cliente.facturas, {
+     
+      nullable: false,
+    })
+    cliente: Cliente;
+    @Column({ type: 'varchar', nullable: false })
+    nombreproyecto: string;
 	 @Column({ type: 'varchar', nullable: false, default: TipoImpuestoFactura.CONSUMO })
     tipoimpuesto: string;
     
