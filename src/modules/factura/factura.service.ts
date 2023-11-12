@@ -8,6 +8,9 @@ import {Proyecto} from '../proyecto/entities/proyecto.entity';
 import { PreFactura } from '../pre-factura/entities/pre-factura.entity';
 import { ServicioProcesado } from '../servicio-procesado/entities/servicio-procesado.entity';
 import { TipoFactura } from './entities/factura-tipo.enum';
+import { UpdateClientePrefacturaDto } from './dto/update-cliente-factura';
+import { Cliente } from '../cliente/entities/cliente.entity';
+import { Status } from 'src/EntityStatus/entity.estatus.enum';
 @Injectable()
 export class FacturaService {
 
@@ -20,6 +23,8 @@ export class FacturaService {
     private prefacturaRepository: Repository<PreFactura>,
     @Inject('SERVICIOPROCESADO_REPOSITORY')
     private servicioProcesadoRepository: Repository<ServicioProcesado>,
+    @Inject('CLIENTE_REPOSITORY')
+    private clienteRepository: Repository<Cliente>,
    
   ){}
  async create(createFacturaDto: CreateFacturaDto): Promise<Factura> {
@@ -32,6 +37,8 @@ export class FacturaService {
  newFactura.tipo = TipoFactura.PREFACTURA;
  newFactura.status = StatusFactura.CREADA;
  newFactura.proyecto = foundProyecto;
+ newFactura.nombreproyecto = foundProyecto.name;
+ newFactura.cliente = foundProyecto.cliente;
  const savedFactura: Factura = await this.facturaRepository.save(newFactura);
  if(!savedFactura){
   throw new NotFoundException("Error al crear la Prefactura");
@@ -93,8 +100,8 @@ return savedFactura;
  async findOne(id: string) {
     return await this.facturaRepository.findOne({
       relations: {
-        servicioProcesado: true,
-		proyecto: true
+        servicioProcesado: true,	
+    cliente: true
 		
 		
         
@@ -102,17 +109,78 @@ return savedFactura;
 	where:{
 		id: id,
 		status: Not(StatusFactura.CANCELADA)
+    
 	}
     
     });
   }
 
-  update(id: number, updateFacturaDto: UpdateFacturaDto) {
+  update(id: string, updateFacturaDto: UpdateFacturaDto) {
     return `This action updates a #${id} factura`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} factura`;
+  async updateCliente(idfactura: string, updateClientePrefacturaDto: UpdateClientePrefacturaDto): Promise<Factura>{
+
+ const foundFactura = await  this.facturaRepository.findOne({where: {
+     id: idfactura,
+     status: Not(StatusFactura.CANCELADA),
+     tipo:  TipoFactura.PREFACTURA
+    
+    }});
+    if(!foundFactura){
+      throw new NotFoundException('La Prefactura no existe');
+    }
+
+    const foundCliente: Cliente = await this.clienteRepository.findOne({where: {
+      id: updateClientePrefacturaDto.idcliente,
+      status: Status.ACTIVO
+    }});
+    if(!foundCliente){
+      throw new NotFoundException("El Cliente introducido no es valido");
+    }
+    foundFactura.cliente = foundCliente;
+    const savedPrefactura: Factura = await this.facturaRepository.save(foundFactura);
+    if(!savedPrefactura){
+      throw new BadRequestException("Error al modificar la Prefactura");
+    }
+    return savedPrefactura;
+
+  }
+
+ async remove(id: string): Promise<Factura> {
+    const foundFactura: Factura =   await this.facturaRepository.findOne({
+        relations: {
+          servicioProcesado: true,	
+      },
+    where:{
+      id: id,
+      status: Not(StatusFactura.CANCELADA),
+      tipo:  TipoFactura.PREFACTURA
+      
+    }
+      
+      });
+ if(!foundFactura){
+    throw new NotFoundException('La factura no existe o esta aprobada');
+  }
+ for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
+  const foudPrefactura: PreFactura = await this.prefacturaRepository.findOne({where:{id: foundFactura.servicioProcesado[index].idprefactura}});
+  if(foudPrefactura){
+    foudPrefactura.cantidad += foundFactura.servicioProcesado[index].cantidad;
+    foudPrefactura.importe = foudPrefactura.cantidad * foudPrefactura.precio;
+    foudPrefactura.importeimpuesto = foudPrefactura.importe * foudPrefactura.valorimpuesto;
+    foudPrefactura.valortotal = foudPrefactura.importe + foudPrefactura.importeimpuesto;
+    foudPrefactura.updatedAt = new Date();
+    await this.prefacturaRepository.save(foudPrefactura);    
+  }
+ }
+
+ foundFactura.status = StatusFactura.CANCELADA;
+ foundFactura.updatedAt = new Date();
+
+
+
+    return await this.facturaRepository.save(foundFactura);
   }
  async aprobar(id: string):Promise<Factura>{
 

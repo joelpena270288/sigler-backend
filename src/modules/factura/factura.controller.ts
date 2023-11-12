@@ -6,6 +6,7 @@ import { HasRoles } from '../role/roles.decorator';
 import { RoleEnum } from '../role/enums/role.enum';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
+import { UpdateClientePrefacturaDto } from './dto/update-cliente-factura';
 
 @Controller('factura')
 export class FacturaController {
@@ -32,15 +33,22 @@ export class FacturaController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFacturaDto: UpdateFacturaDto) {
-    return this.facturaService.update(+id, updateFacturaDto);
+    return this.facturaService.update(id, updateFacturaDto);
+  }
+
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('editClient/:id')
+  editClient(@Param('id') id: string, @Body() updateFacturaDto: UpdateClientePrefacturaDto) {
+    return this.facturaService.updateCliente(id,updateFacturaDto);
   }
  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.facturaService.remove(+id);
+    return this.facturaService.remove(id);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/aprobar/:idFactura')
   aprobar(@Param('id') id: string){

@@ -22,6 +22,7 @@ export class ServicioProcesado {
     cantidad: number;
     @Column({ type: 'varchar', nullable: false })
     UM: string;
+   
     @Column({ type: 'varchar', nullable: false })
     nombreServicio: string;
     @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
