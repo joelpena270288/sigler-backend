@@ -1,4 +1,4 @@
-import { Factura } from 'src/modules/factura/entities/factura.entity';
+import { Factura } from '../../factura/entities/factura.entity';
 import {
     BaseEntity,
     Column,

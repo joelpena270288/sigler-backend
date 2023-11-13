@@ -52,7 +52,12 @@ export class ProyectoService {
   }
 
   async findOne(id: string): Promise<Proyecto> {
-    return await this.proyectoRepository.findOne({ where: { id: id } });
+    return await this.proyectoRepository.findOne({  relations: {
+        cliente: true,
+		conducesprocesados: true,
+		prefacturas: true
+
+    },where: { id: id } });
   }
 
  async update(id: string, updateProyectoDto: UpdateProyectoDto): Promise<Proyecto> {

@@ -42,22 +42,23 @@ export class Proyecto {
   @OneToMany(() => GastosProyecto, (gasto) => gasto.proyecto)
   gastos: GastosProyecto[];
 
-  @OneToMany(() => Conduce, (conduce) => conduce.proyecto)
+  @OneToMany(() => Conduce, (conduce) => conduce.proyecto,{ nullable: true
+    })
   conduces: Conduce[];
   @OneToMany(() => ConduceProcezado, (procezados) => procezados.proyecto, {
     nullable: true,
-    eager: true,
+   
   })
   conducesprocesados: ConduceProcezado[];
 
   @OneToMany(() => PreFactura, (prefactura) => prefactura.proyecto,{
     nullable: true,
-    eager: true,
+  
   })
   prefacturas: PreFactura[];
   @OneToMany(() => Factura, (factura) => factura.proyecto,{
     nullable: true,
-    eager: true,
+   
   })
   facturas: Factura[];
  

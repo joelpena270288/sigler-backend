@@ -6,10 +6,11 @@ import { ProyectoProviders } from './proyecto.providers';
 import { ClienteProviders } from '../cliente/cliente.providers';
 import { EmpresaProviders } from '../empresa/empresa.providers';
 import { FacturaProviders } from '../factura/factura.providers';
+import { ConduceProviders } from '../conduce/conduce.providers';
 @Module({
   imports: [DatabaseModule],
   controllers: [ProyectoController],
-  providers: [ProyectoService,...ProyectoProviders,...ClienteProviders,...EmpresaProviders,...FacturaProviders],
+  providers: [ProyectoService,...ProyectoProviders,...ClienteProviders,...EmpresaProviders,...FacturaProviders,...ConduceProviders],
   exports: [ProyectoService],
 })
 export class ProyectoModule {}

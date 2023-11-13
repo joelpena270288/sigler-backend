@@ -25,8 +25,7 @@ export class Conduce {
   id: string;
   @Column({ type: 'varchar', length: 100, nullable: false })
   name: string;
-  @ManyToOne(() => Proyecto, (proyecto) => proyecto.conduces, {
-    eager: true,
+  @ManyToOne(() => Proyecto, (proyecto) => proyecto.conduces, {   
     nullable: false,
   })
   proyecto: Proyecto;

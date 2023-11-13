@@ -34,27 +34,31 @@ export class ServicioProcesadoService {
     if(!servicioFound){
       throw new NotFoundException("No esxite el servicio en la bd");
     }
-     if(updateServicioProcesadoDto.cantidad == servicioFound.cantidad){
-      throw new BadRequestException("No hay cambio en la cantidad");
+     if(updateServicioProcesadoDto.cantidad == servicioFound.cantidad && updateServicioProcesadoDto.precio == servicioFound.precio){
+      throw new BadRequestException("No se realizaron cambios");
      }
     const foundPrefactura: PreFactura = await this.preFacturaRepository.findOne({where:{id: servicioFound.idprefactura}});
    
-    if(updateServicioProcesadoDto.cantidad > servicioFound.cantidad ){
-      const dif: number = updateServicioProcesadoDto.cantidad - servicioFound.cantidad;
-      if(dif> foundPrefactura.cantidad){
+    if( parseFloat( updateServicioProcesadoDto.cantidad.toString())  > parseFloat(servicioFound.cantidad.toString())  ){
+      const dif: number = parseFloat(updateServicioProcesadoDto.cantidad.toString())  - parseFloat(servicioFound.cantidad.toString())  ;
+      if(dif > parseFloat(foundPrefactura.cantidad.toString()) ){
         throw new BadRequestException("La cantidad disponible es menor a la introducida");
       }
 
-      foundPrefactura.cantidad -= dif;
+      foundPrefactura.cantidad = parseFloat(foundPrefactura.cantidad.toString()) - parseFloat(dif.toString()) ;
       foundPrefactura.updatedAt = new Date();
+	  servicioFound.cantidad = parseFloat( servicioFound.cantidad.toString()) + parseFloat( dif.toString());
+	  
       
      
 
-    }else if(updateServicioProcesadoDto.cantidad < servicioFound.cantidad ) {
-     const sum: number =  servicioFound.cantidad - updateServicioProcesadoDto.cantidad;
+    }
+	else if(parseFloat( updateServicioProcesadoDto.cantidad.toString()) < parseFloat(servicioFound.cantidad.toString())  ) {
+     const sum: number =  parseFloat( servicioFound.cantidad.toString()) - parseFloat(updateServicioProcesadoDto.cantidad.toString()) ;
     
-     foundPrefactura.cantidad += sum;
+     foundPrefactura.cantidad = parseFloat(foundPrefactura.cantidad.toString()) + parseFloat(sum.toString()) ;
      foundPrefactura.updatedAt = new Date();
+	 servicioFound.cantidad = parseFloat(servicioFound.cantidad.toString()) -  parseFloat(sum.toString());
     
     }
     //Actualizando los servicios de las prefacturas
@@ -64,7 +68,7 @@ export class ServicioProcesadoService {
     foundPrefactura.valortotal = foundPrefactura.importe + foundPrefactura.importeimpuesto;
    
     await this.preFacturaRepository.save(foundPrefactura);
-
+    servicioFound.precio = updateServicioProcesadoDto.precio;
     servicioFound.importe = servicioFound.cantidad * servicioFound.precio;
     servicioFound.importeimpuesto = servicioFound.importe * servicioFound.valorimpuesto;
     servicioFound.valortotal = servicioFound.importe + servicioFound.importeimpuesto;
@@ -82,7 +86,7 @@ export class ServicioProcesadoService {
   }
   const foundPrefactura: PreFactura = await this.preFacturaRepository.findOne({where:{id: servicioFound.idprefactura}});
    
-  foundPrefactura.cantidad += servicioFound.cantidad;
+  foundPrefactura.cantidad = parseFloat(foundPrefactura.cantidad.toString()) + parseFloat(servicioFound.cantidad.toString());
   foundPrefactura.importe = foundPrefactura.cantidad * foundPrefactura.precio;
   foundPrefactura.importeimpuesto = foundPrefactura.importe * foundPrefactura.valorimpuesto;
   foundPrefactura.valortotal = foundPrefactura.importe + foundPrefactura.importeimpuesto;
@@ -91,7 +95,7 @@ export class ServicioProcesadoService {
     throw new BadRequestException("Error al editar servicio");
   }
  
- await this.servicioProcesadoRepository.delete(servicioFound);
+ await this.servicioProcesadoRepository.delete({id: servicioFound.id, consecutivo: servicioFound.consecutivo});
  return servicioFound;
   }
   

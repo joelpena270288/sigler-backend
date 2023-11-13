@@ -141,6 +141,11 @@ export class ConduceService {
 
   async findAll(): Promise<Conduce[]> {
     return await this.conduceRepository.find({
+		
+	 relations: {
+        proyecto: true,
+
+    },	
       where: { status: EstatusConduce.ABIERTO },
     });
   }

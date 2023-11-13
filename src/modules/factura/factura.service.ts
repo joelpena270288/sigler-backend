@@ -10,7 +10,7 @@ import { ServicioProcesado } from '../servicio-procesado/entities/servicio-proce
 import { TipoFactura } from './entities/factura-tipo.enum';
 import { UpdateClientePrefacturaDto } from './dto/update-cliente-factura';
 import { Cliente } from '../cliente/entities/cliente.entity';
-import { Status } from 'src/EntityStatus/entity.estatus.enum';
+import { Status } from '../../EntityStatus/entity.estatus.enum';
 @Injectable()
 export class FacturaService {
 
