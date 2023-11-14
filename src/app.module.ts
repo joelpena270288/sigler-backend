@@ -36,6 +36,9 @@ import { MarcaModule } from './modules/marca/marca.module';
 import { ConduceProcezadoModule } from './modules/conduce-procezado/conduce-procezado.module';
 import { PreFacturaModule } from './modules/pre-factura/pre-factura.module';
 import { ServicioProcesadoModule } from './modules/servicio-procesado/servicio-procesado.module';
+import { B01Module } from './modules/b01/b01.module';
+import { B02Module } from './modules/b02/b02.module';
+import { B14Module } from './modules/b14/b14.module';
 
 @Module({
    
@@ -73,7 +76,10 @@ import { ServicioProcesadoModule } from './modules/servicio-procesado/servicio-p
      MarcaModule,
      ConduceProcezadoModule,
      PreFacturaModule,
-     ServicioProcesadoModule]
+     ServicioProcesadoModule,
+     B01Module,
+     B02Module,
+     B14Module]
 })
 export class AppModule {
  static port: number | string;

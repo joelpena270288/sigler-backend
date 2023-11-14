@@ -85,7 +85,7 @@ return savedFactura;
  async findAll(): Promise<Factura[]> {
        return await this.facturaRepository.find({
       relations: {
-        proyecto: true
+        cliente: true
 		
         
     },
