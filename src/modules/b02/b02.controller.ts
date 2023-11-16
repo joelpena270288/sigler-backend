@@ -24,5 +24,11 @@ export class B02Controller {
   findOne() {
     return this.b02Service.findOne();
   }
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/all')
+  findAll() {
+    return this.b02Service.findAll();
+  }
 
 }

@@ -22,6 +22,7 @@ import { PreFactura } from '../../pre-factura/entities/pre-factura.entity';
 
 import { ServicioProcesado } from '../../servicio-procesado/entities/servicio-procesado.entity';
 import { Cliente } from '../../cliente/entities/cliente.entity';
+import { CuentasPorCobrar } from './cuenta-por-cobrar.entity';
   @Entity('facturas') 
 export class Factura {
 
@@ -47,15 +48,40 @@ export class Factura {
     @ManyToOne(() => Cliente, (cliente) => cliente.facturas, {
      
       nullable: false,
-    })
+        })
     cliente: Cliente;
     @Column({ type: 'varchar', nullable: false })
     nombreproyecto: string;
-	 @Column({ type: 'varchar', nullable: false, default: TipoImpuestoFactura.CONSUMO })
+    @Column({ type: 'varchar', nullable: true })  
+	 @Column({ type: 'varchar', nullable: true })
     tipoimpuesto: string;
-    
-   @PrimaryGeneratedColumn()
-  consecutivo: number;
+	 @Column({ type: 'varchar', nullable: true })
+    ncf: string;
+	 @Column({ type: 'varchar', nullable: true })
+    fechancf: Date;
+    @Column({ type: 'varchar', nullable: true })
+    fechafactura: Date;
+    @Column({ type: 'varchar', nullable: true })
+    fechacierre: Date;
+    @Column({ type: 'decimal', nullable: false,default: 1, precision: 10, scale: 2 })
+    tasadia: number;   
+   @Column({ type: 'varchar', nullable: true })
+   notaprefactura: string; 
+   @Column({ type: 'varchar', nullable: true })
+   notafactura: string;
+   @OneToOne((type) => CuentasPorCobrar, {
+    cascade: true,
+    nullable: false,
+    eager: true,
+  })
+  @JoinColumn({ name: 'cuenta_por_cobrar_id' })
+  cuentaporcobrar: CuentasPorCobrar;
+  @Column({  nullable: false ,default: 0})
+  consecutivoprefactura: number; 
+  @Column({  nullable: false, default: 0 })
+  consecutivofactura: number; 
+
+
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date; 
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

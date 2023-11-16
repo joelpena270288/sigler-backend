@@ -13,7 +13,9 @@ import {
     ManyToOne,
     BeforeInsert
   } from 'typeorm';
+  @Entity('B14')
 export class B14 {
+	 @PrimaryGeneratedColumn()
     id: number;
     @Column({ type: 'varchar', length: 11, nullable: false })
     valor: string;

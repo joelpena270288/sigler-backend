@@ -7,6 +7,7 @@ import { RoleEnum } from '../role/enums/role.enum';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
 import { UpdateClientePrefacturaDto } from './dto/update-cliente-factura';
+import { ConvertFacturaDto } from './dto/convert-factura.dto';
 
 @Controller('factura')
 export class FacturaController {
@@ -54,6 +55,25 @@ export class FacturaController {
   aprobar(@Param('id') id: string){
   return this.facturaService.aprobar(id);
 
+  }
+   @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  
+   @Patch('/b01/:id')
+  b01(@Param('id') id: string, @Body() convertFacturaDto: ConvertFacturaDto) {
+    return this.facturaService.tipob01(id, convertFacturaDto);
+  }
+   @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+   @Patch('/b02/:id')
+  b02(@Param('id') id: string, @Body() convertFacturaDto: ConvertFacturaDto) {
+    return this.facturaService.tipob02(id, convertFacturaDto);
+  }
+   @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+    @Patch('/b14/:id')
+  b14(@Param('id') id: string, @Body() convertFacturaDto: ConvertFacturaDto) {
+    return this.facturaService.tipob14(id, convertFacturaDto);
   }
  
 }

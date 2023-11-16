@@ -39,7 +39,8 @@ export class Cliente {
     proyectos: Proyecto[];
     @OneToMany(() => Factura, (factura) => factura.cliente)
     facturas: Factura[];
-
+    @PrimaryGeneratedColumn()
+    consecutivo: number;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
     createdAt: Date;
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at' })

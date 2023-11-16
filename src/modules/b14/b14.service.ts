@@ -14,30 +14,50 @@ export class B14Service {
 
  async create(createB14Dto: CreateB14Dto): Promise<boolean> {
     for (let index = createB14Dto.init; index <= createB14Dto.end; index++) {
-       
+      const foundb14: B14 = await this.b14Repository.createQueryBuilder('b14')
+      .where('b14.status = :estado',{estado: Status.ACTIVO}) 
+      .andWhere('b14.fecha >= :fecha',{fecha: new Date()})
+      .andWhere('b14.valor = :valor',{valor: 'B1'+index})
+      .getOne();
+          
+     
+          if(!foundb14){
       const b14: B14 = new B14();
       b14.fecha = createB14Dto.fecha;
 
-      b14.valor ='B14'+ index;
+      b14.valor ='B1'+ index;
       try{
         await this.b14Repository.save(b14);
       }catch(e){
         console.log('Error al insertar');
       }
+      }
     }
 return true;
   }
 
-  findAll() {
-    return `This action returns all b14`;
+  async findAll():Promise<B14[]> {	 
+	 
+
+    const foundb14: B14[] = await this.b14Repository.createQueryBuilder('b14')
+  .addOrderBy('b14.valor')
+  .where('b14.status = :estado',{estado: Status.ACTIVO}) 
+  .andWhere('b14.fecha >= :fecha',{fecha: new Date()})  
+  .getMany();
+
+  return foundb14;
   }
 
  async findOne(): Promise<B14> {
-  const found: B14 =  await this.b14Repository.findOne({where:{status: Status.ACTIVO}}) ;
-  if(!found){
+  const foundb14: B14 = await this.b14Repository.createQueryBuilder('b14')
+  .addOrderBy('b14.valor')
+  .where('b14.status = :estado',{estado: Status.ACTIVO}) 
+  .andWhere('b14.fecha >= :fecha',{fecha: new Date()})  
+  .getOne();
+  if(!foundb14){
       throw new NotFoundException('No quedan consecutivos disponibles');
   }
-  return found;
+  return foundb14;
   }
 
   update(id: number, updateB14Dto: UpdateB14Dto) {

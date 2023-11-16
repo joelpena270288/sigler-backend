@@ -14,6 +14,7 @@ import {
     ManyToOne,
     BeforeInsert
   } from 'typeorm';
+  @Entity('B01')
 export class B01 {
 
     @PrimaryGeneratedColumn()

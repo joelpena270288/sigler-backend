@@ -16,8 +16,9 @@ export class B01Controller {
   create(@Body() createB01Dto: CreateB01Dto) {
     return this.b01Service.create(createB01Dto);
   }
-
-  @Get()
+ @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/all')
   findAll() {
     return this.b01Service.findAll();
   }

@@ -1,6 +1,6 @@
 export enum StatusFactura{
-    CREADA = 'CREADA',
-	APROBADA = 'APROBADA',   
+    CREADA = 'CREADA', 
     COMPLETADA = 'COMPLETADA',
+	APROBADA = 'APROBADA',
 	CANCELADA = 'CANCELADA'
 }

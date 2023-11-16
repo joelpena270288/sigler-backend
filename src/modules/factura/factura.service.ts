@@ -11,6 +11,12 @@ import { TipoFactura } from './entities/factura-tipo.enum';
 import { UpdateClientePrefacturaDto } from './dto/update-cliente-factura';
 import { Cliente } from '../cliente/entities/cliente.entity';
 import { Status } from '../../EntityStatus/entity.estatus.enum';
+import { ConvertFacturaDto } from './dto/convert-factura.dto';
+import {TipoImpuestoFactura} from './entities/factura-impuesto.enum'
+import { B01 } from '../b01/entities/b01.entity';
+import { B02 } from '../b02/entities/b02.entity';
+import { B14 } from '../b14/entities/b14.entity';
+import { CuentasPorCobrar } from './entities/cuenta-por-cobrar.entity';
 @Injectable()
 export class FacturaService {
 
@@ -25,6 +31,12 @@ export class FacturaService {
     private servicioProcesadoRepository: Repository<ServicioProcesado>,
     @Inject('CLIENTE_REPOSITORY')
     private clienteRepository: Repository<Cliente>,
+	 @Inject('B01_REPOSITORY')
+    private b01Repository: Repository<B01>,
+	 @Inject('B02_REPOSITORY')
+    private b02Repository: Repository<B02>,
+	 @Inject('B14_REPOSITORY')
+    private b14Repository: Repository<B14>,
    
   ){}
  async create(createFacturaDto: CreateFacturaDto): Promise<Factura> {
@@ -33,12 +45,27 @@ export class FacturaService {
  if(!foundProyecto){
   throw new NotFoundException("No existe el proyecto");
  }
+ const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
+  .addOrderBy('factura.consecutivoprefactura','DESC')
+   
+  .getOne();
+
+
  const newFactura: Factura = new Factura();
+ if(!preanterior){
+  newFactura.consecutivoprefactura = 1;
+
+}else{
+  newFactura.consecutivoprefactura = preanterior.consecutivoprefactura +1;
+}
+const cuentaporcobrar: CuentasPorCobrar = new CuentasPorCobrar();
+
  newFactura.tipo = TipoFactura.PREFACTURA;
  newFactura.status = StatusFactura.CREADA;
  newFactura.proyecto = foundProyecto;
  newFactura.nombreproyecto = foundProyecto.name;
  newFactura.cliente = foundProyecto.cliente;
+ newFactura.cuentaporcobrar = cuentaporcobrar;
  const savedFactura: Factura = await this.facturaRepository.save(newFactura);
  if(!savedFactura){
   throw new NotFoundException("Error al crear la Prefactura");
@@ -116,8 +143,190 @@ return savedFactura;
   }
 
   update(id: string, updateFacturaDto: UpdateFacturaDto) {
+	  
+	  
     return `This action updates a #${id} factura`;
   }
+ async tipob01(idfactura: string, convertFacturaDto: ConvertFacturaDto  ): Promise<Factura>{
+	  if(convertFacturaDto.idncf < 1 ){
+		  
+		  throw new BadRequestException("Debe enviar todos los datos");
+	  }
+	  const b01: B01 = await this.b01Repository.findOne({where:{id: convertFacturaDto.idncf}});
+	  if(!b01){
+		throw new NotFoundException('El CNF introducido no es valido');  
+		  
+	  }
+	  
+	  const foundFactura = await  this.facturaRepository.findOne({where: {
+     id: idfactura,
+     status: Not(StatusFactura.CANCELADA),
+     tipo:  TipoFactura.PREFACTURA
+    
+    }});
+    if(!foundFactura){
+      throw new NotFoundException('La Prefactura no existe');
+    }
+
+    let monto = 0;
+
+  for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
+    monto+= foundFactura.servicioProcesado[index].valortotal;
+    
+  }
+  const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
+  .addOrderBy('factura.consecutivofactura','DESC')
+   
+  .getOne();
+  if(!preanterior){
+    foundFactura.consecutivofactura = 1;
+
+  }else{
+    foundFactura.consecutivofactura = preanterior.consecutivofactura +1;
+  }
+  
+   foundFactura.cuentaporcobrar.montoinicial = monto; 
+   foundFactura.cuentaporcobrar.montorestante = monto;
+	
+   foundFactura.status = StatusFactura.APROBADA;
+	foundFactura.tipo = TipoFactura.FACTURA;
+	foundFactura.tipoimpuesto = TipoImpuestoFactura.B01;
+	foundFactura.fechafactura = new Date();
+	foundFactura.ncf = b01.valor;
+	foundFactura.fechancf = b01.fecha;
+	
+	const saved: Factura = await this.facturaRepository.save(foundFactura);
+	if(saved){
+		
+		b01.status = Status.INACTIVO;
+		
+		await this.b01Repository.save(b01);
+	}
+	return saved;
+	
+	
+	
+	  
+  }
+  
+ async tipob02(idfactura: string, convertFacturaDto: ConvertFacturaDto  ): Promise<Factura>{
+	  if(convertFacturaDto.idncf <1 ){
+		  
+		  throw new BadRequestException("Debe enviar todos los datos");
+	  }
+	  
+	   const b02: B02 = await this.b02Repository.findOne({where:{id: convertFacturaDto.idncf}});
+	  if(!b02){
+		throw new NotFoundException('El CNF introducido no es valido');  
+		  
+	  }
+	  
+	  const foundFactura: Factura = await  this.facturaRepository.findOne({where: {
+     id: idfactura,
+     status: Not(StatusFactura.CANCELADA),
+     tipo:  TipoFactura.PREFACTURA
+    
+    }});
+    if(!foundFactura){
+      throw new NotFoundException('La Prefactura no existe');
+    }
+    let monto = 0;
+
+    for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
+      monto+= foundFactura.servicioProcesado[index].valortotal;
+      
+    }
+    const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
+  .addOrderBy('factura.consecutivofactura','DESC')
+   
+  .getOne();
+  if(!preanterior){
+    foundFactura.consecutivofactura = 1;
+
+  }else{
+    foundFactura.consecutivofactura = preanterior.consecutivofactura +1;
+  }
+  
+     foundFactura.cuentaporcobrar.montoinicial = monto; 
+     foundFactura.cuentaporcobrar.montorestante = monto;
+	foundFactura.status = StatusFactura.APROBADA;
+	foundFactura.tipo = TipoFactura.FACTURA;
+	foundFactura.tipoimpuesto = TipoImpuestoFactura.B02;
+	foundFactura.fechafactura = new Date();
+	foundFactura.ncf = b02.valor;
+	foundFactura.fechancf = b02.fecha;
+	
+	const saved: Factura = await this.facturaRepository.save(foundFactura);
+	if(saved){
+		
+		b02.status = Status.INACTIVO;
+		
+		await this.b02Repository.save(b02);
+	}
+	return saved;
+	
+	
+	
+	  
+  }
+ async tipob14(idfactura: string, convertFacturaDto: ConvertFacturaDto  ): Promise<Factura>{
+	   if(convertFacturaDto.idncf < 1 ){
+		  
+		  throw new BadRequestException("Debe enviar todos los datos");
+	  }
+	   const b14: B14 = await this.b14Repository.findOne({where:{id: convertFacturaDto.idncf}});
+	  if(!b14){
+		throw new NotFoundException('El CNF introducido no es valido');  
+		  
+	  }
+	  const foundFactura: Factura = await  this.facturaRepository.findOne({where: {
+     id: idfactura,
+     status: Not(StatusFactura.CANCELADA),
+     tipo:  TipoFactura.PREFACTURA
+    
+    }});
+    if(!foundFactura){
+      throw new NotFoundException('La Prefactura no existe');
+    }
+    let monto = 0;
+
+    for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
+      monto+= foundFactura.servicioProcesado[index].valortotal;
+      
+    }
+    const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
+  .addOrderBy('factura.consecutivofactura','DESC')
+   
+  .getOne();
+  if(!preanterior){
+    foundFactura.consecutivofactura = 1;
+
+  }else{
+    foundFactura.consecutivofactura = preanterior.consecutivofactura +1;
+  }
+  
+  foundFactura.cuentaporcobrar.montoinicial = monto; 
+  foundFactura.cuentaporcobrar.montorestante = monto;
+	foundFactura.status = StatusFactura.APROBADA;
+	foundFactura.tipo = TipoFactura.FACTURA;
+	foundFactura.tipoimpuesto = TipoImpuestoFactura.B14;
+	foundFactura.fechafactura = new Date();
+	foundFactura.ncf = b14.valor;
+	foundFactura.fechancf = b14.fecha;
+	
+	const saved: Factura = await this.facturaRepository.save(foundFactura);
+	if(saved){
+		
+		b14.status = Status.INACTIVO;
+		
+		await this.b14Repository.save(b14);
+	}
+	return saved;
+	
+	  
+  }
+
+
 
   async updateCliente(idfactura: string, updateClientePrefacturaDto: UpdateClientePrefacturaDto): Promise<Factura>{
 

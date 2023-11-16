@@ -17,7 +17,7 @@ export class B14Controller {
     return this.b14Service.create(createB14Dto);
   }
 
-  @Get()
+  @Get('/all')
   findAll() {
     return this.b14Service.findAll();
   }

@@ -15,7 +15,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { Role } from '../../role/entities/role.entity';
 import { UserDetails } from '../user.details.entity';
-
+import {Status} from '../../../EntityStatus/entity.estatus.enum';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -36,7 +36,7 @@ export class User {
   @ManyToMany((type) => Role, (role) => role.users, { eager: true })
   @JoinTable()
   roles: Role[];
-  @Column({ type: 'varchar', default: 'ACTIVO', length: 10 })
+  @Column({ type: 'varchar', default: Status.ACTIVO, length: 10 })
   status: string;
 
   

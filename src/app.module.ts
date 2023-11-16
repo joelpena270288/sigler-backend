@@ -2,7 +2,7 @@
 import { Module } from '@nestjs/common';
 import { RoleModule } from './modules/role/role.module';
 import { UsersModule } from './modules/users/users.module';
-import { UserDetailModule } from './modules/user_detail/user_detail.module';
+
 import { ConfigModule } from './config/config.module';
 import { Configuration } from './config/config.keys';
 import { ConfigService } from './config/config.service';
@@ -40,6 +40,10 @@ import { B01Module } from './modules/b01/b01.module';
 import { B02Module } from './modules/b02/b02.module';
 import { B14Module } from './modules/b14/b14.module';
 
+import { MonedaModule } from './modules/moneda/moneda.module';
+
+import { CuentasPorPagarModule } from './modules/cuentas-por-pagar/cuentas-por-pagar.module';
+
 @Module({
    
  imports:[
@@ -47,7 +51,7 @@ import { B14Module } from './modules/b14/b14.module';
      DatabaseModule,
      UsersModule,
      RoleModule,
-     UserDetailModule,
+    
      AuthModule,
      EmpresaModule,
      ProyectoModule,
@@ -79,7 +83,11 @@ import { B14Module } from './modules/b14/b14.module';
      ServicioProcesadoModule,
      B01Module,
      B02Module,
-     B14Module]
+     B14Module,
+  
+     MonedaModule,
+   
+     CuentasPorPagarModule]
 })
 export class AppModule {
  static port: number | string;

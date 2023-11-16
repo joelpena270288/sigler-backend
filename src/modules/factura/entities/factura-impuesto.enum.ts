@@ -1,6 +1,6 @@
 export enum TipoImpuestoFactura{
-  COMPROBANTEFISCAL = 'COMPROBANTEFISCAL',
-    CONSUMO = 'CONSUMO',
-	REGIMENESPECIAL = 'REGIMENESPECIAL'
+  B01 = 'B01',
+  B02 = 'B02',
+  B14 = 'B14'
 	
 }
