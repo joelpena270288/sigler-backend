@@ -23,6 +23,7 @@ import { PreFactura } from '../../pre-factura/entities/pre-factura.entity';
 import { ServicioProcesado } from '../../servicio-procesado/entities/servicio-procesado.entity';
 import { Cliente } from '../../cliente/entities/cliente.entity';
 import { CuentasPorCobrar } from './cuenta-por-cobrar.entity';
+
   @Entity('facturas') 
 export class Factura {
 
@@ -53,7 +54,7 @@ export class Factura {
     @Column({ type: 'varchar', nullable: false })
     nombreproyecto: string;
     @Column({ type: 'varchar', nullable: true })  
-	 @Column({ type: 'varchar', nullable: true })
+	 @Column({ type: 'varchar', nullable: true,length: 3  })
     tipoimpuesto: string;
 	 @Column({ type: 'varchar', nullable: true })
     ncf: string;
@@ -69,6 +70,8 @@ export class Factura {
    notaprefactura: string; 
    @Column({ type: 'varchar', nullable: true })
    notafactura: string;
+   @Column({ type: 'varchar', nullable: true })
+   simbolomoneda: string;
    @OneToOne((type) => CuentasPorCobrar, {
     cascade: true,
     nullable: false,
@@ -80,7 +83,6 @@ export class Factura {
   consecutivoprefactura: number; 
   @Column({  nullable: false, default: 0 })
   consecutivofactura: number; 
-
 
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date; 

@@ -14,7 +14,7 @@ export class MonedaService {
    
   const moneda: Moneda = new Moneda();
   moneda.tasa = createMonedaDto.tasa;
-  moneda.valor = createMonedaDto.valor;
+  moneda.valor = createMonedaDto.valor.toUpperCase();
 
   return await this.monedaRepository.save(moneda);
 
@@ -34,7 +34,7 @@ export class MonedaService {
    throw new  NotFoundException('No existe la moneda introducida');  
    }
   foundMoneda.tasa = updateMonedaDto.tasa;
-  foundMoneda.valor = updateMonedaDto.valor;
+  foundMoneda.valor = updateMonedaDto.valor.toUpperCase();
   return  await this.monedaRepository.save(foundMoneda);
   }
 

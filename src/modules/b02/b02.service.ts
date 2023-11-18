@@ -49,7 +49,7 @@ export class B02Service {
 
 
   if(! foundb02){
-    throw new NotFoundException("No quedan consecutivos disponibles");
+    throw new NotFoundException("No quedan consecutivos B02 disponibles");
    }
    return foundb02;
   }

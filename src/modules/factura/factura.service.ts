@@ -17,6 +17,8 @@ import { B01 } from '../b01/entities/b01.entity';
 import { B02 } from '../b02/entities/b02.entity';
 import { B14 } from '../b14/entities/b14.entity';
 import { CuentasPorCobrar } from './entities/cuenta-por-cobrar.entity';
+import { UpdateNotaFacturaDto } from './dto/update-note-factura.dto';
+import { Moneda } from '../moneda/entities/moneda.entity';
 @Injectable()
 export class FacturaService {
 
@@ -37,6 +39,8 @@ export class FacturaService {
     private b02Repository: Repository<B02>,
 	 @Inject('B14_REPOSITORY')
     private b14Repository: Repository<B14>,
+	 @Inject('MONEDA_REPOSITORY')
+    private monedaRepository: Repository<Moneda>,
    
   ){}
  async create(createFacturaDto: CreateFacturaDto): Promise<Factura> {
@@ -75,7 +79,7 @@ const cuentaporcobrar: CuentasPorCobrar = new CuentasPorCobrar();
   if(foundPreFactura){
    if(foundPreFactura.cantidad >= createFacturaDto.prefacturas[index].cantidad){
 	   
-    foundPreFactura.cantidad = foundPreFactura.cantidad -  createFacturaDto.prefacturas[index].cantidad;
+    foundPreFactura.cantidad = parseFloat(foundPreFactura.cantidad.toString()) - parseFloat( createFacturaDto.prefacturas[index].cantidad.toString());
      const servicioProcesado: ServicioProcesado = new ServicioProcesado();
       servicioProcesado.UM = foundPreFactura.UM;
       servicioProcesado.cantidad = createFacturaDto.prefacturas[index].cantidad;
@@ -84,7 +88,7 @@ const cuentaporcobrar: CuentasPorCobrar = new CuentasPorCobrar();
       servicioProcesado.nombreServicio = foundPreFactura.nombreServicio;
       servicioProcesado.precio = foundPreFactura.precio;
       servicioProcesado.valorimpuesto = foundPreFactura.valorimpuesto;
-      servicioProcesado.valortotal =  servicioProcesado.importe +  servicioProcesado.importeimpuesto;
+      servicioProcesado.valortotal =  parseFloat(servicioProcesado.importe.toString()) +  parseFloat(servicioProcesado.importeimpuesto.toString());
       servicioProcesado.factura = savedFactura;
       servicioProcesado.idprefactura = foundPreFactura.id;
 
@@ -92,7 +96,7 @@ const cuentaporcobrar: CuentasPorCobrar = new CuentasPorCobrar();
       if(savedServicio){
         foundPreFactura.importe = foundPreFactura.cantidad;
         foundPreFactura.importeimpuesto = foundPreFactura.importe * foundPreFactura.valorimpuesto;
-        foundPreFactura.valortotal = foundPreFactura.importe +  foundPreFactura.importeimpuesto;
+        foundPreFactura.valortotal = parseFloat(foundPreFactura.importe.toString()) + parseFloat(foundPreFactura.importeimpuesto.toString());
         await this.prefacturaRepository.save(foundPreFactura);
       }
 
@@ -148,11 +152,23 @@ return savedFactura;
     return `This action updates a #${id} factura`;
   }
  async tipob01(idfactura: string, convertFacturaDto: ConvertFacturaDto  ): Promise<Factura>{
+	 
 	  if(convertFacturaDto.idncf < 1 ){
 		  
-		  throw new BadRequestException("Debe enviar todos los datos");
+		  throw new BadRequestException("Debe enviar introducir el concecutivo");
 	  }
-	  const b01: B01 = await this.b01Repository.findOne({where:{id: convertFacturaDto.idncf}});
+	  
+	  if(convertFacturaDto.idmoneda==""){
+		  
+		  throw new BadRequestException('Debe introducir el tipo de moneda')
+	  }
+	  
+	  const moneda: Moneda = await this.monedaRepository.findOne({where:{id: convertFacturaDto.idmoneda,status: Status.ACTIVO}});
+	  if(!moneda){
+		  throw new NotFoundException('La moneda introducida no esta registrada o esta desabilitada');  
+	  }
+	  
+	  const b01: B01 = await this.b01Repository.findOne({where:{id: convertFacturaDto.idncf,status: Status.ACTIVO}});
 	  if(!b01){
 		throw new NotFoundException('El CNF introducido no es valido');  
 		  
@@ -171,7 +187,7 @@ return savedFactura;
     let monto = 0;
 
   for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
-    monto+= foundFactura.servicioProcesado[index].valortotal;
+    monto = monto + parseFloat( foundFactura.servicioProcesado[index].valortotal.toString());
     
   }
   const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
@@ -184,7 +200,8 @@ return savedFactura;
   }else{
     foundFactura.consecutivofactura = preanterior.consecutivofactura +1;
   }
-  
+   foundFactura.simbolomoneda = moneda.valor;
+	  foundFactura.tasadia = moneda.tasa;
    foundFactura.cuentaporcobrar.montoinicial = monto; 
    foundFactura.cuentaporcobrar.montorestante = monto;
 	
@@ -220,6 +237,15 @@ return savedFactura;
 		throw new NotFoundException('El CNF introducido no es valido');  
 		  
 	  }
+	   if(convertFacturaDto.idmoneda==""){
+		  
+		  throw new BadRequestException('Debe introducir el tipo de moneda')
+	  }
+	  
+	  const moneda: Moneda = await this.monedaRepository.findOne({where:{id: convertFacturaDto.idmoneda,status: Status.ACTIVO}});
+	  if(!moneda){
+		  throw new NotFoundException('La moneda introducida no esta registrada o esta desabilitada');  
+	  }
 	  
 	  const foundFactura: Factura = await  this.facturaRepository.findOne({where: {
      id: idfactura,
@@ -233,7 +259,7 @@ return savedFactura;
     let monto = 0;
 
     for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
-      monto+= foundFactura.servicioProcesado[index].valortotal;
+      monto = monto + parseFloat( foundFactura.servicioProcesado[index].valortotal.toString());
       
     }
     const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
@@ -246,7 +272,8 @@ return savedFactura;
   }else{
     foundFactura.consecutivofactura = preanterior.consecutivofactura +1;
   }
-  
+      foundFactura.simbolomoneda = moneda.valor;
+	  foundFactura.tasadia = moneda.tasa;
      foundFactura.cuentaporcobrar.montoinicial = monto; 
      foundFactura.cuentaporcobrar.montorestante = monto;
 	foundFactura.status = StatusFactura.APROBADA;
@@ -279,6 +306,15 @@ return savedFactura;
 		throw new NotFoundException('El CNF introducido no es valido');  
 		  
 	  }
+	   if(convertFacturaDto.idmoneda==""){
+		  
+		  throw new BadRequestException('Debe introducir el tipo de moneda')
+	  }
+	  
+	  const moneda: Moneda = await this.monedaRepository.findOne({where:{id: convertFacturaDto.idmoneda,status: Status.ACTIVO}});
+	  if(!moneda){
+		  throw new NotFoundException('La moneda introducida no esta registrada o esta desabilitada');  
+	  }
 	  const foundFactura: Factura = await  this.facturaRepository.findOne({where: {
      id: idfactura,
      status: Not(StatusFactura.CANCELADA),
@@ -291,7 +327,7 @@ return savedFactura;
     let monto = 0;
 
     for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
-      monto+= foundFactura.servicioProcesado[index].valortotal;
+     monto = monto + parseFloat( foundFactura.servicioProcesado[index].valortotal.toString());
       
     }
     const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
@@ -304,7 +340,8 @@ return savedFactura;
   }else{
     foundFactura.consecutivofactura = preanterior.consecutivofactura +1;
   }
-  
+   foundFactura.simbolomoneda = moneda.valor;
+	  foundFactura.tasadia = moneda.tasa;
   foundFactura.cuentaporcobrar.montoinicial = monto; 
   foundFactura.cuentaporcobrar.montorestante = monto;
 	foundFactura.status = StatusFactura.APROBADA;
@@ -375,7 +412,7 @@ return savedFactura;
  for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
   const foudPrefactura: PreFactura = await this.prefacturaRepository.findOne({where:{id: foundFactura.servicioProcesado[index].idprefactura}});
   if(foudPrefactura){
-    foudPrefactura.cantidad += foundFactura.servicioProcesado[index].cantidad;
+    foudPrefactura.cantidad = parseFloat(foudPrefactura.cantidad.toString()) + parseFloat(foundFactura.servicioProcesado[index].cantidad.toString());
     foudPrefactura.importe = foudPrefactura.cantidad * foudPrefactura.precio;
     foudPrefactura.importeimpuesto = foudPrefactura.importe * foudPrefactura.valorimpuesto;
     foudPrefactura.valortotal = foudPrefactura.importe + foudPrefactura.importeimpuesto;
@@ -402,5 +439,57 @@ return savedFactura;
   return await this.facturaRepository.save(foundFactura);
 
   }
+async notaPrefactura(id: string,updateNotaFacturaDto: UpdateNotaFacturaDto): Promise<boolean>{
+	
+	const foundFactura: Factura = await this.facturaRepository.findOne({where:{id: id, status: StatusFactura.CREADA}});
+	
+	foundFactura.notaprefactura = updateNotaFacturaDto.nota;
+	
+	
+	
+   const	saved: Factura = await this.facturaRepository.save(foundFactura);
+   if(!saved){
+	   throw new BadRequestException("Error al Crear La nota");
+   }
+   return true;
+	
+}
+async notaFactura(id: string,updateNotaFacturaDto: UpdateNotaFacturaDto): Promise<boolean>{
+	
+	const foundFactura: Factura = await this.facturaRepository.findOne({where:{id: id, status: StatusFactura.APROBADA}});
+	
+	foundFactura.notafactura = updateNotaFacturaDto.nota;
+	console.log(foundFactura.notafactura);
+	
+	
+   const	saved: Factura = await this.facturaRepository.save(foundFactura);
+   if(!saved){
+	   throw new BadRequestException("Error al Crear La nota");
+   }
+   return true;
+	
+}
+async getCuentasPorCobrar(): Promise<Factura[]>{
+	
+	const facturas: Factura[] = await this.facturaRepository.find({
+    relations: {
+      cliente: true,
+	  cuentaporcobrar: true,
+	  servicioProcesado: true
+  },
+  where: {
+      cuentaporcobrar: {
+          status: Status.ACTIVO,
+        
+        
+      },
+    status:   StatusFactura.APROBADA
+    
+ 
+  },
+  });
+  return facturas;
+}
+
  
 }

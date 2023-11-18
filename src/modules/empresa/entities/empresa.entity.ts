@@ -35,6 +35,8 @@ export class Empresa {
   proyectos: Proyecto[];
   @OneToMany(() => Empleado, (empleado) => empleado.empresa)
   empleados: Empleado[];
+   @Column({ type: 'varchar', nullable: true })
+     email: string; 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

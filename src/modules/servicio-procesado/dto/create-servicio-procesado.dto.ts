@@ -4,4 +4,6 @@ export class CreateServicioProcesadoDto {
     cantidad: number;
     @IsDecimal()
     precio: number;
+	 @IsDecimal()
+    valorimpuesto: number;
 }

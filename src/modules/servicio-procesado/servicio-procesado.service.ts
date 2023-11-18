@@ -34,7 +34,7 @@ export class ServicioProcesadoService {
     if(!servicioFound){
       throw new NotFoundException("No esxite el servicio en la bd");
     }
-     if(updateServicioProcesadoDto.cantidad == servicioFound.cantidad && updateServicioProcesadoDto.precio == servicioFound.precio){
+     if(updateServicioProcesadoDto.cantidad == servicioFound.cantidad && updateServicioProcesadoDto.precio == servicioFound.precio && updateServicioProcesadoDto.valorimpuesto == servicioFound.valorimpuesto){
       throw new BadRequestException("No se realizaron cambios");
      }
     const foundPrefactura: PreFactura = await this.preFacturaRepository.findOne({where:{id: servicioFound.idprefactura}});
@@ -65,13 +65,14 @@ export class ServicioProcesadoService {
 
     foundPrefactura.importe = foundPrefactura.cantidad * foundPrefactura.precio;
     foundPrefactura.importeimpuesto = foundPrefactura.importe * foundPrefactura.valorimpuesto;
-    foundPrefactura.valortotal = foundPrefactura.importe + foundPrefactura.importeimpuesto;
+    foundPrefactura.valortotal = parseFloat(foundPrefactura.importe.toString()) + parseFloat(foundPrefactura.importeimpuesto.toString());
    
     await this.preFacturaRepository.save(foundPrefactura);
     servicioFound.precio = updateServicioProcesadoDto.precio;
     servicioFound.importe = servicioFound.cantidad * servicioFound.precio;
+	servicioFound.valorimpuesto = updateServicioProcesadoDto.valorimpuesto;
     servicioFound.importeimpuesto = servicioFound.importe * servicioFound.valorimpuesto;
-    servicioFound.valortotal = servicioFound.importe + servicioFound.importeimpuesto;
+    servicioFound.valortotal = parseFloat(servicioFound.importe.toString()) + parseFloat(servicioFound.importeimpuesto.toString());
 
     return this.servicioProcesadoRepository.save(servicioFound);
 
@@ -89,7 +90,7 @@ export class ServicioProcesadoService {
   foundPrefactura.cantidad = parseFloat(foundPrefactura.cantidad.toString()) + parseFloat(servicioFound.cantidad.toString());
   foundPrefactura.importe = foundPrefactura.cantidad * foundPrefactura.precio;
   foundPrefactura.importeimpuesto = foundPrefactura.importe * foundPrefactura.valorimpuesto;
-  foundPrefactura.valortotal = foundPrefactura.importe + foundPrefactura.importeimpuesto;
+  foundPrefactura.valortotal = parseFloat(foundPrefactura.importe.toString()) + parseFloat(foundPrefactura.importeimpuesto.toString());
   const savedPrefactura: PreFactura = await this.preFacturaRepository.save(foundPrefactura);
   if(!savedPrefactura){
     throw new BadRequestException("Error al editar servicio");

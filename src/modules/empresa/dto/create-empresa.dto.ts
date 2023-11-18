@@ -4,6 +4,7 @@ export class CreateEmpresaDto {
     direccion: string;   
     rnc: string;  
     telefono: string;
+	email: string;
    
 
 

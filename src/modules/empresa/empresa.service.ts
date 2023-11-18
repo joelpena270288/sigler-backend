@@ -41,6 +41,7 @@ export class EmpresaService {
     foundEmpresa.nombre = updateEmpresaDto.nombre;
     foundEmpresa.rnc = updateEmpresaDto.rnc;
     foundEmpresa.telefono = updateEmpresaDto.telefono;
+	foundEmpresa.email = updateEmpresaDto.email;
     return await this.empresaRepository.save(foundEmpresa);
   }
   /*

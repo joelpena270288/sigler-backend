@@ -55,7 +55,7 @@ return true;
   .andWhere('b14.fecha >= :fecha',{fecha: new Date()})  
   .getOne();
   if(!foundb14){
-      throw new NotFoundException('No quedan consecutivos disponibles');
+      throw new NotFoundException('No quedan consecutivos B14 disponibles');
   }
   return foundb14;
   }

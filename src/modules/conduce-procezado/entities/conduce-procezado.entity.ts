@@ -19,7 +19,7 @@ import {
 export class ConduceProcezado {
     @PrimaryGeneratedColumn('uuid')
     id: string;
-    @Column({ type: 'decimal', nullable: false })
+    @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2  })
     cantidad: number;
     @Column({ type: 'varchar', nullable: false })
     UM: string;

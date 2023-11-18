@@ -10,10 +10,11 @@ import { ClienteProviders } from '../cliente/cliente.providers';
 import { B01Providers } from '../b01/b01.providers';
 import { B02Providers } from '../b02/b02.providers';
 import { B14Providers } from '../b14/b14.providers';
+import {MonedaProviders} from '../moneda/moneda.providers';
 @Module({
 	imports: [DatabaseModule],
   controllers: [FacturaController],
-  providers: [FacturaService,...FacturaProviders,...ProyectoProviders,...ServicioProcesadoProviders,...PreFacturaProviders,...ClienteProviders,...B01Providers,...B02Providers,...B14Providers],
+  providers: [FacturaService,...FacturaProviders,...ProyectoProviders,...ServicioProcesadoProviders,...PreFacturaProviders,...ClienteProviders,...B01Providers,...B02Providers,...B14Providers,...MonedaProviders],
   exports:[FacturaService]
 })
 export class FacturaModule {}
