@@ -14,6 +14,7 @@ import {
 } from 'typeorm';
 import { Proyecto } from '../../proyecto/entities/proyecto.entity';
 import { Empleado } from '../../empleado/entities/empleado.entity';
+import { CuentasEmpresa } from 'src/modules/cuentas-empresa/entities/cuentas-empresa.entity';
 
 @Entity('empresas')
 export class Empresa {
@@ -35,6 +36,9 @@ export class Empresa {
   proyectos: Proyecto[];
   @OneToMany(() => Empleado, (empleado) => empleado.empresa)
   empleados: Empleado[];
+
+  @OneToMany(() => CuentasEmpresa, (cuenta) => cuenta.empresa)
+  cuentas: CuentasEmpresa[];
    @Column({ type: 'varchar', nullable: true })
      email: string; 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })

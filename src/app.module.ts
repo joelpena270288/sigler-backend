@@ -17,7 +17,7 @@ import { ServicioModule } from './modules/servicio/servicio.module';
 import { CargoModule } from './modules/cargo/cargo.module';
 import { ConsumoCombustibleModule } from './modules/consumo_combustible/consumo_combustible.module';
 import { FacturaModule } from './modules/factura/factura.module';
-import { EstadoFacturaModule } from './modules/estado_factura/estado_factura.module';
+
 import { CotizacionModule } from './modules/cotizacion/cotizacion.module';
 import { GastosProyectoModule } from './modules/gastos_proyecto/gastos_proyecto.module';
 import { GastosEmpresasModule } from './modules/gastos_empresas/gastos_empresas.module';
@@ -43,6 +43,9 @@ import { B14Module } from './modules/b14/b14.module';
 import { MonedaModule } from './modules/moneda/moneda.module';
 
 import { CuentasPorPagarModule } from './modules/cuentas-por-pagar/cuentas-por-pagar.module';
+import { CuentasEmpresaModule } from './modules/cuentas-empresa/cuentas-empresa.module';
+import { PagoFacturaModule } from './modules/pago-factura/pago-factura.module';
+import { PagoAnticipadosModule } from './modules/pago-anticipados/pago-anticipados.module';
 
 @Module({
    
@@ -62,7 +65,7 @@ import { CuentasPorPagarModule } from './modules/cuentas-por-pagar/cuentas-por-p
      CargoModule,
      ConsumoCombustibleModule,
      FacturaModule, 
-     EstadoFacturaModule,
+    
      CotizacionModule,    
      GastosProyectoModule,
      GastosEmpresasModule,
@@ -87,7 +90,13 @@ import { CuentasPorPagarModule } from './modules/cuentas-por-pagar/cuentas-por-p
   
      MonedaModule,
    
-     CuentasPorPagarModule]
+     CuentasPorPagarModule,
+   
+     CuentasEmpresaModule,
+   
+     PagoFacturaModule,
+   
+     PagoAnticipadosModule]
 })
 export class AppModule {
  static port: number | string;

@@ -23,6 +23,7 @@ import { PreFactura } from '../../pre-factura/entities/pre-factura.entity';
 import { ServicioProcesado } from '../../servicio-procesado/entities/servicio-procesado.entity';
 import { Cliente } from '../../cliente/entities/cliente.entity';
 import { CuentasPorCobrar } from './cuenta-por-cobrar.entity';
+import { PagoFactura } from 'src/modules/pago-factura/entities/pago-factura.entity';
 
   @Entity('facturas') 
 export class Factura {
@@ -83,7 +84,11 @@ export class Factura {
   consecutivoprefactura: number; 
   @Column({  nullable: false, default: 0 })
   consecutivofactura: number; 
-
+  @OneToMany(() => PagoFactura, (pagos) => pagos.factura, {
+    nullable: true,
+    eager: true,
+  })
+  pagos: PagoFactura[];
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date; 
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

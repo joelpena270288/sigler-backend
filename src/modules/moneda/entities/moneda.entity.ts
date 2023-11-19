@@ -13,6 +13,7 @@ import {
     BeforeInsert,
   } from 'typeorm';
   import {Status} from '../../../EntityStatus/entity.estatus.enum';
+import { CuentasEmpresa } from '../../cuentas-empresa/entities/cuentas-empresa.entity';
   @Entity('monedas')
 export class Moneda {
     @PrimaryGeneratedColumn('uuid')
@@ -22,6 +23,8 @@ valor: string;
 @Column({ type: 'decimal', nullable: true, precision: 10, scale: 2 })
 tasa: number;
 
+@OneToMany(() => CuentasEmpresa, (cuenta) => cuenta.moneda)
+cuentas: CuentasEmpresa[];
 @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at' })
