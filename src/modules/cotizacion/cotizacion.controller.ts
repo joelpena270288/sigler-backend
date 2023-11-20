@@ -26,14 +26,16 @@ export class CotizacionController {
   findOne(@Param('id') id: string) {
     return this.cotizacionService.findOne(+id);
   }
-
+ @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCotizacionDto: UpdateCotizacionDto) {
-    return this.cotizacionService.update(+id, updateCotizacionDto);
+    return this.cotizacionService.update(id, updateCotizacionDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.cotizacionService.remove(+id);
+    return this.cotizacionService.remove(id);
   }
 }

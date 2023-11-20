@@ -1,6 +1,7 @@
 
 
 import { Proyecto } from '../../proyecto/entities/proyecto.entity';
+import { Status } from '../../../EntityStatus/entity.estatus.enum';
 import {
     BaseEntity,
     Column,
@@ -44,6 +45,10 @@ export class PreFactura {
     proyecto: Proyecto;
     @Column({ type: 'varchar', nullable: true })
     idconduceProcesado: string;
+	 @Column({ type: 'varchar', nullable: true })
+    idCotizacion: string;
+	 @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
+     status: string;
     
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date;

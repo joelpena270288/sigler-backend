@@ -27,7 +27,7 @@ export class Cotizacion {
    @Column({ type: 'varchar', nullable: false })
     nombreServicio: string;
 
-    @Column({ type: 'decimal', nullable: false })
+    @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
     precio: number;
     @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
     valorimpuesto: number;

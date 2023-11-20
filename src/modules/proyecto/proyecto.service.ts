@@ -57,7 +57,10 @@ export class ProyectoService {
 		conducesprocesados: true,
 		prefacturas: true
 
-    },where: { id: id } });
+    },where: { 
+      
+      
+      id: id } });
   }
 
  async update(id: string, updateProyectoDto: UpdateProyectoDto): Promise<Proyecto> {
