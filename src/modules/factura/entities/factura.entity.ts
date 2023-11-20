@@ -23,7 +23,7 @@ import { PreFactura } from '../../pre-factura/entities/pre-factura.entity';
 import { ServicioProcesado } from '../../servicio-procesado/entities/servicio-procesado.entity';
 import { Cliente } from '../../cliente/entities/cliente.entity';
 import { CuentasPorCobrar } from './cuenta-por-cobrar.entity';
-import { PagoFactura } from 'src/modules/pago-factura/entities/pago-factura.entity';
+import { PagoFactura } from '../../pago-factura/entities/pago-factura.entity';
 
   @Entity('facturas') 
 export class Factura {

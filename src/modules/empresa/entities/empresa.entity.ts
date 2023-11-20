@@ -14,7 +14,7 @@ import {
 } from 'typeorm';
 import { Proyecto } from '../../proyecto/entities/proyecto.entity';
 import { Empleado } from '../../empleado/entities/empleado.entity';
-import { CuentasEmpresa } from 'src/modules/cuentas-empresa/entities/cuentas-empresa.entity';
+import { CuentasEmpresa } from '../../cuentas-empresa/entities/cuentas-empresa.entity';
 
 @Entity('empresas')
 export class Empresa {

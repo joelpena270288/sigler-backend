@@ -24,8 +24,11 @@ export class PagoFacturaService {
     
   ){}
  async create(createPagoFacturaDto: CreatePagoFacturaDto): Promise<Factura> {
+  const newPagoAnticipado: PagoAnticipado = new PagoAnticipado();
   const pagoFactura: PagoFactura = new PagoFactura();
-    const foundFactura: Factura = await  this.facturaRepository.findOne({
+    
+	
+	const foundFactura: Factura = await  this.facturaRepository.findOne({
       relations: {
         cuentaporcobrar: true,
         cliente: true,
@@ -54,30 +57,40 @@ export class PagoFacturaService {
       throw new NotFoundException('La cuenta de la Empresa introducida no es correcta o está desahabilitada');
     }
    
-  if(foundFactura.cuentaporcobrar.montorestante < createPagoFacturaDto.pago){
+  if(foundFactura.cuentaporcobrar.montorestante > parseFloat(createPagoFacturaDto.pago.toString())){
     foundFactura.cuentaporcobrar.montorestante = parseFloat( foundFactura.cuentaporcobrar.montorestante.toString()) - parseFloat( createPagoFacturaDto.pago.toString());
     foundFactura.cuentaporcobrar.updatedAt = new Date();
+ 
+
+
   }else {
+	  
   const dif = parseFloat(createPagoFacturaDto.pago.toString()) - parseFloat(foundFactura.cuentaporcobrar.montorestante.toString()) ;
-   
+
   foundFactura.status = StatusFactura.COMPLETADA;
   foundFactura.cuentaporcobrar.montorestante = 0;
   foundFactura.cuentaporcobrar.status = Status.INACTIVO;
   foundFactura.cuentaporcobrar.updatedAt = new Date();
-
-  const newPagoAnticipado: PagoAnticipado = new PagoAnticipado();
-  newPagoAnticipado.cliente = foundFactura.cliente;
-
-  newPagoAnticipado.pago = dif; 
+  newPagoAnticipado.pago = dif;
+  newPagoAnticipado.cliente = foundFactura.cliente; 
   pagoFactura.pagoanticipado = newPagoAnticipado;
 
+ 
+  
    }
 
-  
+ 
+
+   
+   
    pagoFactura.cuenta = foundCuenta;
    pagoFactura.factura = foundFactura;
    pagoFactura.numerocheque = createPagoFacturaDto.numerocheque;
    pagoFactura.pago = createPagoFacturaDto.pago;
+   
+   
+   
+  
    const savedFactura: Factura = await this.facturaRepository.save(foundFactura);
    if(!savedFactura){
     throw new BadRequestException('Error al generar el pago');
@@ -90,6 +103,7 @@ export class PagoFacturaService {
         cuentaporcobrar: true,
         cliente: true,
         pagos: true,
+		
         
 	
         
@@ -111,6 +125,7 @@ export class PagoFacturaService {
         cuentaporcobrar: true,
         cliente: true,
         pagos: true,
+		
 	
         
     },

@@ -21,7 +21,7 @@ id: string;
 name: string;
 @Column({ type: 'varchar',  nullable: false })
 descripcion: string;
-@Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
+@Column({ type: 'decimal', nullable: false, precision: 10, scale: 3 })
 valor: number;
 @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
 createdAt: Date;

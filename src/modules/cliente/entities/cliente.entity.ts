@@ -17,6 +17,7 @@ import { Contacto } from '../../contacto/entities/contacto.entity';
 import { Proyecto } from '../../proyecto/entities/proyecto.entity';
 import { Status } from '../../../EntityStatus/entity.estatus.enum';
 import{Factura} from '../../factura/entities/factura.entity';
+import { PagoAnticipado } from '../../pago-anticipados/entities/pago-anticipado.entity';
 @Entity('clientes')
 export class Cliente {
     @PrimaryGeneratedColumn('uuid')
@@ -37,6 +38,8 @@ export class Cliente {
 
     @OneToMany(() => Proyecto, (proyecto) => proyecto.cliente)
     proyectos: Proyecto[];
+    @OneToMany(() => PagoAnticipado, (pago) => pago.cliente)
+    pagosanticipados: PagoAnticipado[];
     @OneToMany(() => Factura, (factura) => factura.cliente)
     facturas: Factura[];
     @PrimaryGeneratedColumn()

@@ -35,9 +35,9 @@ export class CuentasEmpresa {
       banco: string;
       @Column({ type: 'varchar', nullable: false })
       numerocuenta: string;
-      @OneToMany(() => PagoFactura, (pagos) => pagos.factura, {
-        nullable: true,
-        eager: true,
+      @OneToMany(() => PagoFactura, (pagos) => pagos.cuenta, {
+        nullable: true
+       
       })
       pagos: PagoFactura[];
       @Column({ type: 'varchar', length: 25, nullable: true,default: Status.ACTIVO })

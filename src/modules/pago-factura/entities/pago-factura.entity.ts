@@ -15,15 +15,15 @@ import {
     ManyToOne,
     BeforeInsert,
   } from 'typeorm';
-import { PagoAnticipado } from 'src/modules/pago-anticipados/entities/pago-anticipado.entity';
+import { PagoAnticipado } from '../../pago-anticipados/entities/pago-anticipado.entity';
 
   @Entity('pagos_facturas')
 export class PagoFactura {
     @PrimaryGeneratedColumn('uuid')
     id: string;
-    @Column({ type: 'varchar', nullable: false, unique: true })    
+    @Column({ type: 'varchar', nullable: true})    
     numerocheque: string;
-    @Column({ type: 'decimal', nullable: true, precision: 10, scale: 2 })
+    @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
     pago: number;
     @ManyToOne(() => Factura, (factura) => factura.pagos, {   
         nullable: false,
@@ -31,12 +31,13 @@ export class PagoFactura {
       factura: Factura; 
       @ManyToOne(() => CuentasEmpresa, (cuenta) => cuenta.pagos, {   
         nullable: false,
+		 eager: true,
       })
       cuenta: CuentasEmpresa; 
       
       @OneToOne((type) => PagoAnticipado, {
         cascade: true,
-        nullable: false,
+        nullable: true,
         eager: true,
       })
       @JoinColumn({ name: 'pago_anticipado' })

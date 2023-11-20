@@ -19,7 +19,7 @@ export class PagoAnticipado {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => Cliente, (cliente) => cliente.facturas, {
+    @ManyToOne(() => Cliente, (cliente) => cliente.pagosanticipados, {
      
         nullable: false,
           })
