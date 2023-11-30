@@ -16,6 +16,7 @@ import {
   } from 'typeorm';
 import { Status } from '../../../EntityStatus/entity.estatus.enum';
 import { PagoFactura } from '../../pago-factura/entities/pago-factura.entity';
+import { PagoGasto } from '../../pago-gasto/entities/pago-gasto.entity';
 
   @Entity('cuentas_empresa')
 export class CuentasEmpresa {
@@ -40,6 +41,11 @@ export class CuentasEmpresa {
        
       })
       pagos: PagoFactura[];
+      @OneToMany(() => PagoGasto, (pagosgastos) => pagosgastos.cuenta, {
+        nullable: true
+       
+      })
+      pagosgastos: PagoGasto[];
       @Column({ type: 'varchar', length: 25, nullable: true,default: Status.ACTIVO })
     status: string; 
 

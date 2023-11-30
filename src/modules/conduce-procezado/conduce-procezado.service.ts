@@ -66,7 +66,7 @@ export class ConduceProcezadoService {
   newPreFactura.proyecto = foundConduce.proyecto;
   newPreFactura.valorimpuesto = savedProcezado.valorimpuesto;
   newPreFactura.valortotal = savedProcezado.valortotal;
-
+newPreFactura.idconduceProcesado = savedProcezado.id;
   await this.preFacturaRepository.save(newPreFactura);
 
   }
@@ -90,6 +90,39 @@ export class ConduceProcezadoService {
  async update(id: string, updateConduceProcezadoDto: UpdateConduceProcezadoDto):Promise<ConduceProcezado> {
 
 const foundConduceProcesado: ConduceProcezado = await this.conduceprocezadoRepository.findOne({where:{id: id}});
+if(!foundConduceProcesado){
+  throw new NotFoundException("No existe el conduce ");
+}
+foundConduceProcesado.precio = updateConduceProcezadoDto.precio;
+foundConduceProcesado.importe = foundConduceProcesado.precio * foundConduceProcesado.cantidad;
+foundConduceProcesado.importeimpuesto = foundConduceProcesado.importe * foundConduceProcesado.valorimpuesto;
+foundConduceProcesado.valortotal = foundConduceProcesado.importe + foundConduceProcesado.importeimpuesto;
+foundConduceProcesado.updatedAt = new Date();
+
+const savedConduceProcesado: ConduceProcezado = await this.conduceprocezadoRepository.save(foundConduceProcesado);
+if(savedConduceProcesado){
+
+  const foundPrefactura: PreFactura = await this.preFacturaRepository.findOne({where:{idconduceProcesado: savedConduceProcesado.id}});
+  if( foundPrefactura ){
+
+    foundPrefactura.precio = savedConduceProcesado.precio;    
+    foundPrefactura.importe = foundPrefactura.precio * foundPrefactura.cantidad;
+    foundPrefactura.importeimpuesto = foundPrefactura.importe * foundPrefactura.valorimpuesto;
+    foundPrefactura.valortotal = foundPrefactura.importe + foundPrefactura.importeimpuesto;
+    foundPrefactura.updatedAt = new Date();
+    await this.preFacturaRepository.save(foundPrefactura);
+
+
+
+  }
+}
+
+return savedConduceProcesado;
+ 
+  }
+  async updateByIdConduce(id: string, updateConduceProcezadoDto: UpdateConduceProcezadoDto):Promise<ConduceProcezado> {
+
+const foundConduceProcesado: ConduceProcezado = await this.conduceprocezadoRepository.findOne({where:{idconduce: id}});
 if(!foundConduceProcesado){
   throw new NotFoundException("No existe el conduce ");
 }

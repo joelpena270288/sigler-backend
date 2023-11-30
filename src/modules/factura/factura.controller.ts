@@ -95,8 +95,15 @@ export class FacturaController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/cuentasporcobrar/get/')
   getCuentasPorCobrar(){
-	  console.log('Entro');
+
   return this.facturaService.getCuentasPorCobrar();
 
+  }
+  
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/optional')
+  createOptional(@Body() createFacturaDto: CreateFacturaDto) {
+    return this.facturaService.createOptional(createFacturaDto);
   }
 }

@@ -122,6 +122,9 @@ export class ConduceService {
       parseInt(createConduceDto.horaFin.split(':')[0]),
       parseInt(createConduceDto.horaFin.split(':')[1]),
     );
+    if(desde> hasta){
+      throw new BadRequestException('La hora de inicio debe ser menor que la fin');
+    }
     newConduce.horaFin = hasta;
     newConduce.horaInicio = desde;
     newConduce.observaciones = createConduceDto.observaciones;
@@ -146,7 +149,7 @@ export class ConduceService {
         proyecto: true,
 
     },	
-      where: { status: EstatusConduce.ABIERTO },
+      where: { status: Not(EstatusConduce.CANCELADO)  },
     });
   }
 

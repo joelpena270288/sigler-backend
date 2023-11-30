@@ -64,21 +64,30 @@ export class ProyectoController {
     return this.proyectoService.remove(id);
   }
   @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+    RoleEnum.ADMIN,   
+    RoleEnum.FACTURADOR
+  
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/aprobar/:id')
   aprobar(@Param('id') id: string) {
     return this.proyectoService.aprobar(id);
   }
+  
+   @HasRoles(
+    RoleEnum.ADMIN,   
+    RoleEnum.FACTURADOR
+  
+  )
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/aprobado/cerrar/:id')
+  cerrar(@Param('id') id: string) {
+    return this.proyectoService.cerrar(id);
+  }
   @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+    RoleEnum.ADMIN,  
+    RoleEnum.FACTURADOR
+
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
 

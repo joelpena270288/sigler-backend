@@ -60,21 +60,22 @@ export class PagoFacturaService {
   if(foundFactura.cuentaporcobrar.montorestante > parseFloat(createPagoFacturaDto.pago.toString())){
     foundFactura.cuentaporcobrar.montorestante = parseFloat( foundFactura.cuentaporcobrar.montorestante.toString()) - parseFloat( createPagoFacturaDto.pago.toString());
     foundFactura.cuentaporcobrar.updatedAt = new Date();
- 
+     pagoFactura.pago = createPagoFacturaDto.pago;
 
 
   }else {
 	  
   const dif = parseFloat(createPagoFacturaDto.pago.toString()) - parseFloat(foundFactura.cuentaporcobrar.montorestante.toString()) ;
-
+  
   foundFactura.status = StatusFactura.COMPLETADA;
+   pagoFactura.pago =  foundFactura.cuentaporcobrar.montorestante;
   foundFactura.cuentaporcobrar.montorestante = 0;
   foundFactura.cuentaporcobrar.status = Status.INACTIVO;
   foundFactura.cuentaporcobrar.updatedAt = new Date();
   newPagoAnticipado.pago = dif;
   newPagoAnticipado.cliente = foundFactura.cliente; 
   pagoFactura.pagoanticipado = newPagoAnticipado;
-
+ 
  
   
    }
@@ -86,7 +87,7 @@ export class PagoFacturaService {
    pagoFactura.cuenta = foundCuenta;
    pagoFactura.factura = foundFactura;
    pagoFactura.numerocheque = createPagoFacturaDto.numerocheque;
-   pagoFactura.pago = createPagoFacturaDto.pago;
+  
    
    
    

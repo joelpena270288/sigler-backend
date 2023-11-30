@@ -77,7 +77,7 @@ const cuentaporcobrar: CuentasPorCobrar = new CuentasPorCobrar();
  for (let index = 0; index < createFacturaDto.prefacturas.length; index++) {
   const foundPreFactura: PreFactura = await this.prefacturaRepository.findOne({where:{id: createFacturaDto.prefacturas[index].id}});
   if(foundPreFactura){
-   if(foundPreFactura.cantidad >= createFacturaDto.prefacturas[index].cantidad){
+   if(foundPreFactura.cantidad >= parseFloat( createFacturaDto.prefacturas[index].cantidad.toString())){
 	   
     foundPreFactura.cantidad = parseFloat(foundPreFactura.cantidad.toString()) - parseFloat( createFacturaDto.prefacturas[index].cantidad.toString());
      const servicioProcesado: ServicioProcesado = new ServicioProcesado();
@@ -112,6 +112,86 @@ const cuentaporcobrar: CuentasPorCobrar = new CuentasPorCobrar();
 return savedFactura;
   
   }
+  
+  
+   async createOptional(createFacturaDto: CreateFacturaDto): Promise<Factura> {
+
+  const foundProyecto: Proyecto = await this.proyectoRepository.findOne({where:{id: createFacturaDto.idProyecto}});
+ if(!foundProyecto){
+  throw new NotFoundException("No existe el proyecto");
+ }
+ const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
+  .addOrderBy('factura.consecutivoprefactura','DESC')
+   
+  .getOne();
+
+
+ const newFactura: Factura = new Factura();
+ if(!preanterior){
+  newFactura.consecutivoprefactura = 1;
+
+}else{
+  newFactura.consecutivoprefactura = preanterior.consecutivoprefactura +1;
+}
+const cuentaporcobrar: CuentasPorCobrar = new CuentasPorCobrar();
+
+ newFactura.tipo = TipoFactura.PREFACTURA;
+ newFactura.status = StatusFactura.CREADA;
+ newFactura.proyecto = foundProyecto;
+ newFactura.nombreproyecto = foundProyecto.name;
+ newFactura.cliente = foundProyecto.cliente;
+ newFactura.cuentaporcobrar = cuentaporcobrar;
+ const savedFactura: Factura = await this.facturaRepository.save(newFactura);
+ if(!savedFactura){
+  throw new NotFoundException("Error al crear la Prefactura");
+ }
+ for (let index = 0; index < createFacturaDto.prefacturas.length; index++) {
+ 
+     const prefactura: PreFactura = new PreFactura();
+	   prefactura.UM = createFacturaDto.prefacturas[index].UM;
+       prefactura.cantidad = 0;
+	   prefactura.precio = createFacturaDto.prefacturas[index].precio;
+      prefactura.importe = prefactura.precio *  prefactura.cantidad;
+	  prefactura.valorimpuesto = createFacturaDto.prefacturas[index].valorimpuesto;
+      prefactura.importeimpuesto = prefactura.importe *  prefactura.valorimpuesto ;
+      prefactura.nombreServicio = createFacturaDto.prefacturas[index].nombreServicio; 
+      prefactura.valortotal =  parseFloat(prefactura.importe.toString()) +  parseFloat(prefactura.importeimpuesto.toString());
+     prefactura.proyecto = foundProyecto;
+	  
+	  const savedPrefactura: PreFactura = await this.prefacturaRepository.save(prefactura);
+	  if(!savedPrefactura){
+		throw new NotFoundException("Error al crear la Prefactura");  
+		  
+	  }
+	  
+   
+     const servicioProcesado: ServicioProcesado = new ServicioProcesado();
+      servicioProcesado.UM = createFacturaDto.prefacturas[index].UM;
+      servicioProcesado.cantidad = createFacturaDto.prefacturas[index].cantidad;
+	   servicioProcesado.precio = createFacturaDto.prefacturas[index].precio;
+      servicioProcesado.importe = servicioProcesado.precio *  servicioProcesado.cantidad;
+	  servicioProcesado.valorimpuesto = createFacturaDto.prefacturas[index].valorimpuesto;
+      servicioProcesado.importeimpuesto = servicioProcesado.importe *  servicioProcesado.valorimpuesto ;
+      servicioProcesado.nombreServicio = createFacturaDto.prefacturas[index].nombreServicio;  
+      
+      servicioProcesado.valortotal =  parseFloat(servicioProcesado.importe.toString()) +  parseFloat(servicioProcesado.importeimpuesto.toString());
+      servicioProcesado.factura = savedFactura;
+      servicioProcesado.idprefactura = savedPrefactura.id;
+
+     const savedServicio: ServicioProcesado =  await this.servicioProcesadoRepository.save(servicioProcesado);
+
+
+  
+
+  
+
+
+ }
+
+return savedFactura;
+  
+  }
+  
  
  async findAll(): Promise<Factura[]> {
        return await this.facturaRepository.find({

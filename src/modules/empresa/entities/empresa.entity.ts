@@ -16,11 +16,12 @@ import { Proyecto } from '../../proyecto/entities/proyecto.entity';
 import { Empleado } from '../../empleado/entities/empleado.entity';
 import { CuentasEmpresa } from '../../cuentas-empresa/entities/cuentas-empresa.entity';
 
+
 @Entity('empresas')
 export class Empresa {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Column({ type: 'varchar', nullable: false })
   nombre: string;
   @Column({ type: 'varchar',nullable: true })
   logo: string;
@@ -39,6 +40,7 @@ export class Empresa {
 
   @OneToMany(() => CuentasEmpresa, (cuenta) => cuenta.empresa)
   cuentas: CuentasEmpresa[];
+
    @Column({ type: 'varchar', nullable: true })
      email: string; 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })

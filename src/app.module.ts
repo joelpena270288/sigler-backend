@@ -19,9 +19,9 @@ import { ConsumoCombustibleModule } from './modules/consumo_combustible/consumo_
 import { FacturaModule } from './modules/factura/factura.module';
 
 import { CotizacionModule } from './modules/cotizacion/cotizacion.module';
-import { GastosProyectoModule } from './modules/gastos_proyecto/gastos_proyecto.module';
+
 import { GastosEmpresasModule } from './modules/gastos_empresas/gastos_empresas.module';
-import { EstadosGastosModule } from './modules/estados_gastos/estados_gastos.module';
+
 import { IngresosModule } from './modules/ingresos/ingresos.module';
 import { ContactoModule } from './modules/contacto/contacto.module';
 import { LogModule } from './modules/log/log.module';
@@ -42,10 +42,12 @@ import { B14Module } from './modules/b14/b14.module';
 
 import { MonedaModule } from './modules/moneda/moneda.module';
 
-import { CuentasPorPagarModule } from './modules/cuentas-por-pagar/cuentas-por-pagar.module';
+
 import { CuentasEmpresaModule } from './modules/cuentas-empresa/cuentas-empresa.module';
 import { PagoFacturaModule } from './modules/pago-factura/pago-factura.module';
 import { PagoAnticipadosModule } from './modules/pago-anticipados/pago-anticipados.module';
+import { PagoGastoModule } from './modules/pago-gasto/pago-gasto.module';
+import { GastoItemModule } from './modules/gasto_item/gasto_item.module';
 
 @Module({
    
@@ -67,9 +69,9 @@ import { PagoAnticipadosModule } from './modules/pago-anticipados/pago-anticipad
      FacturaModule, 
     
      CotizacionModule,    
-     GastosProyectoModule,
+   
      GastosEmpresasModule,
-     EstadosGastosModule,
+   
      IngresosModule,
      ContactoModule,   
      LogModule,  
@@ -90,13 +92,17 @@ import { PagoAnticipadosModule } from './modules/pago-anticipados/pago-anticipad
   
      MonedaModule,
    
-     CuentasPorPagarModule,
+   
    
      CuentasEmpresaModule,
    
      PagoFacturaModule,
    
-     PagoAnticipadosModule]
+     PagoAnticipadosModule,
+   
+     PagoGastoModule,
+   
+     GastoItemModule]
 })
 export class AppModule {
  static port: number | string;

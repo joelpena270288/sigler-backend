@@ -82,13 +82,13 @@ export class ProyectoService {
   }
 
  async remove(id: string):Promise<Proyecto> {
-   const foundProyecto: Proyecto = await this.proyectoRepository.findOne({where: {id: id}});
+   const foundProyecto: Proyecto = await this.proyectoRepository.findOne({where: {id: id,status: StatusProyecto.CREADO}});
    if(!foundProyecto){
     throw new NotFoundException('No existe el proyecto');
 
    }
-   foundProyecto.status = StatusProyecto.CANCELADO;
-   return await this.proyectoRepository.save(foundProyecto);
+  await this.proyectoRepository.delete(foundProyecto.id)
+   return foundProyecto;
   }
   async aprobar(id: string): Promise<Proyecto>{
     const foundProyecto: Proyecto = await this.proyectoRepository.findOne({where: {id: id,status: StatusProyecto.CREADO}});
@@ -98,6 +98,17 @@ export class ProyectoService {
     }
 	foundProyecto.status = StatusProyecto.APROBADO;
 	foundProyecto.fecha_inicio = new Date();
+    return await this.proyectoRepository.save(foundProyecto);
+
+  }
+   async cerrar(id: string): Promise<Proyecto>{
+    const foundProyecto: Proyecto = await this.proyectoRepository.findOne({where: {id: id,status: StatusProyecto.APROBADO}});
+    if(!foundProyecto){
+     throw new NotFoundException('No existe el proyecto o el proyecto no esta en estado APROBADO');
+ 
+    }
+	foundProyecto.status = StatusProyecto.COMPLETADO;
+	foundProyecto.fecha_fin = new Date();
     return await this.proyectoRepository.save(foundProyecto);
 
   }

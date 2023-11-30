@@ -1,1 +1,67 @@
-export class GastosEmpresa {}
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    JoinTable,
+    ManyToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    JoinColumn,
+    CreateDateColumn,
+    OneToMany,
+    ManyToOne,
+    BeforeInsert
+  } from 'typeorm';
+  import {Proyecto } from '../../proyecto/entities/proyecto.entity';
+  import { Status } from '../../../EntityStatus/entity.estatus.enum';
+import { PagoGasto } from '../../pago-gasto/entities/pago-gasto.entity';
+import { CuentasPorPagarEmpresa } from './cuenta-por-pagar-empresa.entity';
+import { GastoItem } from '../../gasto_item/entities/gasto_item.entity';
+  @Entity('gastos_empresa') 
+export class GastosEmpresa {
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+    @Column({ type: 'varchar', nullable: false })
+    Nombre: string;
+    @Column({ type: 'varchar', nullable: true })
+    NCF: string;
+    @Column({ type: 'varchar', nullable: true })
+    factura: string;
+    @Column({ type: 'varchar', nullable: true })
+    RNC: string;
+    @Column({ type: 'varchar', nullable: true })
+    direccion: string;  
+
+    @ManyToOne(() => Proyecto, (proyecto) => proyecto.gastos,{nullable: true})
+    proyecto: Proyecto;
+
+    @OneToOne((type) => CuentasPorPagarEmpresa, {
+        cascade: true,
+        nullable: false,
+        eager: true,
+      })
+      @JoinColumn({ name: 'cuenta_por_pagar_id' })
+      cuentaporpagar: CuentasPorPagarEmpresa;
+
+      @OneToMany(() => PagoGasto, (pagos) => pagos.gastoempresa, {
+        nullable: true,
+        eager: true,
+      })
+      pagos: PagoGasto[];
+      @OneToMany(() => GastoItem, (items) => items.gasto, {
+        nullable: true,
+        eager: true,
+      })
+      gastosItems: GastoItem[];
+
+
+
+      @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
+  status: string;
+  @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
+  createdAt: Date;
+  @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })
+  updatedAt: Date;
+
+
+}

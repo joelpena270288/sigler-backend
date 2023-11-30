@@ -16,10 +16,15 @@ export class GastosEmpresasController {
   findAll() {
     return this.gastosEmpresasService.findAll();
   }
+  
+   @Get('/getCuentasporPagar')
+  findAllCuentaPorPagar() {
+    return this.gastosEmpresasService.findAllCuentasPorPagar();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.gastosEmpresasService.findOne(+id);
+    return this.gastosEmpresasService.findOne(id);
   }
 
   @Patch(':id')
@@ -29,6 +34,6 @@ export class GastosEmpresasController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.gastosEmpresasService.remove(+id);
+    return this.gastosEmpresasService.remove(id);
   }
 }
