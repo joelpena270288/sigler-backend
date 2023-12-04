@@ -1,5 +1,5 @@
 import { IsString, IsInt, IsDate } from 'class-validator';
-export class CreateLocalidadeDto {
+export class CreateCombustibleDto {
     @IsString()
-    name: string;  
+    name: string;
 }

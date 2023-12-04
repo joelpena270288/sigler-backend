@@ -48,6 +48,7 @@ import { PagoFacturaModule } from './modules/pago-factura/pago-factura.module';
 import { PagoAnticipadosModule } from './modules/pago-anticipados/pago-anticipados.module';
 import { PagoGastoModule } from './modules/pago-gasto/pago-gasto.module';
 import { GastoItemModule } from './modules/gasto_item/gasto_item.module';
+import { CombustibleModule } from './modules/combustible/combustible.module';
 
 @Module({
    
@@ -102,7 +103,9 @@ import { GastoItemModule } from './modules/gasto_item/gasto_item.module';
    
      PagoGastoModule,
    
-     GastoItemModule]
+     GastoItemModule,
+   
+     CombustibleModule]
 })
 export class AppModule {
  static port: number | string;
