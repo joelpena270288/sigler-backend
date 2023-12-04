@@ -21,6 +21,7 @@ import { Conduce } from '../../conduce/entities/conduce.entity';
 import { StatusProyecto } from '../status.enum';
 import { ConduceProcezado } from '../../conduce-procezado/entities/conduce-procezado.entity';
 import { PreFactura } from '../../pre-factura/entities/pre-factura.entity';
+import { ConsumoCombustible } from '../../consumo_combustible/entities/consumo_combustible.entity';
 @Entity('proyectos')
 export class Proyecto {
   @PrimaryGeneratedColumn('uuid')
@@ -61,6 +62,12 @@ export class Proyecto {
    
   })
   facturas: Factura[];
+  
+  @OneToMany(() => ConsumoCombustible, (consumo_combustible) => consumo_combustible.proyecto, {
+    nullable: true,
+    eager: true,
+  })
+  consumo_combustibles: ConsumoCombustible[];
  
   @CreateDateColumn({ type: 'timestamp', name: 'fecha_inicio', nullable: true })
   fecha_inicio: Date;

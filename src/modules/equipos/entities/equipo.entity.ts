@@ -16,6 +16,7 @@ import {
   import {Conduce} from '../../conduce/entities/conduce.entity';
 import { TipoEquipo } from '../../tipo_equipo/entities/tipo_equipo.entity';
 import { Marca } from '../../marca/entities/marca.entity';
+import { ConsumoCombustible } from '../../consumo_combustible/entities/consumo_combustible.entity';
   @Entity('equipos')
 export class Equipo {
     @PrimaryGeneratedColumn('uuid')
@@ -39,13 +40,15 @@ export class Equipo {
     marca: Marca;
     @Column({ type: 'varchar', length: 10,default: 'ACTIVO', nullable: false })
     status: string;
-    @OneToMany(() => Conduce, (conduce) => conduce.material)
+    @OneToMany(() => Conduce, (conduce) => conduce.equipo)
     conduces: Conduce[];
     @ManyToOne(() => TipoEquipo, (tipo) => tipo.equipos, {
       eager: true,
       nullable: false,
     })
     tipo: TipoEquipo;
+    @OneToMany(() => ConsumoCombustible, (consumo_combustible) => consumo_combustible.equipo)
+    consumo_combustibles: ConsumoCombustible[];
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
     createdAt: Date;
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at' })
