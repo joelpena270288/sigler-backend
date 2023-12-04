@@ -23,6 +23,8 @@ export class ConsumoCombustible {
     @Column({ type: 'varchar', nullable: false })
     combustible: string;
     @Column({ type: 'varchar', nullable: true })
+    Nombre: string;
+    @Column({ type: 'varchar', nullable: true })
     NCF: string;
     @Column({ type: 'varchar', nullable: true })
     factura: string;
