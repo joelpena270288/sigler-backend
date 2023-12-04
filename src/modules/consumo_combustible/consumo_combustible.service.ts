@@ -69,7 +69,17 @@ newConsumoCombustible.valortotal = parseFloat(newConsumoCombustible.importe.toSt
  
 
  async findAll(): Promise<ConsumoCombustible[]> {
-    return await this.consumoCombustibleRepository.find({where:{status: Status.ACTIVO}});
+    return await this.consumoCombustibleRepository.find({
+      
+      relations: {
+        proyecto: true,
+        equipo: true
+    },
+    where: {       
+		status:  Status.ACTIVO
+		
+    },
+    });
   }
 
   findOne(id: number) {
