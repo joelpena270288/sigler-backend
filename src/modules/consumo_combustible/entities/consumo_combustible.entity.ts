@@ -22,15 +22,15 @@ export class ConsumoCombustible {
     galones: number;
     @Column({ type: 'varchar', nullable: false })
     combustible: string;
-    @Column({ type: 'varchar', nullable: true })
+    @Column({ type: 'varchar', nullable: false })
     Nombre: string;
-    @Column({ type: 'varchar', nullable: true })
+    @Column({ type: 'varchar', nullable: false })
     NCF: string;
-    @Column({ type: 'varchar', nullable: true })
+    @Column({ type: 'varchar', nullable: false })
     factura: string;
-    @Column({ type: 'varchar', nullable: true })
+    @Column({ type: 'varchar', nullable: false })
     RNC: string;
-    @Column({ type: 'varchar', nullable: true })
+    @Column({ type: 'varchar', nullable: false })
     direccion: string; 
     @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
     importeimpuesto: number;
@@ -38,6 +38,10 @@ export class ConsumoCombustible {
     importe: number;
     @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
     valortotal: number;
+    @Column({ type: 'varchar', nullable: true })
+    nombreProyecto: string;
+    @Column({ type: 'varchar', nullable: true })
+    cliente: string;
     @ManyToOne(() => Proyecto, (proyecto) => proyecto.consumo_combustibles,{nullable: true})
   @JoinColumn()
   proyecto: Proyecto; 
