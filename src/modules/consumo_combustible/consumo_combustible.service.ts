@@ -27,7 +27,7 @@ export class ConsumoCombustibleService {
   if(createConsumoCombustibleDto.idequipo ==''){
     throw new BadRequestException('Debe introducir un equipo')
    }
-   if(createConsumoCombustibleDto.galones==''||createConsumoCombustibleDto.importe==''|| createConsumoCombustibleDto.importeimpuesto==''|| createConsumoCombustibleDto.valortotal==''){
+   if(createConsumoCombustibleDto.galones==0||createConsumoCombustibleDto.importe== 0|| createConsumoCombustibleDto.importeimpuesto==0|| createConsumoCombustibleDto.valortotal==0){
     throw new BadRequestException('Debe introducir todos los datos de la factura de combustible');
    }
    
@@ -59,7 +59,7 @@ newConsumoCombustible.factura = createConsumoCombustibleDto.factura;
 newConsumoCombustible.fecha = createConsumoCombustibleDto.fecha;
 newConsumoCombustible.galones = parseFloat( createConsumoCombustibleDto.galones.toString());
 newConsumoCombustible.importe = parseFloat(createConsumoCombustibleDto.importe.toString()) ;
-newConsumoCombustible.importeimpuesto = parseFloat(createConsumoCombustibleDto.importeimpuesto) ;
+newConsumoCombustible.importeimpuesto = parseFloat(createConsumoCombustibleDto.importeimpuesto.toString()) ;
 newConsumoCombustible.valortotal = parseFloat(newConsumoCombustible.importe.toString()) + parseFloat(newConsumoCombustible.importeimpuesto.toString());
  newConsumoCombustible.combustible = foundCombustible.name; 
 
@@ -79,8 +79,8 @@ newConsumoCombustible.valortotal = parseFloat(newConsumoCombustible.importe.toSt
     return `This action updates a #${id} consumoCombustible`;
   }
 
- async remove(id: string): Promise<ConsumoCombustible {
-    const foundConsumoCombustible: ConsumoCombustible = await this.consumoCombustibleRepository.find({where:{id: id,status: Status.ACTIVO}});
+ async remove(id: string): Promise<ConsumoCombustible> {
+    const foundConsumoCombustible: ConsumoCombustible = await this.consumoCombustibleRepository.findOne({where:{id: id,status: Status.ACTIVO}});
     if(!foundConsumoCombustible){
       throw new NotFoundException('El consumo introducido no es valido');
     }
