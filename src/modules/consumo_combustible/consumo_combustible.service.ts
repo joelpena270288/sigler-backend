@@ -52,6 +52,7 @@ if(!foundCombustible){
   throw new NotFoundException('El Combustible introducido no es valido');
 }
 newConsumoCombustible.equipo = foundEquipo;
+newConsumoCombustible.Nombre =  createConsumoCombustibleDto.Nombre;
 newConsumoCombustible.NCF = createConsumoCombustibleDto.NCF;
 newConsumoCombustible.RNC = createConsumoCombustibleDto.RNC;
 newConsumoCombustible.direccion = createConsumoCombustibleDto.direccion;

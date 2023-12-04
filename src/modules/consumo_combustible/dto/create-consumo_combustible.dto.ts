@@ -3,6 +3,8 @@ export class CreateConsumoCombustibleDto {
  @IsDecimal()
 galones: number;
 @IsString()
+Nombre: string;
+@IsString()
 idcombustible: string;
 @IsString()
 idequipo: string;
