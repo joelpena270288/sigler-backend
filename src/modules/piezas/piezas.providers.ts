@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import {Pieza} from './entities/piezas.entity';
+import {Pieza} from './entities/pieza.entity';
 export const PiezaProviders = [
     {
         provide: 'PIEZA_REPOSITORY',

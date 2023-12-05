@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { PiezasService } from './piezas.service';
 import { CreatePiezaDto } from './dto/create-pieza.dto';
 import { UpdatePiezaDto } from './dto/update-pieza.dto';
-import { HasRoles, HasRoles } from '../role/roles.decorator';
+import { HasRoles } from '../role/roles.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../role/guards/roles.guard';
+import { RoleEnum } from '../role/enums/role.enum';
 
 @Controller('piezas')
 export class PiezasController {
