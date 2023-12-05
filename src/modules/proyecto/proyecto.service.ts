@@ -1,5 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProyectoDto } from './dto/create-proyecto.dto';
+import { ResumenProyectosDto } from './dto/resume-status-proyecto.dto';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 import { UpdateProyectoDto } from './dto/update-proyecto.dto';
 import { Not, Repository } from 'typeorm';
 import { Proyecto } from './entities/proyecto.entity';
@@ -116,5 +118,48 @@ export class ProyectoService {
      return await this.proyectoRepository.find({
       where: { status: StatusProyecto.APROBADO },
     });
+  }
+  async getByFilterDate(filtroFechaDto: FiltroFechaDto): Promise<ResumenProyectosDto>{
+	  const resumenProyectosDto: ResumenProyectosDto = new ResumenProyectosDto();
+	  resumenProyectosDto.creados = 0;
+	   resumenProyectosDto.cancelados = 0;
+	   resumenProyectosDto.completados = 0;
+	   resumenProyectosDto.aprobados = 0;
+	  const foundProyectos: Proyecto[] = await this.proyectoRepository.createQueryBuilder('proyecto')
+ .where('proyecto.updatedAt >= :start',{start: filtroFechaDto.start}) 
+ .andWhere('proyecto.updatedAt  <= :end',{end: filtroFechaDto.end})
+ .getMany();
+ 
+ if(foundProyectos){ 
+  for(let index = 0; index < foundProyectos.length; index++){
+	  switch(foundProyectos[index].status){
+		 case 'APROBADO':{
+	    resumenProyectosDto.aprobados += 1;
+	   
+	   
+	   break;
+	   } 
+      case 'CREADO': {
+		resumenProyectosDto.creados +=1; 
+		 break;
+	  }	
+      case 'CANCELADO': {
+		  resumenProyectosDto.cancelados += 1;
+		  break;
+	  }	  
+	  case 'COMPLETADO': {
+		  resumenProyectosDto.completados += 1; 
+	  }
+		  
+		  
+	  }
+  }
+  
+   
+  
+  
+ }
+ return resumenProyectosDto;
+	  
   }
 }

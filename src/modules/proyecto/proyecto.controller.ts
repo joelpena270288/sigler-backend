@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ProyectoService } from './proyecto.service';
 import { CreateProyectoDto } from './dto/create-proyecto.dto';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
+
 import { UpdateProyectoDto } from './dto/update-proyecto.dto';
 import { HasRoles } from '../role/roles.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -94,6 +96,17 @@ export class ProyectoController {
   @Get('/aprobados/conduce/')
   aprobados() {
     return this.proyectoService.getProyectosAprobados();
+  }
+  
+  
+  @HasRoles(
+    RoleEnum.ADMIN,   
+    RoleEnum.FACTURADOR,  
+  )
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/getfilterDate')
+  getfilterDate(@Body() filtroFechaDto: FiltroFechaDto) {
+    return this.proyectoService.getByFilterDate(filtroFechaDto);
   }
 
  
