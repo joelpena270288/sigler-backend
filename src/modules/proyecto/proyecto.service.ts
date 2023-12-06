@@ -154,10 +154,7 @@ export class ProyectoService {
 		  
 	  }
   }
-  
-   
-  
-  
+     
  }
  return resumenProyectosDto;
 	  

@@ -49,6 +49,7 @@ import { PagoAnticipadosModule } from './modules/pago-anticipados/pago-anticipad
 import { PagoGastoModule } from './modules/pago-gasto/pago-gasto.module';
 import { GastoItemModule } from './modules/gasto_item/gasto_item.module';
 import { CombustibleModule } from './modules/combustible/combustible.module';
+import { ReportGastoModule } from './modules/report-gasto/report-gasto.module';
 
 @Module({
    
@@ -105,7 +106,9 @@ import { CombustibleModule } from './modules/combustible/combustible.module';
    
      GastoItemModule,
    
-     CombustibleModule]
+     CombustibleModule,
+   
+     ReportGastoModule]
 })
 export class AppModule {
  static port: number | string;
