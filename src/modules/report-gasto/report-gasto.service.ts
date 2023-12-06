@@ -26,14 +26,14 @@ export class ReportGastoService {
   const gastos: GastosEmpresa[] = await this.gastoempresaRepository.createQueryBuilder('gasto')
   .leftJoinAndSelect('gasto.proyecto','proyecto')
   .leftJoinAndSelect('gasto.gastosItems','gastosItems')
-  .where('gasto.createdAt >= :start',{start: filtroFechaDto.start}) 
-  .andWhere('gasto.createdAt  <= :end',{end: filtroFechaDto.end})
+  .where('gasto.createdAt >= :start',{start: filtroFechaDto.start+' 00:00:00'}) 
+  .andWhere('gasto.createdAt  <= :end',{end: filtroFechaDto.end+' 23:59:00'})
   .andWhere('gasto.status =:status',{status:Status.ACTIVO})
   .getMany();
 
   const combustible: ConsumoCombustible[] = await this.combustibleRepository.createQueryBuilder('combustible')
-  .where('combustible.fecha >= :start',{start: filtroFechaDto.start}) 
-  .andWhere('combustible.fecha  <= :end',{end: filtroFechaDto.end})
+  .where('combustible.fecha >= :start',{start: filtroFechaDto.start+' 00:00:00'}) 
+  .andWhere('combustible.fecha  <= :end',{end: filtroFechaDto.end+' 23:59:00'})
   .andWhere('combustible.status =:status',{status:Status.ACTIVO})
   .getMany();
   if(gastos){

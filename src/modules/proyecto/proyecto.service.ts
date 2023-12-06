@@ -126,8 +126,8 @@ export class ProyectoService {
 	   resumenProyectosDto.completados = 0;
 	   resumenProyectosDto.aprobados = 0;
 	  const foundProyectos: Proyecto[] = await this.proyectoRepository.createQueryBuilder('proyecto')
- .where('proyecto.updatedAt >= :start',{start: filtroFechaDto.start}) 
- .andWhere('proyecto.updatedAt  <= :end',{end: filtroFechaDto.end})
+ .where('proyecto.updatedAt >= :start',{start: filtroFechaDto.start+' 00:00:00'}) 
+ .andWhere('proyecto.updatedAt  <= :end',{end: filtroFechaDto.end+' 23:59:00'})
  .getMany();
  
  if(foundProyectos){ 
