@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ReportGastoService } from './report-gasto.service';
-import { CreateReportGastoDto } from './dto/read-report-gasto.dto';
+
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 import { HasRoles } from '../role/roles.decorator';
 import { RoleEnum } from '../role/enums/role.enum';

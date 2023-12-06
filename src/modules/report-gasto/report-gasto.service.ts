@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ReadReportGastoDto } from './dto/read-report-gasto.dto';
 import { GastosEmpresa } from '../gastos_empresas/entities/gastos_empresa.entity';
 import { ConsumoCombustible } from '../consumo_combustible/entities/consumo_combustible.entity';
-import {FiltroFechaDto} from  from './dto/filtro-fecha.dto';
+import {FiltroFechaDto}  from './dto/filtro-fecha.dto';
 import { Status } from '../../EntityStatus/entity.estatus.enum';
+import { Repository } from 'typeorm';
 @Injectable()
 export class ReportGastoService {
   constructor(
@@ -38,15 +39,15 @@ export class ReportGastoService {
     for (let index = 0; index < gastos.length; index++) {
      if(gastos[index].proyecto != null){
       for (let iter = 0; iter < gastos[index].gastosItems.length; iter++) {
-        readReportGastoDto.itbis_gasto_proyecto  = parseFloat(readReportGastoDto.itbis_gasto_proyecto) + parseFloat(gastos[index].gastosItems[iter].importeimpuesto);
-        readReportGastoDto.sub_total_gasto_proyecto = parseFloat( readReportGastoDto.sub_total_gasto_proyecto)+ parseFloat(gastos[index].gastosItems[iter].importe); 
+        readReportGastoDto.itbis_gasto_proyecto  = parseFloat(readReportGastoDto.itbis_gasto_proyecto.toString()) + parseFloat(gastos[index].gastosItems[iter].importeimpuesto.toString());
+        readReportGastoDto.sub_total_gasto_proyecto = parseFloat( readReportGastoDto.sub_total_gasto_proyecto.toString())+ parseFloat(gastos[index].gastosItems[iter].importe.toString()); 
         
       }
 
      }else{
       for (let iter = 0; iter < gastos[index].gastosItems.length; iter++) {
-        readReportGastoDto.itbis_gasto_empresa  = parseFloat( readReportGastoDto.itbis_gasto_empresa ) + parseFloat(gastos[index].gastosItems[iter].importeimpuesto);
-        readReportGastoDto.sub_total_gasto_empresa = parseFloat( readReportGastoDto.sub_total_gasto_empresa)+ parseFloat(gastos[index].gastosItems[iter].importe); 
+        readReportGastoDto.itbis_gasto_empresa  = parseFloat( readReportGastoDto.itbis_gasto_empresa.toString() ) + parseFloat(gastos[index].gastosItems[iter].importeimpuesto.toString());
+        readReportGastoDto.sub_total_gasto_empresa = parseFloat( readReportGastoDto.sub_total_gasto_empresa.toString())+ parseFloat(gastos[index].gastosItems[iter].importe.toString()); 
         
       }
 
@@ -56,8 +57,8 @@ export class ReportGastoService {
   }
   if(combustible){
   for (let index = 0; index < combustible.length; index++) {
-   readReportGastoDto.itbis_gasto_combustible = parseFloat(readReportGastoDto.itbis_gasto_combustible )+ combustible[index].importeimpuesto;
-   readReportGastoDto.sub_total_gasto_combustible = parseFloat(readReportGastoDto.sub_total_gasto_combustible ) + combustible[index].importe;
+   readReportGastoDto.itbis_gasto_combustible = parseFloat(readReportGastoDto.itbis_gasto_combustible.toString() ) + parseFloat(combustible[index].importeimpuesto.toString());
+   readReportGastoDto.sub_total_gasto_combustible = parseFloat(readReportGastoDto.sub_total_gasto_combustible.toString() ) + parseFloat(combustible[index].importe.toString());
   }
 
   }
