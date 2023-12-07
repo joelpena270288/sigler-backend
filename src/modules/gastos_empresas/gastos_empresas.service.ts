@@ -134,6 +134,7 @@ throw new BadRequestException('Error al generar el gasto');
   .leftJoinAndSelect('proyecto.cliente','cliente') 
   .innerJoinAndSelect('gasto.cuentaporpagar','cuentaporpagar')
    .leftJoinAndSelect('gasto.pagos','pagos')
+   .leftJoinAndSelect('pagos.cuenta','cuenta')
   .leftJoinAndSelect('gasto.gastosItems','gastosItems')
   .where('gasto.status = :estado',{estado: Status.ACTIVO})   
   .andWhere('pagos.status = :estado',{estado: Status.ACTIVO})
