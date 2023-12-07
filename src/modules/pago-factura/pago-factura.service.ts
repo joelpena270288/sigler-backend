@@ -121,6 +121,21 @@ export class PagoFacturaService {
 
   async pagos(idfactura: string): Promise<Factura>{
 
+
+
+
+    return   await  this.facturaRepository
+      .createQueryBuilder('factura')
+      .innerJoinAndSelect('factura.cliente', 'cliente')      
+      .innerJoinAndSelect('factura.cuentaporcobrar', 'cuentaporcobrar')
+      .leftJoinAndSelect('factura.pagos', 'pago','pago.status = :estadopago', { estadopago: Status.ACTIVO })
+      .leftJoinAndSelect('pago.cuenta', 'cuenta')
+      .leftJoinAndSelect('cuenta.moneda', 'moneda')
+     
+     .where('factura.id = :id', { id: idfactura})
+     .andWhere('factura.status = :estadofactura', { estadofactura:  Not( StatusFactura.CANCELADA) })
+     .getOne()
+/*
     return   await  this.facturaRepository.findOne({
       relations: {
         cuentaporcobrar: true,
@@ -136,7 +151,7 @@ export class PagoFacturaService {
         status: Not( StatusFactura.CANCELADA)
 	
     },
-    });
+    });*/
 
   }
 
