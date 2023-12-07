@@ -140,7 +140,7 @@ throw new BadRequestException('Error al generar el gasto');
   .where('gasto.status = :estado',{estado: Status.ACTIVO})   
   .andWhere('pagos.status = :estado',{estado: Status.ACTIVO})
  
-  .getOne();
+  .getMany();
 
 
 
