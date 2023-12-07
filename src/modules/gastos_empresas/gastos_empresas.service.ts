@@ -139,7 +139,7 @@ export class GastosEmpresasService {
       .leftJoinAndSelect('proyecto.cliente', 'cliente')
       .innerJoinAndSelect('gasto.cuentaporpagar', 'cuentaporpagar')
       .leftJoinAndSelect('gasto.pagos', 'pago','pago.status = :estadopago', { estadopago: Status.ACTIVO })
-      .leftJoinAndSelect('pagos.cuenta', 'cuenta')
+      .leftJoinAndSelect('pago.cuenta', 'cuenta')
       .leftJoinAndSelect('cuenta.moneda', 'moneda')
       .leftJoinAndSelect('gasto.gastosItems', 'gastoItem', 'gastoItem.status = :estadoitem',{estadoitem: Status.ACTIVO})
      .where('gasto.id = :id', { id: id})
