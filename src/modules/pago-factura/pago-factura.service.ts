@@ -113,10 +113,10 @@ export class PagoFacturaService {
     return await this.facturaRepository
       .createQueryBuilder('factura')
       .innerJoinAndSelect('factura.cliente', 'cliente')
-      // .innerJoinAndSelect('factura.cuentaporcobrar', 'cuentaporcobrar')
-      // .leftJoinAndSelect('factura.pagos', 'pago','pago.status = :estadopago', { estadopago: Status.ACTIVO })
-      // .leftJoinAndSelect('pago.cuenta', 'cuenta')
-      //  .leftJoinAndSelect('cuenta.moneda', 'moneda')
+      .innerJoinAndSelect('factura.cuentaporcobrar', 'cuentaporcobrar')
+      .leftJoinAndSelect('factura.pagos', 'pago','pago.status = :estadopago', { estadopago: Status.ACTIVO })
+      .leftJoinAndSelect('pago.cuenta', 'cuenta')
+      .leftJoinAndSelect('cuenta.moneda', 'moneda')
 
       .where('factura.id = :id', { id: idfactura })
      .andWhere('factura.status != :estadofactura', {
