@@ -144,7 +144,7 @@ export class GastosEmpresasService {
      // .leftJoinAndSelect('gasto.gastosItems', 'gastosItems')
      .where('gasto.id = :id', { id: id})
      .andWhere('gasto.status = :estadogasto', { estadogasto: StatusGasto.ACTIVO })
-      .andWhere('pagos.status = :estadopago', { estadopago: Status.ACTIVO })
+    //  .andWhere('pagos.status = :estadopago', { estadopago: Status.ACTIVO })
 
       .getOne();
 
