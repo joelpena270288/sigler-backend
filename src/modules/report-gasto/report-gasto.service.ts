@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ReadReportGastoDto } from './dto/read-report-gasto.dto';
 import { GastosEmpresa } from '../gastos_empresas/entities/gastos_empresa.entity';
 import { ConsumoCombustible } from '../consumo_combustible/entities/consumo_combustible.entity';
@@ -16,6 +16,10 @@ export class ReportGastoService {
   ) {}
 
  async getReport(filtroFechaDto: FiltroFechaDto): Promise<ReadReportGastoDto> {
+  if(filtroFechaDto.start ==null|| filtroFechaDto.end ==null){
+    throw new BadRequestException('Debe introducir una fecha inicio y una fecha fin');
+
+  }
     const readReportGastoDto: ReadReportGastoDto = new ReadReportGastoDto();
     readReportGastoDto.itbis_gasto_combustible = 0;
     readReportGastoDto.itbis_gasto_empresa = 0;

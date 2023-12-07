@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProyectoDto } from './dto/create-proyecto.dto';
 import { ResumenProyectosDto } from './dto/resume-status-proyecto.dto';
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
@@ -120,6 +120,9 @@ export class ProyectoService {
     });
   }
   async getByFilterDate(filtroFechaDto: FiltroFechaDto): Promise<ResumenProyectosDto>{
+    if(filtroFechaDto.start == null || filtroFechaDto.end == null){
+      throw new BadRequestException('Debe introducir una fecha inicio y una fecha fin');
+    }
 	  const resumenProyectosDto: ResumenProyectosDto = new ResumenProyectosDto();
 	  resumenProyectosDto.creados = 0;
 	   resumenProyectosDto.cancelados = 0;
