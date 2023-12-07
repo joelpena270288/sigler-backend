@@ -16,28 +16,34 @@ export class PagoFacturaController {
   create(@Body() createPagoFacturaDto: CreatePagoFacturaDto) {
     return this.pagoFacturaService.create(createPagoFacturaDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.pagoFacturaService.findAll();
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pagoFacturaService.findOne(+id);
   }
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/getbyidfactura/:id')
   findAllByIdFactura(@Param('id') id: string) {
     return this.pagoFacturaService.pagos(id);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePagoFacturaDto: UpdatePagoFacturaDto) {
     return this.pagoFacturaService.update(+id, updatePagoFacturaDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.pagoFacturaService.remove(+id);
+    return this.pagoFacturaService.remove(id);
   }
 }

@@ -152,7 +152,31 @@ export class PagoFacturaService {
     return `This action updates a #${id} pagoFactura`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pagoFactura`;
+ async remove(id: string): Promise<PagoFactura> {
+  const foundPago: PagoFactura = await this.pagoRepository.findOne({
+    relations: {
+      factura: true,
+    },
+    where: {
+      id: id,
+      status: Not(Status.INACTIVO),
+    },
+  });
+
+  if (!foundPago) {
+    throw new NotFoundException('No existe el pago Introducido');
+  }
+  foundPago.factura.status = StatusFactura.APROBADA;
+  foundPago.factura.cuentaporcobrar.montorestante = parseFloat(foundPago.factura.cuentaporcobrar.montorestante.toString()) +  parseFloat(foundPago.pago.toString());
+  foundPago.factura.cuentaporcobrar.status = Status.ACTIVO;
+  const updateFactura: Factura = await this.facturaRepository.save(foundPago.factura);
+ if(!updateFactura){
+ throw new BadRequestException('Error al cancelar el pago');
+ }
+ foundPago.status = Status.INACTIVO;
+
+ return await this.pagoRepository.save(foundPago);
+
+
   }
 }

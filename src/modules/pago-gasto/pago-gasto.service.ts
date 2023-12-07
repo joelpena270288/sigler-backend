@@ -125,6 +125,8 @@ export class PagoGastoService {
     }
 
     foundPago.gastoempresa.cuentaporpagar.montorestante = parseFloat(foundPago.gastoempresa.cuentaporpagar.montorestante.toString()) +  parseFloat(foundPago.pago.toString());
+    foundPago.gastoempresa.status = StatusGasto.ACTIVO;
+    foundPago.gastoempresa.cuentaporpagar.status = Status.ACTIVO;
     const updategasto: GastosEmpresa = await this.gastoempresaRepository.save(
       foundPago.gastoempresa,
     );
