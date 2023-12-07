@@ -13,7 +13,7 @@ import {
     BeforeInsert
   } from 'typeorm';
   import {Proyecto } from '../../proyecto/entities/proyecto.entity';
-  import { Status } from '../../../EntityStatus/entity.estatus.enum';
+ import {StatusGasto } from '../entities/gasto-status.enum';
 import { PagoGasto } from '../../pago-gasto/entities/pago-gasto.entity';
 import { CuentasPorPagarEmpresa } from './cuenta-por-pagar-empresa.entity';
 import { GastoItem } from '../../gasto_item/entities/gasto_item.entity';
@@ -56,7 +56,7 @@ export class GastosEmpresa {
 
 
 
-      @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
+      @Column({ type: 'varchar', nullable: false, default: StatusGasto.ACTIVO })
   status: string;
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
   createdAt: Date;
