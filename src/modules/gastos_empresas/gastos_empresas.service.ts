@@ -131,6 +131,7 @@ throw new BadRequestException('Error al generar el gasto');
  async findOne(id: string): Promise<GastosEmpresa> {
  return await this.gastoRepository.createQueryBuilder('gasto')
   .leftJoinAndSelect('gasto.proyecto','proyecto') 
+  .leftJoinAndSelect('proyecto.cliente','cliente') 
   .innerJoinAndSelect('gasto.cuentaporpagar','cuentaporpagar')
    .leftJoinAndSelect('gasto.pagos','pagos')
   .leftJoinAndSelect('gasto.gastosItems','gastosItems')
