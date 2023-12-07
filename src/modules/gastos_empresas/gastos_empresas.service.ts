@@ -139,9 +139,9 @@ export class GastosEmpresasService {
       .leftJoinAndSelect('proyecto.cliente', 'cliente')
       .innerJoinAndSelect('gasto.cuentaporpagar', 'cuentaporpagar')
       .leftJoinAndSelect('gasto.pagos', 'pago','pago.status = :estadopago', { estadopago: Status.ACTIVO })
-     // .leftJoinAndSelect('pagos.cuenta', 'cuenta')
-     // .leftJoinAndSelect('cuenta.moneda', 'moneda')
-     // .leftJoinAndSelect('gasto.gastosItems', 'gastosItems')
+      .leftJoinAndSelect('pagos.cuenta', 'cuenta')
+      .leftJoinAndSelect('cuenta.moneda', 'moneda')
+      .leftJoinAndSelect('gasto.gastosItems', 'gastoItem', 'gastoItem.status = :estadoitem',{estadoitem: Status.ACTIVO})
      .where('gasto.id = :id', { id: id})
      .andWhere('gasto.status = :estadogasto', { estadogasto: StatusGasto.ACTIVO })
     
