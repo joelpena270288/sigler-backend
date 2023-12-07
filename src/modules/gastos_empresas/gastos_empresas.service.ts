@@ -137,10 +137,10 @@ throw new BadRequestException('Error al generar el gasto');
    .leftJoinAndSelect('pagos.cuenta','cuenta')
    .leftJoinAndSelect('cuenta.moneda','moneda')
   .leftJoinAndSelect('gasto.gastosItems','gastosItems')
-  .where('gasto.status = :estado',{estado: Status.ACTIVO})   
+  .where('gasto.status = :estado',{estado: StatusGasto.ACTIVO})   
   .andWhere('pagos.status = :estado',{estado: Status.ACTIVO})
  
-  .getMany();
+  .getOne();
 
 
 
