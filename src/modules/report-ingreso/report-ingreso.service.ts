@@ -25,9 +25,9 @@ async getReportByDate(filtroFechaDto: FiltroFechaDto): Promise<ReadReportIngreso
   .getMany();
    if(factura){
    for (let index = 0; index < factura.length; index++) {
-   readReportIngresoDto.ingresos = parseFloat(readReportIngresoDto.ingresos.toString() ) + parseFloat(factura[length].cuentaporcobrar.montoinicial.toString()); 
-   readReportIngresoDto.pagos = parseFloat(readReportIngresoDto.pagos.toString()) + parseFloat(factura[length].cuentaporcobrar.montoinicial.toString()) - parseFloat(factura[length].cuentaporcobrar.montorestante.toString())
-   readReportIngresoDto.pendientes =  parseFloat(factura[length].cuentaporcobrar.montorestante.toString());
+   readReportIngresoDto.ingresos = parseFloat(readReportIngresoDto.ingresos.toString() ) + parseFloat(factura[index].cuentaporcobrar.montoinicial.toString()); 
+   readReportIngresoDto.pagos = parseFloat(readReportIngresoDto.pagos.toString()) + parseFloat(factura[index].cuentaporcobrar.montoinicial.toString()) - parseFloat(factura[index].cuentaporcobrar.montorestante.toString())
+   readReportIngresoDto.pendientes =  parseFloat(factura[index].cuentaporcobrar.montorestante.toString());
    }
 
    }
