@@ -138,7 +138,7 @@ export class GastosEmpresasService {
       .leftJoinAndSelect('gasto.proyecto', 'proyecto')
       .leftJoinAndSelect('proyecto.cliente', 'cliente')
       .innerJoinAndSelect('gasto.cuentaporpagar', 'cuentaporpagar')
-     .leftJoinAndSelect('gasto.pagos', 'pagos')
+      .leftJoinAndSelect('gasto.pagos', 'pagos')
      // .leftJoinAndSelect('pagos.cuenta', 'cuenta')
      // .leftJoinAndSelect('cuenta.moneda', 'moneda')
      // .leftJoinAndSelect('gasto.gastosItems', 'gastosItems')
