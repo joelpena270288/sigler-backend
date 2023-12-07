@@ -119,9 +119,9 @@ export class PagoFacturaService {
       //  .leftJoinAndSelect('cuenta.moneda', 'moneda')
 
       .where('factura.id = :id', { id: idfactura })
-      .andWhere('factura.status = :estadofactura', {
-        estadofactura: Not(StatusFactura.CANCELADA),
-      })
+     // .andWhere('factura.status = :estadofactura', {
+       // estadofactura: Not(StatusFactura.CANCELADA),
+    //  })
       .getOne();
     /*
     return   await  this.facturaRepository.findOne({
