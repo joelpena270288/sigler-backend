@@ -1,4 +1,9 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreatePagoGastoDto } from './dto/create-pago-gasto.dto';
 import { UpdatePagoGastoDto } from './dto/update-pago-gasto.dto';
 import { PagoGasto } from './entities/pago-gasto.entity';
@@ -10,7 +15,6 @@ import { CuentasEmpresa } from '../cuentas-empresa/entities/cuentas-empresa.enti
 
 @Injectable()
 export class PagoGastoService {
-
   constructor(
     @Inject('PAGOGASTO_REPOSITORY')
     private pagoRepository: Repository<PagoGasto>,
@@ -18,98 +22,80 @@ export class PagoGastoService {
     private gastoempresaRepository: Repository<GastosEmpresa>,
     @Inject('CUENTAEMPRESA_REPOSITORY')
     private cuentaRepository: Repository<CuentasEmpresa>,
+  ) {}
+  async create(createPagoGastoDto: CreatePagoGastoDto): Promise<GastosEmpresa> {
+    const pagoGasto: PagoGasto = new PagoGasto();
 
-    
-  ){}
- async create(createPagoGastoDto: CreatePagoGastoDto):Promise<GastosEmpresa> {
-   
-  const pagoGasto: PagoGasto = new PagoGasto();
-    
-	
-	const foundGastoEmpresa: GastosEmpresa = await  this.gastoempresaRepository.findOne({
+    const foundGastoEmpresa: GastosEmpresa =
+      await this.gastoempresaRepository.findOne({
+        relations: {
+          cuentaporpagar: true,
+          proyecto: true,
+        },
+        where: {
+          cuentaporpagar: {
+            status: Status.ACTIVO,
+          },
+          id: createPagoGastoDto.idgasto,
+          status: StatusGasto.ACTIVO,
+        },
+      });
+
+    if (!foundGastoEmpresa) {
+      throw new BadRequestException(
+        'El Gasto introducido está completado o no es válido',
+      );
+    }
+
+    const foundCuenta: CuentasEmpresa = await this.cuentaRepository.findOne({
+      where: { id: createPagoGastoDto.idcuenta, status: Status.ACTIVO },
+    });
+
+    if (!foundCuenta) {
+      throw new NotFoundException(
+        'La cuenta de la Empresa introducida no es correcta o está desahabilitada',
+      );
+    }
+
+    if (
+      foundGastoEmpresa.cuentaporpagar.montorestante >
+      parseFloat(createPagoGastoDto.pago.toString())
+    ) {
+      foundGastoEmpresa.cuentaporpagar.montorestante =
+        parseFloat(foundGastoEmpresa.cuentaporpagar.montorestante.toString()) -
+        parseFloat(createPagoGastoDto.pago.toString());
+      foundGastoEmpresa.cuentaporpagar.updatedAt = new Date();
+      pagoGasto.pago = createPagoGastoDto.pago;
+    } else {
+      foundGastoEmpresa.status = StatusGasto.INACTIVO;
+      pagoGasto.pago = foundGastoEmpresa.cuentaporpagar.montorestante;
+      foundGastoEmpresa.cuentaporpagar.montorestante = 0;
+      foundGastoEmpresa.cuentaporpagar.status = StatusGasto.INACTIVO;
+      foundGastoEmpresa.cuentaporpagar.updatedAt = new Date();
+    }
+
+    pagoGasto.cuenta = foundCuenta;
+    pagoGasto.gastoempresa = foundGastoEmpresa;
+    pagoGasto.numerocheque = createPagoGastoDto.numerocheque;
+
+    const savedGastoEmpresa: GastosEmpresa =
+      await this.gastoempresaRepository.save(foundGastoEmpresa);
+    if (!savedGastoEmpresa) {
+      throw new BadRequestException('Error al generar el pago');
+    }
+    const savedPago: PagoGasto = await this.pagoRepository.save(pagoGasto);
+
+    return await this.gastoempresaRepository.findOne({
       relations: {
         cuentaporpagar: true,
         proyecto: true,
-	
-        
-    },
-    where: {
-      cuentaporpagar: {
-            status: Status.ACTIVO ,
-          
-        },  
-        id: createPagoGastoDto.idgasto,    
-        status: StatusGasto.ACTIVO
-	
-    },
+        gastosItems: true,
+      },
+      where: {
+        id: createPagoGastoDto.idgasto,
+        status: Not(StatusGasto.CANCELADO),
+      },
     });
-
-    if(!foundGastoEmpresa){
-      throw new BadRequestException('El Gasto introducido está completado o no es válido');
-
-    }
-
-    const foundCuenta: CuentasEmpresa = await this.cuentaRepository.findOne({where: {id: createPagoGastoDto.idcuenta, status: Status.ACTIVO}});
-
-    if(!foundCuenta){
-      throw new NotFoundException('La cuenta de la Empresa introducida no es correcta o está desahabilitada');
-    }
-   
-  if(foundGastoEmpresa.cuentaporpagar.montorestante > parseFloat(createPagoGastoDto.pago.toString())){
-    foundGastoEmpresa.cuentaporpagar.montorestante = parseFloat( foundGastoEmpresa.cuentaporpagar.montorestante.toString()) - parseFloat( createPagoGastoDto.pago.toString());
-    foundGastoEmpresa.cuentaporpagar.updatedAt = new Date();
-     pagoGasto.pago = createPagoGastoDto.pago;
-
-
-  }else {
-	  
-
-  
-  foundGastoEmpresa.status = StatusGasto.INACTIVO;
-  pagoGasto.pago =  foundGastoEmpresa.cuentaporpagar.montorestante;
-  foundGastoEmpresa.cuentaporpagar.montorestante = 0;
-  foundGastoEmpresa.cuentaporpagar.status = StatusGasto.INACTIVO;
-  foundGastoEmpresa.cuentaporpagar.updatedAt = new Date();
- 
-   }
-
- 
-   pagoGasto.cuenta = foundCuenta;
-   pagoGasto.gastoempresa = foundGastoEmpresa;
-   pagoGasto.numerocheque = createPagoGastoDto.numerocheque;
-  
-   
-   
-   
-  
-   const savedGastoEmpresa: GastosEmpresa = await this.gastoempresaRepository.save(foundGastoEmpresa);
-   if(!savedGastoEmpresa){
-    throw new BadRequestException('Error al generar el pago');
-   }
-   const savedPago: PagoGasto = await this.pagoRepository.save(pagoGasto);
-
-
-    return   await  this.gastoempresaRepository.findOne({
-      relations: {
-        cuentaporpagar: true,
-        proyecto: true,
-        gastosItems: true
-		
-        
-	
-        
-    },
-    where: {
-      
-        id: createPagoGastoDto.idgasto,    
-        status: Not( StatusGasto.CANCELADO)
-	
-    },
-    });
-
-
-
-
   }
 
   findAll() {
@@ -124,7 +110,28 @@ export class PagoGastoService {
     return `This action updates a #${id} pagoGasto`;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} pagoGasto`;
+  async remove(id: string): Promise<PagoGasto> {
+    const foundPago: PagoGasto = await this.pagoRepository.findOne({
+      relations: {
+        gastoempresa: true,
+      },
+      where: {
+        id: id,
+        status: Not(StatusGasto.CANCELADO),
+      },
+    });
+    if (!foundPago) {
+      throw new NotFoundException('No existe el pago Introducido');
+    }
+
+    foundPago.gastoempresa.cuentaporpagar.montorestante += foundPago.pago;
+    const updategasto: GastosEmpresa = await this.gastoempresaRepository.save(
+      foundPago.gastoempresa,
+    );
+    if (!updategasto) {
+      throw new BadRequestException('No se pudo cancelar el pago');
+    }
+    foundPago.status = Status.INACTIVO;
+    return await this.pagoRepository.save(foundPago);
   }
 }
