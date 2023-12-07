@@ -124,7 +124,7 @@ export class PagoGastoService {
       throw new NotFoundException('No existe el pago Introducido');
     }
 
-    foundPago.gastoempresa.cuentaporpagar.montorestante += foundPago.pago;
+    foundPago.gastoempresa.cuentaporpagar.montorestante = parseFloat(foundPago.gastoempresa.cuentaporpagar.montorestante.toString()) +  parseFloat(foundPago.pago.toString());
     const updategasto: GastosEmpresa = await this.gastoempresaRepository.save(
       foundPago.gastoempresa,
     );

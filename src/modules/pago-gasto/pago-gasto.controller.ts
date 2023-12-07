@@ -31,7 +31,8 @@ export class PagoGastoController {
   update(@Param('id') id: string, @Body() updatePagoGastoDto: UpdatePagoGastoDto) {
     return this.pagoGastoService.update(id, updatePagoGastoDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.pagoGastoService.remove(id);
