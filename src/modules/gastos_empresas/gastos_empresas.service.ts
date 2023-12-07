@@ -129,6 +129,20 @@ throw new BadRequestException('Error al generar el gasto');
   }
 
  async findOne(id: string): Promise<GastosEmpresa> {
+ return await this.gastoRepository.createQueryBuilder('gasto')
+  .leftJoinAndSelect('gasto.proyecto','proyecto') 
+  .innerJoinAndSelect('gasto.cuentaporpagar','cuentaporpagar')
+   .leftJoinAndSelect('gasto.pagos','pagos')
+  .leftJoinAndSelect('gasto.gastosItems','gastosItems')
+  .where('gasto.status = :estado',{estado: Status.ACTIVO})   
+  .andWhere('pagos.status = :estado',{estado: Status.ACTIVO})
+ 
+  .getOne();
+
+
+
+
+/*
     return await this.gastoRepository.findOne({
       relations: {
         cuentaporpagar: true,
@@ -143,7 +157,7 @@ throw new BadRequestException('Error al generar el gasto');
 		id: id
 	}
     
-    });
+    });*/
  
   }
 
