@@ -91,7 +91,7 @@ export class ConduceService {
       newConduce.hasta = createConduceDto.hasta.toUpperCase();
       newConduce.material = foundMaterial;
       newConduce.metrosCubicos = createConduceDto.metrosCubicos;
-    } else if (createConduceDto.name === TipoConduce.ACARREO) {
+    } else if (createConduceDto.name === TipoConduce.TRANSPORTEEQUIPO) {
       if (createConduceDto.desde === '' || createConduceDto.hasta === '') {
         throw new BadRequestException(
           'Debe introducir punto de partida y punto de llegada',
@@ -102,7 +102,7 @@ export class ConduceService {
           'La cantidad de viajes no puede ser menor que 1',
         );
       }
-      newConduce.name = TipoConduce.ACARREO;
+      newConduce.name = TipoConduce.TRANSPORTEEQUIPO;
       newConduce.desde = createConduceDto.desde.toUpperCase();
       newConduce.hasta = createConduceDto.hasta.toUpperCase();
 	  newConduce.cantViajes = createConduceDto.cantidadViaje;
@@ -195,7 +195,7 @@ export class ConduceService {
             id: idProyecto ,
           
         },
-        name: TipoConduce.ACARREO,
+        name: TipoConduce.TRANSPORTEEQUIPO,
         status: Not( EstatusConduce.CANCELADO)
 	
     },
