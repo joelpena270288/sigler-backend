@@ -93,6 +93,7 @@ async  getReport(filtro: Filtro):Promise<ReadReportTrabajadorConduceDto> {
               transport.horaFin = listConduce[index].horaFin;
               transport.horainicio = listConduce[index].horaInicio;
               transport.proyecto = listConduce[index].proyecto.name;
+              transport.fecha = listConduce[index].fecha;
               readReportTrabajadorConduceDto.controlTransporte.push(transport);
               break;
             }
