@@ -79,7 +79,7 @@ async  getReport(filtro: Filtro):Promise<ReadReportTrabajadorConduceDto> {
 
             break;
           }
-          case 'TRASPORTEEQUIPO':
+          case 'TRANSPORTEEQUIPO':
             {
               const transport: Transporte = new Transporte();
               transport.ajuste = listConduce[index].proyecto.ajuste;
