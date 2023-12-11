@@ -39,6 +39,7 @@ export class GastosEmpresasService {
     gasto.direccion = createGastosEmpresaDto.direccion;
     gasto.factura = createGastosEmpresaDto.factura.toUpperCase();
     gasto.cuentaporpagar = cuentaporpagar;
+    gasto.tipoPago = createGastosEmpresaDto.tipopago;
 
     if (createGastosEmpresaDto.idproyecto !== '') {
       const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
