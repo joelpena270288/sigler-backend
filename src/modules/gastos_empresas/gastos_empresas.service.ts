@@ -32,6 +32,7 @@ export class GastosEmpresasService {
   ): Promise<GastosEmpresa> {
     const cuentaporpagar: CuentasPorPagarEmpresa = new CuentasPorPagarEmpresa();
     const gasto: GastosEmpresa = new GastosEmpresa();
+    gasto.descripcion = createGastosEmpresaDto.descripcion;
     gasto.Nombre = createGastosEmpresaDto.Nombre;
     gasto.NCF = createGastosEmpresaDto.NCF.toUpperCase();
     gasto.RNC = createGastosEmpresaDto.RNC.toUpperCase();

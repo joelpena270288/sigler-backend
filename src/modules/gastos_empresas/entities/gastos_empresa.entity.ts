@@ -22,6 +22,8 @@ export class GastosEmpresa {
     @PrimaryGeneratedColumn('uuid')
     id: string;
     @Column({ type: 'varchar', nullable: false })
+    descripcion: string;
+    @Column({ type: 'varchar', nullable: false })
     Nombre: string;
     @Column({ type: 'varchar', nullable: true })
     NCF: string;
@@ -46,11 +48,13 @@ export class GastosEmpresa {
       @OneToMany(() => PagoGasto, (pagos) => pagos.gastoempresa, {
         nullable: true,
         eager: true,
+        cascade: true
       })
       pagos: PagoGasto[];
       @OneToMany(() => GastoItem, (items) => items.gasto, {
         nullable: true,
         eager: true,
+        cascade: true
       })
       gastosItems: GastoItem[];
 

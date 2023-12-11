@@ -37,28 +37,32 @@ export class Proyecto {
   @OneToMany(() => Cotizacion, (cotizacion) => cotizacion.proyecto, {
     nullable: true,
     eager: true,
+    cascade: true
   })
   cotizacion: Cotizacion[];
 
-  @OneToMany(() => GastosEmpresa, (gasto) => gasto.proyecto)
+  @OneToMany(() => GastosEmpresa, (gasto) => gasto.proyecto,{cascade: true})
   gastos: GastosEmpresa[];
 
-  @OneToMany(() => Conduce, (conduce) => conduce.proyecto,{ nullable: true
+  @OneToMany(() => Conduce, (conduce) => conduce.proyecto,{ nullable: true, cascade: true
     })
   conduces: Conduce[];
   @OneToMany(() => ConduceProcezado, (procezados) => procezados.proyecto, {
     nullable: true,
+    cascade: true
    
   })
   conducesprocesados: ConduceProcezado[];
 
   @OneToMany(() => PreFactura, (prefactura) => prefactura.proyecto,{
     nullable: true,
+    cascade: true
   
   })
   prefacturas: PreFactura[];
   @OneToMany(() => Factura, (factura) => factura.proyecto,{
     nullable: true,
+    cascade: true
    
   })
   facturas: Factura[];
@@ -66,6 +70,7 @@ export class Proyecto {
   @OneToMany(() => ConsumoCombustible, (consumo_combustible) => consumo_combustible.proyecto, {
     nullable: true,
     eager: true,
+    cascade: true
   })
   consumo_combustibles: ConsumoCombustible[];
  
