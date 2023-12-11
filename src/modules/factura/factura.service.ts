@@ -291,6 +291,7 @@ return savedFactura;
 	foundFactura.fechafactura = new Date();
 	foundFactura.ncf = b01.valor;
 	foundFactura.fechancf = b01.fecha;
+  foundFactura.tipoPago = convertFacturaDto.tipopago;
 	
 	const saved: Factura = await this.facturaRepository.save(foundFactura);
 	if(saved){
@@ -362,7 +363,7 @@ return savedFactura;
 	foundFactura.fechafactura = new Date();
 	foundFactura.ncf = b02.valor;
 	foundFactura.fechancf = b02.fecha;
-	
+	foundFactura.tipoPago = convertFacturaDto.tipopago;
 	const saved: Factura = await this.facturaRepository.save(foundFactura);
 	if(saved){
 		
@@ -430,7 +431,7 @@ return savedFactura;
 	foundFactura.fechafactura = new Date();
 	foundFactura.ncf = b14.valor;
 	foundFactura.fechancf = b14.fecha;
-	
+	foundFactura.tipoPago = convertFacturaDto.tipopago;
 	const saved: Factura = await this.facturaRepository.save(foundFactura);
 	if(saved){
 		

@@ -5,6 +5,8 @@ export class ConvertFacturaDto {
     idncf: number;
 	@IsString()
 	idmoneda: string;
+    @IsString()
+    tipopago: string;
 	
 
 

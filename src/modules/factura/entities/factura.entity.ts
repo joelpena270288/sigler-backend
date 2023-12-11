@@ -24,6 +24,7 @@ import { ServicioProcesado } from '../../servicio-procesado/entities/servicio-pr
 import { Cliente } from '../../cliente/entities/cliente.entity';
 import { CuentasPorCobrar } from './cuenta-por-cobrar.entity';
 import { PagoFactura } from '../../pago-factura/entities/pago-factura.entity';
+import { TipoPagoFactura } from './factura-tipo-pago.enum';
 
   @Entity('facturas') 
 export class Factura {
@@ -89,6 +90,8 @@ export class Factura {
     eager: true,
   })
   pagos: PagoFactura[];
+  @Column({ type: 'varchar', nullable: false, default: TipoPagoFactura.TRANSFERENCIA})
+  tipoPago: string;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date; 
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })
