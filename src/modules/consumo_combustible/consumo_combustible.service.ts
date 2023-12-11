@@ -79,7 +79,7 @@ export class ConsumoCombustibleService {
     }
     newConsumoCombustible.equipo = foundEquipo;
     newConsumoCombustible.Nombre = createConsumoCombustibleDto.Nombre;
-    newConsumoCombustible.NCF = createConsumoCombustibleDto.NCF;
+    newConsumoCombustible.NCF = 'B'+ createConsumoCombustibleDto.NCF;
     newConsumoCombustible.RNC = createConsumoCombustibleDto.RNC;
     newConsumoCombustible.direccion = createConsumoCombustibleDto.direccion;
     newConsumoCombustible.factura = createConsumoCombustibleDto.factura;

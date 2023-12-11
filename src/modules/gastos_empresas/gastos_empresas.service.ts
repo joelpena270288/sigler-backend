@@ -34,7 +34,7 @@ export class GastosEmpresasService {
     const gasto: GastosEmpresa = new GastosEmpresa();
     gasto.descripcion = createGastosEmpresaDto.descripcion;
     gasto.Nombre = createGastosEmpresaDto.Nombre;
-    gasto.NCF = createGastosEmpresaDto.NCF.toUpperCase();
+    gasto.NCF = 'B' + createGastosEmpresaDto.NCF.toUpperCase();
     gasto.RNC = createGastosEmpresaDto.RNC.toUpperCase();
     gasto.direccion = createGastosEmpresaDto.direccion;
     gasto.factura = createGastosEmpresaDto.factura.toUpperCase();
