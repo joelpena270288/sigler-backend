@@ -13,8 +13,8 @@ export class Report06Controller {
   @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  create(@Body() filtroFechaDto: FiltroFechaDto) {
-    return this.report06Service.create(filtroFechaDto);
+  getReport06(@Body() filtroFechaDto: FiltroFechaDto) {
+    return this.report06Service.getReport06(filtroFechaDto);
   }
 
  

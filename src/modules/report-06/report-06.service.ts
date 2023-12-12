@@ -22,7 +22,7 @@ export class Report06Service {
    
    
   ) {}
- async create(filtroFechaDto: FiltroFechaDto) {
+ async getReport06(filtroFechaDto: FiltroFechaDto):Promise<ReadReport06Dto> {
   const readReport06Dto: ReadReport06Dto = new ReadReport06Dto();
   readReport06Dto.facturasResumen = [];
   readReport06Dto.gastosResumen = [];
@@ -84,7 +84,7 @@ for (let index = 0; index < factura.length; index++) {
   }
 
 }
-
+return readReport06Dto;
    
   }
 
