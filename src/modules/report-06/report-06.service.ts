@@ -58,6 +58,8 @@ for (let index = 0; index < factura.length; index++) {
  
 
  }
+ facturaResumen.itbis.toFixed(2);
+ facturaResumen.monto.toFixed(2);
  readReport06Dto.facturasResumen.push(facturaResumen);
   
 }
@@ -79,6 +81,8 @@ for (let index = 0; index < factura.length; index++) {
     
     
    }
+   gastosResumen.itbis.toFixed(2);
+   gastosResumen.subtotal.toFixed(2);
    readReport06Dto.gastosResumen.push(gastosResumen);
     
   }
