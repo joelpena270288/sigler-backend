@@ -12,9 +12,15 @@ export class MarcaService {
     private marcaRepository: Repository<Marca>,
   ) {}
  async create(createMarcaDto: CreateMarcaDto):Promise<Marca> {
+  const foundMarca: Marca = await this.marcaRepository.find({where: {name: createMarcaDto.name.toUpperCase()}});
+ if(foundMarca){
+  foundMarca.status = Status.ACTIVO;
+  return await this.marcaRepository.save(foundMarca);
+ }else{
   const newMarca: Marca = new Marca();
   newMarca.name = createMarcaDto.name.toUpperCase();
     return await this.marcaRepository.save(newMarca);
+ }
   }
 
  async findAll():Promise<Marca[]> {
