@@ -12,12 +12,17 @@ export class CargoService {
     private cargoRepository: Repository<Cargo>,
   ) {}
  async create(createCargoDto: CreateCargoDto): Promise<Cargo> {
+  const foundCargo: Cargo =  await this.cargoRepository.findOne({where:{name: createCargoDto.name.toUpperCase()}});
+  if(foundCargo){
+    foundCargo.status = Status.ACTIVO;
+    return await this.cargoRepository.save(foundCargo);
+  }else{
   const newCargo = new Cargo;
   newCargo.name = createCargoDto.name.toUpperCase();
   newCargo.descripcion = createCargoDto.descripcion;
   
   return await this.cargoRepository.save(newCargo);
-
+  }
   }
 
  async findAll(): Promise<Cargo[]> {
@@ -25,7 +30,7 @@ export class CargoService {
   }
 
  async findOne(id: string): Promise<Cargo> {
-  return this.cargoRepository.findOne({where:{id: id}});
+  return await this.cargoRepository.findOne({where:{id: id}});
   }
 
  async update(id: string, updateCargoDto: UpdateCargoDto): Promise<Cargo> {
