@@ -15,7 +15,7 @@ export class TipoEquipoService {
   ) {}
 
  async create(createTipoEquipoDto: CreateTipoEquipoDto): Promise<TipoEquipo> {
-  const foundTipoEquipo: TipoEquipo = this.tipoEquipoRepository.findOne({where:{name: createTipoEquipoDto.name.toUpperCase()}});
+  const foundTipoEquipo: TipoEquipo = await this.tipoEquipoRepository.findOne({where:{name: createTipoEquipoDto.name.toUpperCase()}});
 if(foundTipoEquipo){
   foundTipoEquipo.status = Status.ACTIVO;
   return await this.tipoEquipoRepository.save(foundTipoEquipo);
