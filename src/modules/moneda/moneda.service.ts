@@ -11,8 +11,15 @@ export class MonedaService {
     private monedaRepository: Repository<Moneda>,
   ){}
  async create(createMonedaDto: CreateMonedaDto): Promise<Moneda> {
-   
-  const moneda: Moneda = new Moneda();
+   const foundMoneda: Moneda = await this.monedaRepository.findOne({where:{valor: createMonedaDto.valor.toUpperCase()}});
+   if(foundMoneda){
+    foundMoneda.updatedAt = new Date();
+    foundMoneda.status = Status.ACTIVO;
+    return await this.monedaRepository.save(foundMoneda);
+
+   }
+  
+   const moneda: Moneda = new Moneda();
   moneda.tasa = createMonedaDto.tasa;
   moneda.valor = createMonedaDto.valor.toUpperCase();
 
@@ -35,6 +42,7 @@ export class MonedaService {
    }
   foundMoneda.tasa = updateMonedaDto.tasa;
   foundMoneda.valor = updateMonedaDto.valor.toUpperCase();
+  foundMoneda.updatedAt = new Date();
   return  await this.monedaRepository.save(foundMoneda);
   }
 
