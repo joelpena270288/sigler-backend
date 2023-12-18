@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { Cliente } from './entities/cliente.entity';
@@ -26,8 +26,14 @@ export class ClienteService {
     }
     const cliente: Cliente = new Cliente();
    if(createClienteDto.tipoDocumento == 'cedula'){
+    if(createClienteDto.tipoDocumento.length != 11){
+      throw new BadRequestException("El formato de la cedula esta mal");
+    }
    cliente.tipoDocumento = TipoDocumento.CEDULA;
    }else{
+    if(createClienteDto.tipoDocumento.length != 9){
+      throw new BadRequestException("El formato del RNC esta mal");
+    }
     cliente.tipoDocumento = TipoDocumento.RNC;
    }
     
@@ -56,8 +62,14 @@ export class ClienteService {
 
   }
   if(updateClienteDto.tipoDocumento == 'cedula'){
+    if(updateClienteDto.tipoDocumento.length !=11){
+      throw new BadRequestException("El formato de la cedula esta mal");
+    }
     findCliente.tipoDocumento = TipoDocumento.CEDULA;
     }else{
+      if(updateClienteDto.tipoDocumento.length !=9){
+        throw new BadRequestException("El formato del RNC esta mal");
+      }
       findCliente.tipoDocumento = TipoDocumento.RNC;
     }
   findCliente.nombre = updateClienteDto.nombre;
