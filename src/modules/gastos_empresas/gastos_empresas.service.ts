@@ -145,7 +145,7 @@ export class GastosEmpresasService {
       .leftJoinAndSelect('cuenta.moneda', 'moneda')
       .leftJoinAndSelect('gasto.gastosItems', 'gastoItem', 'gastoItem.status = :estadoitem',{estadoitem: Status.ACTIVO})
      .where('gasto.id = :id', { id: id})
-     .andWhere('gasto.status = :estadogasto', { estadogasto: StatusGasto.ACTIVO })
+     .andWhere('gasto.status != :estadogasto', { estadogasto: StatusGasto.CANCELADO })
     
 
       .getOne();
