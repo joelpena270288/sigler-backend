@@ -10,5 +10,7 @@ export class CreateClienteDto {
   telefono: string;
   @IsString()
   rcn: string;
+  @IsString()
+  tipoDocumento: string;
 
 }

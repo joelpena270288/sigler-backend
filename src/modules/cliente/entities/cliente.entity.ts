@@ -18,6 +18,7 @@ import { Proyecto } from '../../proyecto/entities/proyecto.entity';
 import { Status } from '../../../EntityStatus/entity.estatus.enum';
 import{Factura} from '../../factura/entities/factura.entity';
 import { PagoAnticipado } from '../../pago-anticipados/entities/pago-anticipado.entity';
+import { TipoDocumento } from '../tipo-documento.enum';
 @Entity('clientes')
 export class Cliente {
     @PrimaryGeneratedColumn('uuid')
@@ -28,9 +29,11 @@ export class Cliente {
     direccion: string;
     @Column({ type: 'varchar',length: 16, nullable: true })
     telefono: string;
+     @Column({ type: 'varchar', length: 25, nullable: false,default: TipoDocumento.RNC })
+    tipoDocumento: string; 
     @Column({ type: 'varchar' ,length: 25, nullable: true })
     rcn: string; 
-    @Column({ type: 'varchar', length: 25, nullable: true,default: Status.ACTIVO })
+    @Column({ type: 'varchar', length: 25, nullable: false,default: Status.ACTIVO })
     status: string; 
     @OneToMany((type) => Contacto, (contacto) => contacto.cliente, { eager: true })
    

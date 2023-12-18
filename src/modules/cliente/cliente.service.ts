@@ -5,6 +5,7 @@ import { Cliente } from './entities/cliente.entity';
 import { Repository } from 'typeorm';
 import { Contacto } from '../contacto/entities/contacto.entity';
 import { Status } from '../../EntityStatus/entity.estatus.enum';
+import { TipoDocumento } from './tipo-documento.enum';
 
 
 @Injectable()
@@ -20,10 +21,16 @@ export class ClienteService {
     });
 
     if (findCliente) {
-      throw new ConflictException('El Cliente ya existe');
+      findCliente.status = Status.ACTIVO;
+     return await this.clienteRepository.save(findCliente);
     }
-
     const cliente: Cliente = new Cliente();
+   if(createClienteDto.tipoDocumento == 'cedula'){
+   cliente.tipoDocumento = TipoDocumento.CEDULA;
+   }else{
+    cliente.tipoDocumento = TipoDocumento.RNC;
+   }
+    
     cliente.nombre = createClienteDto.nombre;
     cliente.direccion = createClienteDto.direccion;
     cliente.telefono = createClienteDto.telefono;
@@ -48,6 +55,11 @@ export class ClienteService {
     throw new NotFoundException("El cliente no existe");
 
   }
+  if(updateClienteDto.tipoDocumento == 'cedula'){
+    findCliente.tipoDocumento = TipoDocumento.CEDULA;
+    }else{
+      findCliente.tipoDocumento = TipoDocumento.RNC;
+    }
   findCliente.nombre = updateClienteDto.nombre;
   findCliente.direccion = updateClienteDto.direccion;
   findCliente.telefono = updateClienteDto.telefono;
