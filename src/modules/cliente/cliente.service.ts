@@ -26,12 +26,12 @@ export class ClienteService {
     }
     const cliente: Cliente = new Cliente();
    if(createClienteDto.tipoDocumento == 'cedula'){
-    if(createClienteDto.tipoDocumento.length != 11){
+    if(createClienteDto.rnc.length != 11){
       throw new BadRequestException("El formato de la cedula esta mal");
     }
    cliente.tipoDocumento = TipoDocumento.CEDULA;
    }else{
-    if(createClienteDto.tipoDocumento.length != 9){
+    if(createClienteDto.rnc.length != 9){
       throw new BadRequestException("El formato del RNC esta mal");
     }
     cliente.tipoDocumento = TipoDocumento.RNC;
@@ -62,12 +62,12 @@ export class ClienteService {
 
   }
   if(updateClienteDto.tipoDocumento == 'cedula'){
-    if(updateClienteDto.tipoDocumento.length !=11){
+    if(updateClienteDto.rnc.length !=11){
       throw new BadRequestException("El formato de la cedula esta mal");
     }
     findCliente.tipoDocumento = TipoDocumento.CEDULA;
     }else{
-      if(updateClienteDto.tipoDocumento.length !=9){
+      if(updateClienteDto.rnc.length !=9){
         throw new BadRequestException("El formato del RNC esta mal");
       }
       findCliente.tipoDocumento = TipoDocumento.RNC;
