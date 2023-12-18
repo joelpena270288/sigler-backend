@@ -15,12 +15,18 @@ export class TipoEquipoService {
   ) {}
 
  async create(createTipoEquipoDto: CreateTipoEquipoDto): Promise<TipoEquipo> {
+  const foundTipoEquipo: TipoEquipo = this.tipoEquipoRepository.findOne({where:{name: createTipoEquipoDto.name.toUpperCase()}});
+if(foundTipoEquipo){
+  foundTipoEquipo.status = Status.ACTIVO;
+  return await this.tipoEquipoRepository.save(foundTipoEquipo);
+}else{
+  const newTipoEquipo: TipoEquipo  = new TipoEquipo();
+  newTipoEquipo.name = createTipoEquipoDto.name.toUpperCase();
+  
+  
+      return await this.tipoEquipoRepository.save(newTipoEquipo);
+}
 
-const newTipoEquipo: TipoEquipo  = new TipoEquipo();
-newTipoEquipo.name = createTipoEquipoDto.name.toUpperCase();
-
-
-    return await this.tipoEquipoRepository.save(newTipoEquipo);
   }
 
  async findAll(): Promise<TipoEquipo[]> {
