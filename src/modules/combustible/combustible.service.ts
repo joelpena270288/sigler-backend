@@ -31,7 +31,7 @@ export class CombustibleService {
     if(!foundCombustible){
       throw new NotFoundException('No existe el combustible introducido');
     }
-    foundCombustible.name = updateCombustibleDto.name;
+    foundCombustible.name = updateCombustibleDto.name.toUpperCase();
     foundCombustible.updatedAt = new Date();
 
     return await this.combustibleRepository.save(foundCombustible);
