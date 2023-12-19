@@ -7,7 +7,7 @@ export class Transporte{
     cantidadViaje: number;  
     horainicio: string;
     horaFin: string;
-    cantidadHora: number;
+    cantidadHora: string;
     desde: string;
     hasta: string;
     fecha: Date;

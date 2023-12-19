@@ -46,7 +46,7 @@ async  getReport(filtro: Filtro):Promise<ReadReportTrabajadorConduceDto> {
         {
           const viajes: Viajes = new Viajes();
           viajes.ajuste =  listConduce[index].proyecto.ajuste;
-          viajes.cantidadHora = parseFloat(listConduce[index].horas);
+          viajes.cantidadHora = listConduce[index].horas;
           viajes.cantidadViaje = listConduce[index].cantViajes;
           viajes.cliente = listConduce[index].proyecto.cliente.nombre;
           viajes.consecutivo = listConduce[index].consecutivo;
@@ -66,7 +66,7 @@ async  getReport(filtro: Filtro):Promise<ReadReportTrabajadorConduceDto> {
           {
             const hora: ReadHora = new ReadHora();
            hora.ajuste = listConduce[index].proyecto.ajuste;
-           hora.cantidadHora = parseFloat(listConduce[index].horas) ;
+           hora.cantidadHora = listConduce[index].horas ;
            hora.cliente = listConduce[index].proyecto.cliente.nombre;
            hora.consecutivo = listConduce[index].consecutivo;
            hora.equipo = listConduce[index].equipo.ficha;
@@ -83,7 +83,7 @@ async  getReport(filtro: Filtro):Promise<ReadReportTrabajadorConduceDto> {
             {
               const transport: Transporte = new Transporte();
               transport.ajuste = listConduce[index].proyecto.ajuste;
-              transport.cantidadHora = parseFloat(listConduce[index].horas);
+              transport.cantidadHora = listConduce[index].horas;
               transport.cantidadViaje = listConduce[index].cantViajes;
               transport.cliente = listConduce[index].proyecto.cliente.nombre;
               transport.consecutivo = listConduce[index].consecutivo;

@@ -8,7 +8,7 @@ export class Viajes{
     volumen: number;
     horainicio: string;
     horaFin: string;
-    cantidadHora: number;
+    cantidadHora: string;
     desde: string;
     hasta: string;
     fecha: Date;

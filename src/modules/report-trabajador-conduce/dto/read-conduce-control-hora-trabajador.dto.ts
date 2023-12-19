@@ -9,7 +9,7 @@ equipo: string;
 fecha: Date;
 horaInicio: string;
 horaFin: string;
-cantidadHora: number;
+cantidadHora: string;
 
 
 }
