@@ -18,7 +18,7 @@ import { Servicio } from '../servicio/entities/servicio.entity';
 import { TipoConduce } from './type-conduce.enum';
 import { EstatusConduce } from './status.enum';
 import { ApiTooManyRequestsResponse } from '@nestjs/swagger';
-import moment from 'moment';
+import * as moment from 'moment';
 
 @Injectable()
 export class ConduceService {
@@ -113,12 +113,12 @@ export class ConduceService {
       throw new BadRequestException('Debe introducir un Modelo de Conduce');
     }
 
-    const desde = moment(createConduceDto.horaInicio,'HH:mm:ss');
+    const desde = moment(createConduceDto.fecha +" " +  createConduceDto.horaInicio, "YYYY-MM-DD HH:mm:ss");
     //  desde.setHours(
     //  parseInt(createConduceDto.horaInicio.split(':')[0]),
     //   parseInt(createConduceDto.horaInicio.split(':')[1]),
     //  );
-    const hasta = moment(createConduceDto.horaFin,'HH:mm:ss');
+    const hasta = moment(createConduceDto.fecha +" " + createConduceDto.horaFin, "YYYY-MM-DD HH:mm:ss");
     // hasta.setHours(
     //   parseInt(createConduceDto.horaFin.split(':')[0]),
     //   parseInt(createConduceDto.horaFin.split(':')[1]),
@@ -139,10 +139,10 @@ export class ConduceService {
     newConduce.firma_chofer = createConduceDto.firma_chofer;
     newConduce.firma_cliente = createConduceDto.firma_cliente;
     //const hora2 =  ((hasta.getTime() - desde.getTime())/3600000);
-    const hora2 = moment(hasta).diff(desde);
+   
     const duration = moment.duration(hasta.diff(desde));
     //let diferenciaEnMilisegundos = hasta.getTime() - desde.getTime();
-    newConduce.horas = duration.hours().toString();
+    newConduce.horas = moment(duration.hours().toString() + " " +  duration.minutes().toString(),"HH:mm").format("HH:mm");
 
     return await this.conduceRepository.save(newConduce);
   }
