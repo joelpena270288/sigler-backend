@@ -26,9 +26,9 @@ export class EmpleadoService {
       }
     });
     if (foundEmpleado) {
-      throw new ConflictException(
-        'Existe un empleado con cedula o pasaporte introducido',
-      );
+      foundEmpleado.status = Status.ACTIVO;
+      return await this.empleadoRepository.save(foundEmpleado);
+     
     }
 
     const cargos: Cargo[] = [];
