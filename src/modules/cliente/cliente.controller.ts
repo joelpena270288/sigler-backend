@@ -12,9 +12,9 @@ export class ClienteController {
   constructor(private readonly clienteService: ClienteService) {}
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
+    
     RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+  
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
@@ -56,9 +56,9 @@ export class ClienteController {
   }
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
+   
     RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+   
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')

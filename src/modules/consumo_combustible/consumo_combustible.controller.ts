@@ -16,7 +16,8 @@ export class ConsumoCombustibleController {
   create(@Body() createConsumoCombustibleDto: CreateConsumoCombustibleDto) {
     return this.consumoCombustibleService.create(createConsumoCombustibleDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.consumoCombustibleService.findAll();
@@ -26,7 +27,8 @@ export class ConsumoCombustibleController {
   findOne(@Param('id') id: string) {
     return this.consumoCombustibleService.findOne(+id);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateConsumoCombustibleDto: UpdateConsumoCombustibleDto) {
     return this.consumoCombustibleService.update(+id, updateConsumoCombustibleDto);

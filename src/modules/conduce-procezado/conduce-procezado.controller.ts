@@ -32,13 +32,15 @@ export class ConduceProcezadoController {
   update(@Param('id') id: string, @Body() updateConduceProcezadoDto: UpdateConduceProcezadoDto) {
     return this.conduceProcezadoService.update(id, updateConduceProcezadoDto);
   }
-  
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
    @Patch('/byidconduce/:id')
   updateByIdConduce(@Param('id') id: string, @Body() updateConduceProcezadoDto: UpdateConduceProcezadoDto) {
     return this.conduceProcezadoService.updateByIdConduce(id, updateConduceProcezadoDto);
   }
 
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.conduceProcezadoService.remove(+id);

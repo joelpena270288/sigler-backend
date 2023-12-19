@@ -16,7 +16,8 @@ export class B14Controller {
   create(@Body() createB14Dto: CreateB14Dto) {
     return this.b14Service.create(createB14Dto);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/all')
   findAll() {
     return this.b14Service.findAll();

@@ -10,31 +10,31 @@ import { RoleEnum } from '../role/enums/role.enum';
 @Controller('combustible')
 export class CombustibleController {
   constructor(private readonly combustibleService: CombustibleService) {}
-  @HasRoles(RoleEnum.ADMIN)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createCombustibleDto: CreateCombustibleDto) {
     return this.combustibleService.create(createCombustibleDto);
   }
-  @HasRoles(RoleEnum.ADMIN)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.combustibleService.findAll();
   }
-  @HasRoles(RoleEnum.ADMIN)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.combustibleService.findOne(id);
   }
-  @HasRoles(RoleEnum.ADMIN)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCombustibleDto: UpdateCombustibleDto) {
     return this.combustibleService.update(id, updateCombustibleDto);
   }
-  @HasRoles(RoleEnum.ADMIN)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

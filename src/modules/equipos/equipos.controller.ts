@@ -14,7 +14,7 @@ export class EquiposController {
     RoleEnum.ADMIN,
     RoleEnum.DIGITADOR,
     RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+  
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
@@ -47,7 +47,7 @@ export class EquiposController {
     RoleEnum.ADMIN,
     RoleEnum.DIGITADOR,
     RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+   
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
@@ -58,7 +58,7 @@ export class EquiposController {
     RoleEnum.ADMIN,
     RoleEnum.DIGITADOR,
     RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+ 
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')

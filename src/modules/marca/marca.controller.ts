@@ -12,9 +12,9 @@ export class MarcaController {
   constructor(private readonly marcaService: MarcaService) {}
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
+   
     RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+    
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
@@ -45,9 +45,9 @@ export class MarcaController {
   }
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
+ 
     RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+   
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
@@ -56,9 +56,9 @@ export class MarcaController {
   }
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
+    
     RoleEnum.FACTURADOR,
-    RoleEnum.RH,
+
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')

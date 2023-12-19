@@ -10,27 +10,32 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('pre-factura')
 export class PreFacturaController {
   constructor(private readonly preFacturaService: PreFacturaService) {}
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createPreFacturaDto: CreatePreFacturaDto) {
     return this.preFacturaService.create(createPreFacturaDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.preFacturaService.findAll();
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.preFacturaService.findOne(+id);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePreFacturaDto: UpdatePreFacturaDto) {
     return this.preFacturaService.update(+id, updatePreFacturaDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.preFacturaService.remove(+id);

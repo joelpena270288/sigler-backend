@@ -19,25 +19,25 @@ import { HasRoles } from '../role/roles.decorator';
 @Controller('impuestos')
 export class ImpuestosController {
   constructor(private readonly impuestosService: ImpuestosService) {}
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,  RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createImpuestoDto: CreateImpuestoDto) {
     return this.impuestosService.create(createImpuestoDto);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.impuestosService.findAll();
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,  RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.impuestosService.findOne(id);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,  RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(
@@ -46,7 +46,7 @@ export class ImpuestosController {
   ) {
     return this.impuestosService.update(id, updateImpuestoDto);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,  RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

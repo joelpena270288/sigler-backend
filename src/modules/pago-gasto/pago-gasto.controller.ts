@@ -16,17 +16,30 @@ export class PagoGastoController {
   create(@Body() createPagoGastoDto: CreatePagoGastoDto) {
     return this.pagoGastoService.create(createPagoGastoDto);
   }
-
+  @HasRoles(
+    RoleEnum.ADMIN,
+    RoleEnum.DIGITADOR,
+    RoleEnum.FACTURADOR,
+    RoleEnum.RH,
+  )
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.pagoGastoService.findAll();
   }
-
+  @HasRoles(
+    RoleEnum.ADMIN,
+    RoleEnum.DIGITADOR,
+    RoleEnum.FACTURADOR,
+    RoleEnum.RH,
+  )
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pagoGastoService.findOne(id);
   }
-
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePagoGastoDto: UpdatePagoGastoDto) {
     return this.pagoGastoService.update(id, updatePagoGastoDto);
