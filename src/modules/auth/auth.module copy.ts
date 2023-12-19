@@ -24,7 +24,7 @@ import { UsersModule } from '../users/users.module';
         return {
           secret: config.get(Configuration.JWT_SECRET),
           signOption: {
-            expiresIn: 3600,
+            expiresIn: 36000,
           },
         };
       },
