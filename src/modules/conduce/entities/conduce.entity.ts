@@ -50,10 +50,10 @@ export class Conduce {
   firma_cliente: string;
   @Column({ type: 'varchar', nullable: true })
   observaciones: string;
-  @Column({ type: 'timestamp', nullable: false })
-  horaInicio: Date;
-  @Column({ type: 'timestamp', nullable: false })
-  horaFin: Date;
+  @Column({ type: 'varchar', nullable: false })
+  horaInicio: string;
+  @Column({ type: 'varchar', nullable: false })
+  horaFin: string;
   @Column({ type: 'varchar', nullable: true })
   desde: string;
   @Column({ type: 'varchar', nullable: true })
@@ -62,8 +62,8 @@ export class Conduce {
   cantViajes: number;
   @Column({ type: 'decimal', nullable: true, precision: 10, scale: 2 })
   metrosCubicos: number;
-   @Column({ type: 'decimal', nullable: false, default: 0, precision: 10, scale: 2 })
-  horas: number;
+   @Column({ type: 'varchar', nullable: false })
+  horas: string;
 
   @CreateDateColumn({ type: 'timestamp', name: 'fecha', nullable: false })
   fecha: Date;

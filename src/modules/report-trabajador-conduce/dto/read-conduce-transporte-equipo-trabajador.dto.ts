@@ -5,8 +5,8 @@ export class Transporte{
     cliente: string;
     equipo: string;
     cantidadViaje: number;  
-    horainicio: Date;
-    horaFin: Date;
+    horainicio: string;
+    horaFin: string;
     cantidadHora: number;
     desde: string;
     hasta: string;

@@ -18,6 +18,7 @@ import { Servicio } from '../servicio/entities/servicio.entity';
 import { TipoConduce } from './type-conduce.enum';
 import { EstatusConduce } from './status.enum';
 import { ApiTooManyRequestsResponse } from '@nestjs/swagger';
+import moment from 'moment';
 
 @Injectable()
 export class ConduceService {
@@ -97,7 +98,7 @@ export class ConduceService {
           'Debe introducir punto de partida y punto de llegada',
         );
       }
-	   if (createConduceDto.cantidadViaje < 1) {
+      if (createConduceDto.cantidadViaje < 1) {
         throw new BadRequestException(
           'La cantidad de viajes no puede ser menor que 1',
         );
@@ -105,28 +106,30 @@ export class ConduceService {
       newConduce.name = TipoConduce.TRANSPORTEEQUIPO;
       newConduce.desde = createConduceDto.desde.toUpperCase();
       newConduce.hasta = createConduceDto.hasta.toUpperCase();
-	  newConduce.cantViajes = createConduceDto.cantidadViaje;
+      newConduce.cantViajes = createConduceDto.cantidadViaje;
     } else if (createConduceDto.name === TipoConduce.CONTROLHORA) {
       newConduce.name = TipoConduce.CONTROLHORA;
     } else {
       throw new BadRequestException('Debe introducir un Modelo de Conduce');
     }
 
-    const desde = new Date(createConduceDto.fecha);
-    desde.setHours(
-      parseInt(createConduceDto.horaInicio.split(':')[0]),
-      parseInt(createConduceDto.horaInicio.split(':')[1]),
-    );
-    const hasta = new Date(createConduceDto.fecha);
-    hasta.setHours(
-      parseInt(createConduceDto.horaFin.split(':')[0]),
-      parseInt(createConduceDto.horaFin.split(':')[1]),
-    );
-    if(desde> hasta){
-      throw new BadRequestException('La hora de inicio debe ser menor que la fin');
+    const desde = moment(createConduceDto.horaInicio,'HH:mm:ss');
+    //  desde.setHours(
+    //  parseInt(createConduceDto.horaInicio.split(':')[0]),
+    //   parseInt(createConduceDto.horaInicio.split(':')[1]),
+    //  );
+    const hasta = moment(createConduceDto.horaFin,'HH:mm:ss');
+    // hasta.setHours(
+    //   parseInt(createConduceDto.horaFin.split(':')[0]),
+    //   parseInt(createConduceDto.horaFin.split(':')[1]),
+    // );
+    if (desde > hasta) {
+      throw new BadRequestException(
+        'La hora de inicio debe ser menor que la fin',
+      );
     }
-    newConduce.horaFin = hasta;
-    newConduce.horaInicio = desde;
+    newConduce.horaFin = hasta.toString();
+    newConduce.horaInicio = desde.toString();
     newConduce.observaciones = createConduceDto.observaciones;
     newConduce.proyecto = foundProyecto;
     newConduce.servicio = foundServicio;
@@ -135,21 +138,21 @@ export class ConduceService {
     newConduce.equipo = foundEquipo;
     newConduce.firma_chofer = createConduceDto.firma_chofer;
     newConduce.firma_cliente = createConduceDto.firma_cliente;
-	const hora2 =  ((hasta.getTime() - desde.getTime())/3600000);
-	//let diferenciaEnMilisegundos = hasta.getTime() - desde.getTime();
-	newConduce.horas = Number(hora2.toFixed(2));
+    //const hora2 =  ((hasta.getTime() - desde.getTime())/3600000);
+    const hora2 = moment(hasta).diff(desde);
+    const duration = moment.duration(hasta.diff(desde));
+    //let diferenciaEnMilisegundos = hasta.getTime() - desde.getTime();
+    newConduce.horas = duration.hours().toString();
 
     return await this.conduceRepository.save(newConduce);
   }
 
   async findAll(): Promise<Conduce[]> {
     return await this.conduceRepository.find({
-		
-	 relations: {
+      relations: {
         proyecto: true,
-
-    },	
-      where: { status: Not(EstatusConduce.CANCELADO)  },
+      },
+      where: { status: Not(EstatusConduce.CANCELADO) },
     });
   }
 
@@ -163,17 +166,16 @@ export class ConduceService {
     return `This action updates a #${id} conduce`;
   }
 
- async remove(id: string): Promise<Conduce> {
- const foundConduce: Conduce =  await   this.conduceRepository.findOne({
+  async remove(id: string): Promise<Conduce> {
+    const foundConduce: Conduce = await this.conduceRepository.findOne({
       where: { id: id },
     });
-    if(!foundConduce){
-      throw new NotFoundException("No existe el conduce");
+    if (!foundConduce) {
+      throw new NotFoundException('No existe el conduce');
     }
     foundConduce.status = EstatusConduce.CANCELADO;
 
-   return  await this.conduceRepository.save(foundConduce);
-  
+    return await this.conduceRepository.save(foundConduce);
   }
   async getAcarreoByIdProyecto(idProyecto: string): Promise<Conduce[]> {
     const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
@@ -185,22 +187,18 @@ export class ConduceService {
     return await this.conduceRepository.find({
       relations: {
         proyecto: false,
-		empleado: true,
-		equipo: true,
-		servicio: true
-        
-    },
-    where: {
+        empleado: true,
+        equipo: true,
+        servicio: true,
+      },
+      where: {
         proyecto: {
-            id: idProyecto ,
-          
+          id: idProyecto,
         },
         name: TipoConduce.TRANSPORTEEQUIPO,
-        status: Not( EstatusConduce.CANCELADO)
-	
-    },
+        status: Not(EstatusConduce.CANCELADO),
+      },
     });
-    
   }
 
   async getControlHoraByIdProyecto(idProyecto: string): Promise<Conduce[]> {
@@ -213,16 +211,14 @@ export class ConduceService {
     return await this.conduceRepository.find({
       relations: {
         proyecto: false,
-
-    },
-    where: {
+      },
+      where: {
         proyecto: {
-            id: idProyecto,
-          
+          id: idProyecto,
         },
         name: TipoConduce.CONTROLHORA,
-        status: Not( EstatusConduce.CANCELADO)
-    },
+        status: Not(EstatusConduce.CANCELADO),
+      },
     });
   }
   async getControlViajeByIdProyecto(idProyecto: string): Promise<Conduce[]> {
@@ -235,16 +231,14 @@ export class ConduceService {
     return await this.conduceRepository.find({
       relations: {
         proyecto: false,
-    },
-    where: {
+      },
+      where: {
         proyecto: {
-            id: idProyecto,
-          
-          
+          id: idProyecto,
         },
         name: TipoConduce.CONTROLVIAJE,
-		status: Not( EstatusConduce.CANCELADO)
-    },
+        status: Not(EstatusConduce.CANCELADO),
+      },
     });
   }
 }

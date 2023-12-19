@@ -7,8 +7,8 @@ ajuste: boolean;
 cliente: string;
 equipo: string;
 fecha: Date;
-horaInicio: Date;
-horaFin: Date;
+horaInicio: string;
+horaFin: string;
 cantidadHora: number;
 
 

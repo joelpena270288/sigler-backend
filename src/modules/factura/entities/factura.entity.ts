@@ -36,6 +36,7 @@ export class Factura {
     @OneToMany(() => ServicioProcesado, (servicio_procesado) => servicio_procesado.factura, {
       nullable: true,
       eager: true,
+      cascade: true
     })
     servicioProcesado: ServicioProcesado[];
   
@@ -88,6 +89,7 @@ export class Factura {
   @OneToMany(() => PagoFactura, (pagos) => pagos.factura, {
     nullable: true,
     eager: true,
+    cascade: true
   })
   pagos: PagoFactura[];
   @Column({ type: 'varchar', nullable: false, default: TipoPagoFactura.TRANSFERENCIA})
