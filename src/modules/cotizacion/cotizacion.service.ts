@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { CreateCotizacionDto } from './dto/create-cotizacion.dto';
 import { UpdateCotizacionDto } from './dto/update-cotizacion.dto';
-import { Double, Repository } from 'typeorm';
+import { Double, Not, Repository } from 'typeorm';
 import { Proyecto } from '../proyecto/entities/proyecto.entity';
 import { Cotizacion } from './entities/cotizacion.entity';
 import { PreFactura } from '../pre-factura/entities/pre-factura.entity';
