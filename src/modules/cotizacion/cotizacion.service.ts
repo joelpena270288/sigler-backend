@@ -99,6 +99,9 @@ export class CotizacionService {
     if (!foundCotizacion) {
       throw new NotFoundException('El servicio  no existe');
     }
+    const dif =
+    parseFloat(updateCotizacionDto.cantidad.toString()) -
+    parseFloat(foundCotizacion.cantidad.toString());
 
     foundCotizacion.UM = updateCotizacionDto.UM;
     foundCotizacion.cantidad = updateCotizacionDto.cantidad;
@@ -130,10 +133,7 @@ export class CotizacionService {
         throw new NotFoundException('Error al Insertar');
       }
 
-      const dif =
-        parseFloat(updateCotizacionDto.cantidad.toString()) -
-        parseFloat(foundCotizacion.cantidad.toString());
-
+    
       foundPrefactura.UM = savedCotizacion.UM;
       foundPrefactura.cantidad = parseFloat(foundPrefactura.cantidad.toString()) + dif;
       foundPrefactura.importe = savedCotizacion.importe;
@@ -152,13 +152,13 @@ export class CotizacionService {
 
   async remove(id: string): Promise<Cotizacion> {
     const cotizacion: Cotizacion = await this.cotizacionRepository.findOne({
-      where: { id: id, status: Status.ACTIVO },
+      where: { id: id, status: Not( Status.INACTIVO )},
     });
     if (!cotizacion) {
       throw new NotFoundException('El servicio  no existe');
     }
     const foundPrefactura: PreFactura = await this.preFacturaRepository.findOne(
-      { where: { idCotizacion: cotizacion.id, status: Status.ACTIVO } },
+      { where: { idCotizacion: cotizacion.id, status: Not(Status.INACTIVO ) } },
     );
     if (foundPrefactura) {
       foundPrefactura.status = Status.INACTIVO;
