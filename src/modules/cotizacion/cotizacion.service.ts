@@ -136,7 +136,7 @@ export class CotizacionService {
     if(dif+ parseFloat(foundPrefactura.cantidad.toString())<0){
       foundCotizacion.cantidad = savedcantidad; 
       await this.cotizacionRepository.save(foundCotizacion);
-      throw new BadRequestException("La Cantidad facturada es mayor a la cantidad modifacada");
+      throw new BadRequestException("La Cantidad modificada es menor que la cantidad facturada");
      
     }
       foundPrefactura.UM = savedCotizacion.UM;
