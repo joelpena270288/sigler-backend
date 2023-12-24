@@ -102,7 +102,7 @@ export class CotizacionService {
     const dif =
     parseFloat(updateCotizacionDto.cantidad.toString()) -
     parseFloat(foundCotizacion.cantidad.toString());
-     const savedcantidad = parseFloat(updateCotizacionDto.cantidad.toString());
+     const savedcantidad = parseFloat( foundCotizacion.cantidad.toString());
     foundCotizacion.UM = updateCotizacionDto.UM;
     foundCotizacion.cantidad = updateCotizacionDto.cantidad;
     foundCotizacion.precio = updateCotizacionDto.precio;
