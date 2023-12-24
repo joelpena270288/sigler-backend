@@ -87,7 +87,7 @@ export class CotizacionService {
     const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
       where: {
         id: updateCotizacionDto.proyectoId,
-        status: StatusProyecto.CREADO,
+        status:Not( StatusProyecto.CANCELADO),
       },
     });
     if (!foundProyecto) {
