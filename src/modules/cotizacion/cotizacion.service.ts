@@ -131,7 +131,7 @@ export class CotizacionService {
       }
 
       const dif =
-        parseFloat(updateCotizacionDto.cantidad) -
+        parseFloat(updateCotizacionDto.cantidad.toString()) -
         parseFloat(foundCotizacion.cantidad.toString());
 
       foundPrefactura.UM = savedCotizacion.UM;
