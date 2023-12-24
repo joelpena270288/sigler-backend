@@ -102,7 +102,7 @@ export class CotizacionService {
     const dif =
     parseFloat(updateCotizacionDto.cantidad.toString()) -
     parseFloat(foundCotizacion.cantidad.toString());
-
+     const savedcantidad = parseFloat(updateCotizacionDto.cantidad);
     foundCotizacion.UM = updateCotizacionDto.UM;
     foundCotizacion.cantidad = updateCotizacionDto.cantidad;
     foundCotizacion.precio = updateCotizacionDto.precio;
@@ -133,7 +133,12 @@ export class CotizacionService {
         throw new NotFoundException('Error al Insertar');
       }
 
-    
+    if(dif+ parseFloat(foundPrefactura.cantidad)<0){
+      foundCotizacion.cantidad = savedcantidad; 
+      await this.cotizacionRepository.save(foundCotizacion);
+      throw new BadRequestException("La Cantidad facturada es mayor a la cantidad modifacada");
+     
+    }
       foundPrefactura.UM = savedCotizacion.UM;
       foundPrefactura.cantidad = parseFloat(foundPrefactura.cantidad.toString()) + dif;
       foundPrefactura.importe = savedCotizacion.importe;
