@@ -26,6 +26,10 @@ export class Cliente {
     @Column({ type: 'varchar', length: 250, nullable: false })
     nombre: string;
     @Column({ type: 'varchar', length: 250, nullable: true })
+    nombrecontacto: string;
+    @Column({ type: 'varchar', length: 250, nullable: true })
+    email: string;
+    @Column({ type: 'varchar', length: 250, nullable: true })
     direccion: string;
     @Column({ type: 'varchar',length: 16, nullable: true })
     telefono: string;
