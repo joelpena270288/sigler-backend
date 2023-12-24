@@ -17,7 +17,7 @@ export class ClienteService {
 
   async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
     const findCliente = await this.clienteRepository.findOne({
-      where: { nombre: createClienteDto.nombre },
+      where: { nombre: createClienteDto.nombre.toUpperCase() },
     });
 
     if (findCliente) {
@@ -37,10 +37,12 @@ export class ClienteService {
     cliente.tipoDocumento = TipoDocumento.RNC;
    }
     
-    cliente.nombre = createClienteDto.nombre;
+    cliente.nombre = createClienteDto.nombre.toUpperCase();
     cliente.direccion = createClienteDto.direccion;
     cliente.telefono = createClienteDto.telefono;
     cliente.rcn = createClienteDto.rcn;
+    cliente.nombrecontacto = createClienteDto.nombrecontacto;
+    cliente.email = createClienteDto.email;
 
     return await this.clienteRepository.save(cliente);
   }
@@ -72,10 +74,12 @@ export class ClienteService {
       }
       findCliente.tipoDocumento = TipoDocumento.RNC;
     }
-  findCliente.nombre = updateClienteDto.nombre;
+  findCliente.nombre = updateClienteDto.nombre.toUpperCase();
   findCliente.direccion = updateClienteDto.direccion;
   findCliente.telefono = updateClienteDto.telefono;
   findCliente.rcn = updateClienteDto.rcn;
+  findCliente.nombrecontacto = updateClienteDto.nombrecontacto;
+  findCliente.email = updateClienteDto.email;
     return await this.clienteRepository.save(findCliente);
   }
 

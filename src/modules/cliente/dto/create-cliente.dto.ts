@@ -1,4 +1,4 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsEmail } from 'class-validator';
 export class CreateClienteDto {
   @IsString()
   nombre: string;
@@ -12,5 +12,9 @@ export class CreateClienteDto {
   rcn: string;
   @IsString()
   tipoDocumento: string;
+  @IsEmail()
+  email: string;
+  @IsString()
+  nombrecontacto: string;
 
 }
