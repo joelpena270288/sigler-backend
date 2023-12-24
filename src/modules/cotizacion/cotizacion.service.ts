@@ -133,7 +133,7 @@ export class CotizacionService {
         throw new NotFoundException('Error al Insertar');
       }
 
-    if(dif+ parseFloat(foundPrefactura.cantidad)<0){
+    if(dif+ parseFloat(foundPrefactura.cantidad.toString())<0){
       foundCotizacion.cantidad = savedcantidad; 
       await this.cotizacionRepository.save(foundCotizacion);
       throw new BadRequestException("La Cantidad facturada es mayor a la cantidad modifacada");
