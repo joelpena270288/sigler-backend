@@ -27,7 +27,7 @@ export class CotizacionService {
     const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
       where: {
         id: createCotizacionDto.proyectoId,
-        status: Not( StatusProyecto.CANCELADO),
+        status: Not(StatusProyecto.CANCELADO),
       },
     });
     if (!foundProyecto) {
@@ -87,7 +87,7 @@ export class CotizacionService {
     const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
       where: {
         id: updateCotizacionDto.proyectoId,
-        status:Not( StatusProyecto.CANCELADO),
+        status: Not(StatusProyecto.CANCELADO),
       },
     });
     if (!foundProyecto) {
@@ -130,10 +130,12 @@ export class CotizacionService {
         throw new NotFoundException('Error al Insertar');
       }
 
-     const dif = parseFloat(updateCotizacionDto.cantidad) - parseFloat(foundCotizacion.cantidad);
+      const dif =
+        parseFloat(updateCotizacionDto.cantidad) -
+        parseFloat(foundCotizacion.cantidad.toString());
 
       foundPrefactura.UM = savedCotizacion.UM;
-      foundPrefactura.cantidad = parseFloat( foundPrefactura.cantidad) + dif;
+      foundPrefactura.cantidad = parseFloat(foundPrefactura.cantidad.toString()) + dif;
       foundPrefactura.importe = savedCotizacion.importe;
       foundPrefactura.importeimpuesto = savedCotizacion.importeimpuesto;
       foundPrefactura.nombreServicio = savedCotizacion.nombreServicio;
@@ -161,10 +163,13 @@ export class CotizacionService {
     if (foundPrefactura) {
       foundPrefactura.status = Status.INACTIVO;
 
-      await this.preFacturaRepository.delete({id: foundPrefactura.id, consecutivo: foundPrefactura.consecutivo}  );
+      await this.preFacturaRepository.delete({
+        id: foundPrefactura.id,
+        consecutivo: foundPrefactura.consecutivo,
+      });
     }
 
-      await this.cotizacionRepository.delete(cotizacion.id);
+    await this.cotizacionRepository.delete(cotizacion.id);
 
     return cotizacion;
   }
