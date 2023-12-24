@@ -130,8 +130,10 @@ export class CotizacionService {
         throw new NotFoundException('Error al Insertar');
       }
 
+     const dif = parseFloat(updateCotizacionDto.cantidad) - parseFloat(foundCotizacion.cantidad);
+
       foundPrefactura.UM = savedCotizacion.UM;
-      foundPrefactura.cantidad = savedCotizacion.cantidad;
+      foundPrefactura.cantidad = parseFloat( foundPrefactura.cantidad) + dif;
       foundPrefactura.importe = savedCotizacion.importe;
       foundPrefactura.importeimpuesto = savedCotizacion.importeimpuesto;
       foundPrefactura.nombreServicio = savedCotizacion.nombreServicio;
