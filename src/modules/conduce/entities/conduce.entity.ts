@@ -84,6 +84,8 @@ export class Conduce {
   horasreportadastrabajado: string;
   @Column({ type: 'varchar', nullable: false ,default: '0.00'})
   horasreportadasequipo: string;
+  @Column({ type: 'varchar', nullable: false ,default: '0.00'})
+  cantidadConsummoCombustible: string;
 
   @PrimaryGeneratedColumn()
   consecutivo: number;

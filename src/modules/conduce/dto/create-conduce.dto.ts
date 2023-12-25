@@ -35,5 +35,6 @@ export class CreateConduceDto {
     reportadasequipo: string;
     @IsString()
     reportadastrabajador: string;
-
+    @IsString()
+    cantidadConsummoCombustible: string;
 }
