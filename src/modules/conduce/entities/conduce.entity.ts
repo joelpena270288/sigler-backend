@@ -80,7 +80,10 @@ export class Conduce {
     default: EstatusConduce.ABIERTO,
   })
   status: string;
-
+  @Column({ type: 'varchar', nullable: false,default: '0.00' })
+  horasreportadastrabajado: string;
+  @Column({ type: 'varchar', nullable: false ,default: '0.00'})
+  horasreportadasequipo: string;
 
   @PrimaryGeneratedColumn()
   consecutivo: number;

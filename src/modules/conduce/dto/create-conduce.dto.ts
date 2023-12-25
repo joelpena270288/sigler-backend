@@ -23,12 +23,17 @@ export class CreateConduceDto {
     horaInicio: string;
     @IsString()
     horaFin: string;
-    
-    desde: string;   
+    @IsString()
+    desde: string; 
+    @IsString()  
     hasta: string;   
-   
+    @IsString()
     idMaterial: string;
     cantidadViaje: number;
     metrosCubicos: number;
+    @IsString()
+    reportadasequipo: string;
+    @IsString()
+    reportadastrabajador: string;
 
 }

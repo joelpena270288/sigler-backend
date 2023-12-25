@@ -39,6 +39,8 @@ export class ConduceService {
   async create(createConduceDto: CreateConduceDto): Promise<Conduce> {
     let foundMaterial: Material;
     const newConduce: Conduce = new Conduce();
+    newConduce.horasreportadasequipo = createConduceDto.reportadasequipo;
+    newConduce.horasreportadastrabajado = createConduceDto.reportadastrabajador;
     const foundEquipo: Equipo = await this.equipoRepository.findOne({
       where: { id: createConduceDto.idEquipo },
     });
