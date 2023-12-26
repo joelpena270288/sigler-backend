@@ -97,7 +97,7 @@ export class UsersService {
       }
     }
     const userExists: User = await this.userRepository.findOne({
-      where: { id: id, status: Status.ACTIVO },
+      where: { id: id },
     });
     if (!userExists) {
       throw new ConflictException('el usuario no existe');
@@ -108,6 +108,8 @@ export class UsersService {
     userExists.details.lastname = updateUserDto.lastname;
     userExists.details.email = updateUserDto.email;
     userExists.roles = rolesfound;
+    userExists.status = Status.ACTIVO;
+    userExists.updatedAt = new Date();
     if( updateUserDto.password !==""){
        userExists.password = await bcrypt.hash(updateUserDto.password, salt);
     }
