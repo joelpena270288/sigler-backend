@@ -12,6 +12,10 @@ export class CreateGastosEmpresaDto {
     factura: string;
     @IsString()
     RNC: string;
+    @IsDecimal()
+    propina: number;  
+    @IsDecimal()
+    impuestoselectivoconsumo: number;
     @IsString()
     direccion: string; 
     @IsString()
