@@ -33,8 +33,8 @@ export class GastoItem {
         nullable: false,
       })
      gasto: GastosEmpresa;
-
-  
+	
+    @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
     status: string;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date;
