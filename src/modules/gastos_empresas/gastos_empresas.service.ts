@@ -92,7 +92,7 @@ export class GastosEmpresasService {
         valorTotal = valorTotal + parseFloat(gasto_item.valortotal.toString());
       }
     }
-    valorTotal = parseFloat(valorTotal.toString())  + ( parseFloat(createGastosEmpresaDto.impuestoselectivoconsumo.toString())+createGastosEmpresaDto.propina.toString()));
+    valorTotal = parseFloat(valorTotal.toString())  + ( parseFloat(createGastosEmpresaDto.impuestoselectivoconsumo.toString()) + parseFloat (createGastosEmpresaDto.propina.toString()));
     cuentaporpagar.montoinicial = valorTotal;
     cuentaporpagar.montorestante = valorTotal;
 
