@@ -69,7 +69,7 @@ export class GastosEmpresa {
   propina: number;
   @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
   impuestoselectivoconsumo: number;		
-  @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
+ 
   @Column({ type: 'varchar', nullable: false, default: StatusGasto.ACTIVO })
   status: string;
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
