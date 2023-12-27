@@ -36,7 +36,7 @@ export class PagoAnticipadosService {
   }
    const newPago: PagoAnticipado = new PagoAnticipado();
    newPago.cliente = findCliente;
-   newPago.numeroCheque = createPagoAnticipadoDto.numerocheque;
+   newPago.numerocheque = createPagoAnticipadoDto.numerocheque;
    newPago.numeroTransferencia = createPagoAnticipadoDto.numeroTransferencia;
    newPago.pago = createPagoAnticipadoDto.pago;
    newPago.cuenta = foundCuenta;
