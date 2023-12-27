@@ -17,6 +17,7 @@ import {
 import { Status } from '../../../EntityStatus/entity.estatus.enum';
 import { PagoFactura } from '../../pago-factura/entities/pago-factura.entity';
 import { PagoGasto } from '../../pago-gasto/entities/pago-gasto.entity';
+import { PagoAnticipado } from 'src/modules/pago-anticipados/entities/pago-anticipado.entity';
 
   @Entity('cuentas_empresa')
 export class CuentasEmpresa {
@@ -46,6 +47,13 @@ export class CuentasEmpresa {
        
       })
       pagosgastos: PagoGasto[];
+
+      @OneToMany(() => PagoAnticipado, (pagosanticipados) => pagosanticipados.cuenta, {
+        nullable: true
+       
+      })
+      pagosanticipados: PagoAnticipado[];
+
       @Column({ type: 'varchar', length: 25, nullable: true,default: Status.ACTIVO })
     status: string; 
 

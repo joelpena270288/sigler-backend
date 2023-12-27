@@ -1,5 +1,6 @@
 
 import { Cliente } from '../../cliente/entities/cliente.entity';
+import { CuentasEmpresa } from '../../cuentas-empresa/entities/cuentas-empresa.entity';
 import {
     BaseEntity,
     Column,
@@ -26,8 +27,13 @@ export class PagoAnticipado {
       cliente: Cliente;
       @Column({ type: 'decimal', nullable: true, precision: 10, scale: 2 })
       pago: number;
+      @ManyToOne(() => CuentasEmpresa, (cuenta) => cuenta.pagosanticipados, {   
+        nullable: false,
+		 eager: true,
+      })
+      cuenta: CuentasEmpresa; 
       @Column({ type: 'varchar', nullable: true})
-      numeroCheque: string;
+      numerocheque: string;
       @Column({ type: 'varchar', nullable: true})
       numeroTransferencia: string;
       @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
