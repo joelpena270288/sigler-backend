@@ -23,7 +23,7 @@ import { CotizacionModule } from './modules/cotizacion/cotizacion.module';
 import { GastosEmpresasModule } from './modules/gastos_empresas/gastos_empresas.module';
 
 import { IngresosModule } from './modules/ingresos/ingresos.module';
-import { ContactoModule } from './modules/contacto/contacto.module';
+
 import { LogModule } from './modules/log/log.module';
 import { ImpuestosModule } from './modules/impuestos/impuestos.module';
 import { MaterialModule } from './modules/material/material.module';
@@ -79,7 +79,7 @@ import { Report07Module } from './modules/report-07/report-07.module';
      GastosEmpresasModule,
    
      IngresosModule,
-     ContactoModule,   
+     
      LogModule,  
      ImpuestosModule,
      MaterialModule,

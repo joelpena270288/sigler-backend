@@ -26,6 +26,10 @@ export class PagoAnticipado {
       cliente: Cliente;
       @Column({ type: 'decimal', nullable: true, precision: 10, scale: 2 })
       pago: number;
+      @Column({ type: 'varchar', nullable: true})
+      numeroCheque: string;
+      @Column({ type: 'varchar', nullable: true})
+      numeroTransferencia: string;
       @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
       createdAt: Date; 
       @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

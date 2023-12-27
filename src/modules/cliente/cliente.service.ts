@@ -3,7 +3,7 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { Cliente } from './entities/cliente.entity';
 import { Repository } from 'typeorm';
-import { Contacto } from '../contacto/entities/contacto.entity';
+
 import { Status } from '../../EntityStatus/entity.estatus.enum';
 import { TipoDocumento } from './tipo-documento.enum';
 

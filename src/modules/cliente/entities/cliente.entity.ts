@@ -13,7 +13,7 @@ import {
   ManyToOne,
   BeforeInsert,
 } from 'typeorm';
-import { Contacto } from '../../contacto/entities/contacto.entity';
+
 import { Proyecto } from '../../proyecto/entities/proyecto.entity';
 import { Status } from '../../../EntityStatus/entity.estatus.enum';
 import{Factura} from '../../factura/entities/factura.entity';
@@ -39,9 +39,7 @@ export class Cliente {
     rcn: string; 
     @Column({ type: 'varchar', length: 25, nullable: false,default: Status.ACTIVO })
     status: string; 
-    @OneToMany((type) => Contacto, (contacto) => contacto.cliente, { eager: true })
    
-    contactos: Contacto[];
 
     @OneToMany(() => Proyecto, (proyecto) => proyecto.cliente)
     proyectos: Proyecto[];
