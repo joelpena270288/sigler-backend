@@ -31,6 +31,7 @@ export class PagoAnticipadosService {
     throw new BadRequestException("Error al generar el pago anticipado")
    }
    findCliente.credito.monto = parseFloat(findCliente.credito.toString()) + parseFloat(savedPago.pago.toString());
+   await this.clienteRepository.save(findCliente);
     return savedPago;
   }
 
