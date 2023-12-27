@@ -70,7 +70,7 @@ export class PagoAnticipadosService {
     .innerJoinAndSelect('pago.cuenta','cuenta') 
     .innerJoinAndSelect('cuenta.moneda','moneda')   
      
-    .where('cliente.id >= :idcliente',{idcliente: idcliente }) 
+    .where('cliente.id = :idcliente',{idcliente: idcliente }) 
    
     .getMany();
 
