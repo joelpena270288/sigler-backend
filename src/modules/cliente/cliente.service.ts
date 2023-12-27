@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 
 import { Status } from '../../EntityStatus/entity.estatus.enum';
 import { TipoDocumento } from './tipo-documento.enum';
+import { Credito } from './entities/credito.entity';
 
 
 @Injectable()
@@ -25,6 +26,7 @@ export class ClienteService {
      return await this.clienteRepository.save(findCliente);
     }
     const cliente: Cliente = new Cliente();
+    const credito: Credito = new Credito();
    if(createClienteDto.tipoDocumento == 'cedula'){
     if(createClienteDto.rcn.length != 11){
       throw new BadRequestException("El formato de la cedula esta mal");
@@ -43,6 +45,7 @@ export class ClienteService {
     cliente.rcn = createClienteDto.rcn;
     cliente.nombrecontacto = createClienteDto.nombrecontacto;
     cliente.email = createClienteDto.email;
+    cliente.credito = credito;
 
     return await this.clienteRepository.save(cliente);
   }

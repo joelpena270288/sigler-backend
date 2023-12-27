@@ -21,7 +21,7 @@ export class PagoAnticipadosController {
   constructor(
     private readonly pagoAnticipadosService: PagoAnticipadosService,
   ) {}
-  @HasRoles(RoleEnum.ADMIN)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createPagoAnticipadoDto: CreatePagoAnticipadoDto) {

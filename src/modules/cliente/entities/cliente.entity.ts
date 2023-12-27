@@ -19,6 +19,7 @@ import { Status } from '../../../EntityStatus/entity.estatus.enum';
 import{Factura} from '../../factura/entities/factura.entity';
 import { PagoAnticipado } from '../../pago-anticipados/entities/pago-anticipado.entity';
 import { TipoDocumento } from '../tipo-documento.enum';
+import { Credito } from './credito.entity';
 @Entity('clientes')
 export class Cliente {
     @PrimaryGeneratedColumn('uuid')
@@ -49,6 +50,14 @@ export class Cliente {
     facturas: Factura[];
     @PrimaryGeneratedColumn()
     consecutivo: number;
+    @OneToOne((type) => Credito, {
+      cascade: true,
+      nullable: false,
+      eager: true,
+    })
+    @JoinColumn({ name: 'credito' })
+    credito: Credito;
+
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
     createdAt: Date;
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at' })
