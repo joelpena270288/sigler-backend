@@ -39,7 +39,7 @@ export class Cliente {
     rcn: string; 
     @Column({ type: 'varchar', length: 25, nullable: false,default: Status.ACTIVO })
     status: string; 
-   
+
 
     @OneToMany(() => Proyecto, (proyecto) => proyecto.cliente)
     proyectos: Proyecto[];

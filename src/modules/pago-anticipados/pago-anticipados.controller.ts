@@ -64,4 +64,14 @@ export class PagoAnticipadosController {
   remove(@Param('id') id: string) {
     return this.pagoAnticipadosService.remove(+id);
   }
+  @HasRoles(
+    RoleEnum.ADMIN,  
+    RoleEnum.FACTURADOR,
+  
+  )
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/getAllByIdCliente/:id')
+  getAllByIdCliente(@Param('id') id: string) {
+    return this.pagoAnticipadosService.findAllByCliente(id);
+  }
 }
