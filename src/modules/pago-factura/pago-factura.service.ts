@@ -86,12 +86,13 @@ export class PagoFacturaService {
       newPagoAnticipado.numerocheque = createPagoFacturaDto.numerocheque;
       newPagoAnticipado.cuenta = foundCuenta;
       pagoFactura.pagoanticipado = newPagoAnticipado;
+      foundFactura.cliente.credito.monto = parseFloat(foundFactura.cliente.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
     }
 
     pagoFactura.cuenta = foundCuenta;
     pagoFactura.factura = foundFactura;
     pagoFactura.numerocheque = createPagoFacturaDto.numerocheque;
-
+    foundFactura.cliente.credito.updatedAt = new Date();
     const savedFactura: Factura =
       await this.facturaRepository.save(foundFactura);
     if (!savedFactura) {
@@ -175,6 +176,8 @@ export class PagoFacturaService {
       newPagoAnticipado.numeroTransferencia = foundPagoAnticipo.numeroTransferencia;
       newPagoAnticipado.cuenta = foundPagoAnticipo.cuenta;
       pagoFactura.pagoanticipado = newPagoAnticipado;
+      foundFactura.cliente.credito.monto = parseFloat(foundFactura.cliente.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
+     
     }
 
     pagoFactura.cuenta = foundCuenta;
@@ -183,6 +186,9 @@ export class PagoFacturaService {
     foundPagoAnticipo.status = Status.INACTIVO;
     foundPagoAnticipo.updatedAt = new Date();
     await this.pagoAnticipadoRepository.save(foundPagoAnticipo);
+
+    foundFactura.cliente.credito.monto = parseFloat(foundFactura.cliente.credito.monto.toString() ) + parseFloat(foundPagoAnticipo.pago.toString()); 
+    foundFactura.cliente.credito.updatedAt = new Date();
     const savedFactura: Factura =
       await this.facturaRepository.save(foundFactura);
     if (!savedFactura) {
