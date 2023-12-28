@@ -15,6 +15,7 @@ import { StatusFactura } from '../factura/entities/fatura-status.enum';
 
 import { PagoAnticipado } from '../pago-anticipados/entities/pago-anticipado.entity';
 import { CreatePagoFacturaAnticipoDto } from './dto/create-pago-factura-anticipo.dto';
+import { Cliente } from '../cliente/entities/cliente.entity';
 
 @Injectable()
 export class PagoFacturaService {
@@ -27,6 +28,8 @@ export class PagoFacturaService {
     private cuentaRepository: Repository<CuentasEmpresa>,
     @Inject('PAGOANTICIPADO_REPOSITORY')
     private pagoAnticipadoRepository: Repository<PagoAnticipado>,
+    @Inject('CLIENTE_REPOSITORY')
+    private clienteRepository: Repository<Cliente>,
   ) {}
   async create(createPagoFacturaDto: CreatePagoFacturaDto): Promise<Factura> {
     const newPagoAnticipado: PagoAnticipado = new PagoAnticipado();
@@ -51,7 +54,7 @@ export class PagoFacturaService {
         'La Factura introducida está completada o no es válida',
       );
     }
-
+    const updateCredito : Cliente = await this.clienteRepository.findOne({where:{id: foundFactura.cliente.id }});
     const foundCuenta: CuentasEmpresa = await this.cuentaRepository.findOne({
       where: { id: createPagoFacturaDto.idcuenta, status: Status.ACTIVO },
     });
@@ -86,13 +89,18 @@ export class PagoFacturaService {
       newPagoAnticipado.numerocheque = createPagoFacturaDto.numerocheque;
       newPagoAnticipado.cuenta = foundCuenta;
       pagoFactura.pagoanticipado = newPagoAnticipado;
-      foundFactura.cliente.credito.monto = parseFloat(foundFactura.cliente.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
+      
+      updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
+      updateCredito.credito.updatedAt = new Date();
     }
 
     pagoFactura.cuenta = foundCuenta;
     pagoFactura.factura = foundFactura;
     pagoFactura.numerocheque = createPagoFacturaDto.numerocheque;
-    foundFactura.cliente.credito.updatedAt = new Date();
+  const savedCredito: Cliente = await this.clienteRepository.save(updateCredito);
+  if(!savedCredito){
+    throw new BadRequestException('Error al generar el pago');
+  }
     const savedFactura: Factura =
       await this.facturaRepository.save(foundFactura);
     if (!savedFactura) {
@@ -140,7 +148,7 @@ export class PagoFacturaService {
         'La Factura introducida está completada o no es válida',
       );
     }
-
+    const updateCredito : Cliente = await this.clienteRepository.findOne({where:{id: foundFactura.cliente.id }});
     const foundCuenta: CuentasEmpresa = await this.cuentaRepository.findOne({
       where: { id: foundPagoAnticipo.cuenta.id, status: Status.ACTIVO },
     });
@@ -176,7 +184,7 @@ export class PagoFacturaService {
       newPagoAnticipado.numeroTransferencia = foundPagoAnticipo.numeroTransferencia;
       newPagoAnticipado.cuenta = foundPagoAnticipo.cuenta;
       pagoFactura.pagoanticipado = newPagoAnticipado;
-      foundFactura.cliente.credito.monto = parseFloat(foundFactura.cliente.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
+      updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
      
     }
 
@@ -187,8 +195,12 @@ export class PagoFacturaService {
     foundPagoAnticipo.updatedAt = new Date();
     await this.pagoAnticipadoRepository.save(foundPagoAnticipo);
 
-    foundFactura.cliente.credito.monto = parseFloat(foundFactura.cliente.credito.monto.toString() ) + parseFloat(foundPagoAnticipo.pago.toString()); 
+    updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) + parseFloat(foundPagoAnticipo.pago.toString()); 
     foundFactura.cliente.credito.updatedAt = new Date();
+    const savedCredito: Cliente = await this.clienteRepository.save(updateCredito);
+    if(!savedCredito){
+      throw new BadRequestException('Error al generar el pago');
+    }
     const savedFactura: Factura =
       await this.facturaRepository.save(foundFactura);
     if (!savedFactura) {
