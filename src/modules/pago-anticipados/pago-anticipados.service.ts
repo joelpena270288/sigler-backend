@@ -82,6 +82,7 @@ export class PagoAnticipadosService {
     throw new BadRequestException("No se pudo cancelar el pago");
   }
   foundpago.status = Status.INACTIVO;
+  foundpago.updatedAt = new Date();
     return await this.pagoRepository.save(foundpago);
   }
  async findAllByCliente(idcliente: string):Promise<PagoAnticipado[]> {
