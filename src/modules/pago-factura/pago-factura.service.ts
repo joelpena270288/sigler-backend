@@ -115,7 +115,7 @@ export class PagoFacturaService {
       .innerJoinAndSelect('factura.cliente', 'cliente')
       
       .leftJoinAndSelect('cliente.pagosanticipados', 'pagoanticipado','pagoanticipado.status = :statuspago',{statuspago: Status.ACTIVO})
-      .leftJoinAndSelect('pagoanticipado.cuenta', 'cuenta')
+     // .leftJoinAndSelect('pagoanticipado.cuenta', 'cuenta')
       .innerJoinAndSelect('cliente.credito', 'credito')  
       .innerJoinAndSelect('factura.cuentaporcobrar', 'cuentaporcobrar')
       .leftJoinAndSelect('factura.pagos', 'pago','pago.status = :estadopago', { estadopago: Status.ACTIVO })
