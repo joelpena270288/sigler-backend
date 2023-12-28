@@ -62,7 +62,7 @@ export class PagoAnticipadosController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.pagoAnticipadosService.remove(+id);
+    return this.pagoAnticipadosService.remove(id);
   }
   @HasRoles(
     RoleEnum.ADMIN,  

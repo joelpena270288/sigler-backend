@@ -61,8 +61,28 @@ export class PagoAnticipadosService {
     return `This action updates a #${id} pagoAnticipado`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pagoAnticipado`;
+ async remove(id: string): Promise<PagoAnticipado> {
+  
+  const foundpago: PagoAnticipado =  await this.pagoRepository.createQueryBuilder('pago')
+  .innerJoinAndSelect('pago.cliente','cliente') 
+  .innerJoinAndSelect('cliente.credito','credito') 
+  .innerJoinAndSelect('pago.cuenta','cuenta') 
+  .innerJoinAndSelect('cuenta.moneda','moneda')   
+   
+  .where('pago.id = :id',{id: id }) 
+  .andWhere('pago.status = :status',{status: Status.ACTIVO}) 
+  .getOne();
+  if(!foundpago){
+    throw new BadRequestException("No se encontro el pago");
+  }
+
+  foundpago.cliente.credito.monto = parseFloat(foundpago.cliente.credito.monto.toString()) - parseFloat(foundpago.pago.toString()); 
+  const savedCredito: Cliente = await this.clienteRepository.save(foundpago.cliente);
+  if(!savedCredito){
+    throw new BadRequestException("No se pudo cancelar el pago");
+  }
+  foundpago.status = Status.INACTIVO;
+    return await this.pagoRepository.save(foundpago);
   }
  async findAllByCliente(idcliente: string):Promise<PagoAnticipado[]> {
     return  await this.pagoRepository.createQueryBuilder('pago')
