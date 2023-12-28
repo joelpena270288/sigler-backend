@@ -129,7 +129,7 @@ export class PagoFacturaService {
         cuentaporcobrar: {
           status: Status.ACTIVO,
         },
-        id: createPagoFacturaDto.idfactura,
+        id: createPagoFacturaAnticipoDto.idfactura,
         status: StatusFactura.APROBADA,
       },
     });
@@ -141,7 +141,7 @@ export class PagoFacturaService {
     }
 
     const foundCuenta: CuentasEmpresa = await this.cuentaRepository.findOne({
-      where: { id: createPagoFacturaDto.idcuenta, status: Status.ACTIVO },
+      where: { id: foundPagoAnticipo.idcuenta, status: Status.ACTIVO },
     });
 
     if (!foundCuenta) {
