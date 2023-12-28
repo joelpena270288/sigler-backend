@@ -92,8 +92,13 @@ export class Factura {
     cascade: true
   })
   pagos: PagoFactura[];
+  
+ 
+
   @Column({ type: 'varchar', nullable: false, default: TipoPagoFactura.TRANSFERENCIA})
   tipoPago: string;
+  @Column({  nullable: false, default: 0 })
+  dias: number;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date; 
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

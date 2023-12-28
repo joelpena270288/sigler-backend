@@ -7,6 +7,8 @@ export class ConvertFacturaDto {
 	idmoneda: string;
     @IsString()
     tipopago: string;
+    @IsInt()
+    dias: number;
 	
 
 
