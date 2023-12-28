@@ -22,6 +22,7 @@ export class PagoFacturaController {
   @Post('/createWithAnticipo/')
   createWithAnticipo(@Body() createPagoFacturaDto: CreatePagoFacturaAnticipoDto) {
     return this.pagoFacturaService.createWithAnticipo(createPagoFacturaDto);
+  }
   @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
