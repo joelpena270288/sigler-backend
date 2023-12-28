@@ -6,6 +6,7 @@ import { HasRoles } from '../role/roles.decorator';
 import { RoleEnum } from '../role/enums/role.enum';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
+import { CreatePagoFacturaAnticipoDto } from './dto/create-pago-factura-anticipo.dto';
 
 @Controller('pago-factura')
 export class PagoFacturaController {
@@ -16,6 +17,11 @@ export class PagoFacturaController {
   create(@Body() createPagoFacturaDto: CreatePagoFacturaDto) {
     return this.pagoFacturaService.create(createPagoFacturaDto);
   }
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/createWithAnticipo/')
+  createWithAnticipo(@Body() createPagoFacturaDto: CreatePagoFacturaAnticipoDto) {
+    return this.pagoFacturaService.createWithAnticipo(createPagoFacturaDto);
   @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()

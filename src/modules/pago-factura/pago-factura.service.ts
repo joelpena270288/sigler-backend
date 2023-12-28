@@ -14,6 +14,7 @@ import { Status } from '../../EntityStatus/entity.estatus.enum';
 import { StatusFactura } from '../factura/entities/fatura-status.enum';
 
 import { PagoAnticipado } from '../pago-anticipados/entities/pago-anticipado.entity';
+import { CreatePagoFacturaAnticipoDto } from './dto/create-pago-factura-anticipo.dto';
 
 @Injectable()
 export class PagoFacturaService {
@@ -82,6 +83,8 @@ export class PagoFacturaService {
       foundFactura.cuentaporcobrar.updatedAt = new Date();
       newPagoAnticipado.pago = dif;
       newPagoAnticipado.cliente = foundFactura.cliente;
+      newPagoAnticipado.numerocheque = createPagoFacturaDto.numerocheque;
+      newPagoAnticipado.cuenta = foundCuenta;
       pagoFactura.pagoanticipado = newPagoAnticipado;
     }
 
@@ -108,6 +111,99 @@ export class PagoFacturaService {
       },
     });
   }
+
+  async createWithAnticipo(createPagoFacturaAnticipoDto: CreatePagoFacturaAnticipoDto): Promise<Factura> {
+    const foundPagoAnticipo: PagoAnticipado = await this.pagoAnticipadoRepository.findOne({where:{id: createPagoFacturaAnticipoDto.idpagoAnticipo,status: Status.ACTIVO}});
+    if(!foundPagoAnticipo){
+      throw new NotFoundException("El pago introdicido no es valido");
+    }
+    const newPagoAnticipado: PagoAnticipado = new PagoAnticipado();
+    const pagoFactura: PagoFactura = new PagoFactura();
+
+    const foundFactura: Factura = await this.facturaRepository.findOne({
+      relations: {
+        cuentaporcobrar: true,
+        cliente: true,
+      },
+      where: {
+        cuentaporcobrar: {
+          status: Status.ACTIVO,
+        },
+        id: createPagoFacturaDto.idfactura,
+        status: StatusFactura.APROBADA,
+      },
+    });
+
+    if (!foundFactura) {
+      throw new BadRequestException(
+        'La Factura introducida está completada o no es válida',
+      );
+    }
+
+    const foundCuenta: CuentasEmpresa = await this.cuentaRepository.findOne({
+      where: { id: createPagoFacturaDto.idcuenta, status: Status.ACTIVO },
+    });
+
+    if (!foundCuenta) {
+      throw new NotFoundException(
+        'La cuenta de la Empresa introducida no es correcta o está desahabilitada',
+      );
+    }
+
+    if (
+      foundFactura.cuentaporcobrar.montorestante >
+      parseFloat(foundPagoAnticipo.pago.toString())
+    ) {
+      foundFactura.cuentaporcobrar.montorestante =
+        parseFloat(foundFactura.cuentaporcobrar.montorestante.toString()) -
+        parseFloat(foundPagoAnticipo.pago.toString());
+      foundFactura.cuentaporcobrar.updatedAt = new Date();
+      pagoFactura.pago = foundPagoAnticipo.pago;
+    } else {
+      const dif =
+        parseFloat(foundPagoAnticipo.pago.toString()) -
+        parseFloat(foundFactura.cuentaporcobrar.montorestante.toString());
+
+      foundFactura.status = StatusFactura.COMPLETADA;
+      pagoFactura.pago = foundFactura.cuentaporcobrar.montorestante;
+      foundFactura.cuentaporcobrar.montorestante = 0;
+      foundFactura.cuentaporcobrar.status = Status.INACTIVO;
+      foundFactura.cuentaporcobrar.updatedAt = new Date();
+      newPagoAnticipado.pago = dif;
+      newPagoAnticipado.cliente = foundFactura.cliente;
+      newPagoAnticipado.numerocheque = foundPagoAnticipo.numerocheque;
+      newPagoAnticipado.numeroTransferencia = foundPagoAnticipo.numeroTransferencia;
+      newPagoAnticipado.cuenta = foundPagoAnticipo.cuenta;
+      pagoFactura.pagoanticipado = newPagoAnticipado;
+    }
+
+    pagoFactura.cuenta = foundCuenta;
+    pagoFactura.factura = foundFactura;
+    pagoFactura.numerocheque = foundPagoAnticipo.numerocheque;
+    foundPagoAnticipo.status = Status.INACTIVO;
+    foundPagoAnticipo.updatedAt = new Date();
+    await this.pagoAnticipadoRepository.save(foundPagoAnticipo);
+    const savedFactura: Factura =
+      await this.facturaRepository.save(foundFactura);
+    if (!savedFactura) {
+      throw new BadRequestException('Error al generar el pago');
+    }
+    const savedPago: PagoFactura = await this.pagoRepository.save(pagoFactura);
+
+    return await this.facturaRepository.findOne({
+      relations: {
+        cuentaporcobrar: true,
+        cliente: true,
+        pagos: true,
+      },
+      where: {
+        id: createPagoFacturaDto.idfactura,
+        status: Not(StatusFactura.CANCELADA),
+      },
+    });
+  }
+
+
 
   async pagos(idfactura: string): Promise<Factura> {
     return await this.facturaRepository
