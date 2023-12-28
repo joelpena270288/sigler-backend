@@ -15,6 +15,7 @@ import {
     ManyToOne,
     BeforeInsert
   } from 'typeorm';
+  import { Status } from '../../../EntityStatus/entity.estatus.enum';
   @Entity('pagos_anticipados') 
 export class PagoAnticipado {
     @PrimaryGeneratedColumn('uuid')
@@ -36,6 +37,8 @@ export class PagoAnticipado {
       numerocheque: string;
       @Column({ type: 'varchar', nullable: true})
       numeroTransferencia: string;
+      @Column({ type: 'varchar', length: 25, nullable: false,default: Status.ACTIVO })
+      status: string; 
       @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
       createdAt: Date; 
       @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })
