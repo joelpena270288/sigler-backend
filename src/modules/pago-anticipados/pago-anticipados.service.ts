@@ -71,7 +71,7 @@ export class PagoAnticipadosService {
     .innerJoinAndSelect('cuenta.moneda','moneda')   
      
     .where('cliente.id = :idcliente',{idcliente: idcliente }) 
-   
+    .andWhere('pago.status = :status',{status: Status.ACTIVO}) 
     .getMany();
 
   }
