@@ -113,7 +113,9 @@ export class PagoFacturaService {
     return await this.facturaRepository
       .createQueryBuilder('factura')
       .innerJoinAndSelect('factura.cliente', 'cliente')
+      
       .leftJoinAndSelect('cliente.pagosanticipados', 'pagoanticipado','pagoanticipado.status = :statuspago',{statuspago: Status.ACTIVO})
+      .leftJoinAndSelect('pagosanticipados.cuenta', 'cuenta')
       .innerJoinAndSelect('cliente.credito', 'credito')  
       .innerJoinAndSelect('factura.cuentaporcobrar', 'cuentaporcobrar')
       .leftJoinAndSelect('factura.pagos', 'pago','pago.status = :estadopago', { estadopago: Status.ACTIVO })
