@@ -141,7 +141,7 @@ export class PagoFacturaService {
     }
 
     const foundCuenta: CuentasEmpresa = await this.cuentaRepository.findOne({
-      where: { id: foundPagoAnticipo.idcuenta, status: Status.ACTIVO },
+      where: { id: foundPagoAnticipo.cuenta.id, status: Status.ACTIVO },
     });
 
     if (!foundCuenta) {
@@ -197,7 +197,7 @@ export class PagoFacturaService {
         pagos: true,
       },
       where: {
-        id: createPagoFacturaDto.idfactura,
+        id: createPagoFacturaAnticipoDto.idfactura,
         status: Not(StatusFactura.CANCELADA),
       },
     });
