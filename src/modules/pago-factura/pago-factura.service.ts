@@ -195,7 +195,7 @@ export class PagoFacturaService {
     foundPagoAnticipo.updatedAt = new Date();
     await this.pagoAnticipadoRepository.save(foundPagoAnticipo);
 
-    updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) + parseFloat(foundPagoAnticipo.pago.toString()); 
+    updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) - parseFloat(foundPagoAnticipo.pago.toString()); 
     foundFactura.cliente.credito.updatedAt = new Date();
     const savedCredito: Cliente = await this.clienteRepository.save(updateCredito);
     if(!savedCredito){
