@@ -40,7 +40,7 @@ const readAlert: ReadAlertDTO[] = [];
     newread.consecutivo = facturas[index].consecutivofactura;
     newread.acuerdo = facturas[index].dias;
     newread.creacion = facturas[index].fechafactura;
-    newread.dias =facturas[index].dias - duration ;
+    newread.dias = duration ;
     readAlert.push(newread);
     }
     
