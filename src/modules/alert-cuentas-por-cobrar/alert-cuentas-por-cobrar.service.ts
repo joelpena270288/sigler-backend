@@ -32,7 +32,7 @@ const readAlert: ReadAlertDTO[] = [];
   const fin = moment(new Date(), "YYYY-MM-DD");
   for (let index = 0; index < facturas.length; index++) {
     const inicio = moment(facturas[index].fechafactura, "YYYY-MM-DD");   
-    const diferencia = moment.duration(fin.diff(inicio));
+    const diferencia = fin.diff(inicio,'days');
    const evaluate = facturas[index].dias - 7 ;
    
    // if(diferencia.days() >= evaluate ){
