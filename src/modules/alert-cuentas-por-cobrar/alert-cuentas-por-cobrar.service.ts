@@ -32,15 +32,15 @@ const readAlert: ReadAlertDTO[] = [];
   const fin = moment(new Date());
   for (let index = 0; index < facturas.length; index++) {
     const inicio = moment(facturas[index].fechafactura);   
-    const duration = moment.duration(fin.diff(inicio));
+    const diferencia = moment.duration(fin.diff(inicio));
    const evaluate = facturas[index].dias - 7 ;
    
-    if(duration.days() >= evaluate ){
+    if(diferencia.days() >= evaluate ){
     const newread: ReadAlertDTO = new ReadAlertDTO();
     newread.consecutivo = facturas[index].consecutivofactura;
     newread.acuerdo =  facturas[index].dias;
     newread.creacion =  moment(facturas[index].fechafactura).format("YYYY-MM-DD").toString() ;
-    newread.dias = duration.days() ;
+    newread.dias = diferencia.days() ;
     newread.fechahoy = fin.toString();
     readAlert.push(newread);
     }
