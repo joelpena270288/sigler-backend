@@ -1,7 +1,9 @@
+import { Moment } from "moment";
+
 export class ReadAlertDTO{
     consecutivo: number;
-    creacion: Date;
+    creacion: Moment;
     acuerdo: number;
     dias: number;
-    fechahoy: Date;
+    fechahoy: Moment;
 }
