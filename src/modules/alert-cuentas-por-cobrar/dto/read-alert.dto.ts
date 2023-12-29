@@ -3,4 +3,5 @@ export class ReadAlertDTO{
     creacion: Date;
     acuerdo: number;
     dias: number;
+    fechahoy: Date;
 }
