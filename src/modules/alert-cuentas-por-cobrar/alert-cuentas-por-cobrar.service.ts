@@ -41,7 +41,7 @@ const readAlert: ReadAlertDTO[] = [];
     newread.acuerdo =   facturas[index].dias;
     newread.creacion =  inicio;
     newread.dias = facturas[index].dias - diferencia ;
-    newread.fechahoy = fin;
+    
     readAlert.push(newread);
     }
     
