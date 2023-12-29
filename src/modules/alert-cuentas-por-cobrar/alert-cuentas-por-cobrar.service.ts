@@ -35,7 +35,7 @@ const readAlert: ReadAlertDTO[] = [];
     const diferencia = moment.duration(fin.diff(inicio));
    const evaluate = facturas[index].dias - 7 ;
    
-    if(diferencia.days() >= evaluate ){
+   // if(diferencia.days() >= evaluate ){
     const newread: ReadAlertDTO = new ReadAlertDTO();
     newread.consecutivo = facturas[index].consecutivofactura;
     newread.acuerdo =  facturas[index].dias;
@@ -43,7 +43,7 @@ const readAlert: ReadAlertDTO[] = [];
     newread.dias = diferencia.days() ;
     newread.fechahoy = fin.toString();
     readAlert.push(newread);
-    }
+ //   }
     
   }
 
