@@ -29,9 +29,9 @@ const readAlert: ReadAlertDTO[] = [];
  .getMany();
 
  if(facturas){
-  const fin = moment(new Date()).format("YYYY-MM-DD");
+  const fin = moment(new Date());
   for (let index = 0; index < facturas.length; index++) {
-    const inicio = moment(facturas[index].fechafactura).format("YYYY-MM-DD");   
+    const inicio = moment(facturas[index].fechafactura);   
     const duration = moment.duration(fin.diff(inicio)).days();
    const evaluate = facturas[index].dias - 7 ;
    
