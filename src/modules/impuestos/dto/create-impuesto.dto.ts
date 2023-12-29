@@ -1,8 +1,8 @@
-import { IsString, IsInt, IsDate, IsDecimal } from 'class-validator';
+import { IsString, IsInt, IsDate, IsDecimal, IsNotEmpty } from 'class-validator';
 export class CreateImpuestoDto {
-    @IsString()
+    @IsNotEmpty()
     name: string;
-    @IsString()
+    @IsNotEmpty()
     descripcion: string;
     @IsDecimal()
     valor: number;

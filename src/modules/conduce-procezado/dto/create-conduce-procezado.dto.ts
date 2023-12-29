@@ -1,11 +1,13 @@
-import { IsString, IsDecimal } from "class-validator";
+import { IsString, IsDecimal, IsNotEmpty } from "class-validator";
 
 export class CreateConduceProcezadoDto {
- @IsString()   
-idconduce: string;
-@IsString()   
+  @IsNotEmpty()
+  idconduce: string;
+
+  @IsNotEmpty() 
 nombreServicio: string;
-@IsString()   
+
+@IsNotEmpty() 
 UM: string;
 @IsDecimal()
 cantidad: number;

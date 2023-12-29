@@ -53,6 +53,7 @@ import { ReportIngresoModule } from './modules/report-ingreso/report-ingreso.mod
 import { ReportTrabajadorConduceModule } from './modules/report-trabajador-conduce/report-trabajador-conduce.module';
 import { Report06Module } from './modules/report-06/report-06.module';
 import { Report07Module } from './modules/report-07/report-07.module';
+import { AlertCuentasPorCobrarModule } from './modules/alert-cuentas-por-cobrar/alert-cuentas-por-cobrar.module';
 
 @Module({
    
@@ -119,7 +120,9 @@ import { Report07Module } from './modules/report-07/report-07.module';
    
      Report06Module,
    
-     Report07Module]
+     Report07Module,
+   
+     AlertCuentasPorCobrarModule]
 })
 export class AppModule {
  static port: number | string;

@@ -1,9 +1,9 @@
 
-import { IsString, IsInt,IsDecimal } from "class-validator";
+import { IsString, IsInt,IsDecimal, IsNotEmpty } from "class-validator";
 export class CreateGastoItemDto {
 	 @IsDecimal()
     cantidad: number;  
-   @IsString()
+    @IsNotEmpty()
     descripcion: string;  
     @IsDecimal()
     importeimpuesto: number;  

@@ -1,11 +1,11 @@
-import { IsString, IsInt,IsDecimal,IsDate } from "class-validator";
+import { IsString, IsInt,IsDecimal,IsDate, IsNotEmpty } from "class-validator";
 export class CreatePiezaDto {
     @IsInt()
     cantidad: number;
-   @IsString()
+    @IsNotEmpty()
     nombre: string;
-    @IsString()
+    @IsNotEmpty()
     serie: string;
-    @IsString()
+    @IsNotEmpty()
     descripcion: string;
 }

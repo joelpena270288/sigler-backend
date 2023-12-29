@@ -1,8 +1,8 @@
-import { IsString, IsInt, IsDate, IsBoolean} from 'class-validator';
+import { IsString, IsInt, IsDate, IsBoolean, IsNotEmpty} from 'class-validator';
 export class CreateProyectoDto {
-@IsString()
+@IsNotEmpty()
 name: string;
-@IsString()
+@IsNotEmpty()
 idCliente: string;
 @IsBoolean()
 ajuste: boolean;

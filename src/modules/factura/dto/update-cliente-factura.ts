@@ -1,8 +1,8 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsNotEmpty } from 'class-validator';
 
 export class UpdateClientePrefacturaDto {
   
-    @IsString()
+    @IsNotEmpty()
     idcliente: string;
    
 

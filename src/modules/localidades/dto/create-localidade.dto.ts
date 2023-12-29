@@ -1,5 +1,5 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsNotEmpty } from 'class-validator';
 export class CreateLocalidadeDto {
-    @IsString()
+    @IsNotEmpty()
     name: string;  
 }

@@ -1,8 +1,10 @@
-import { IsString, IsInt,IsDecimal } from "class-validator";
+import { IsString, IsInt,IsDecimal, IsNotEmpty } from "class-validator";
 export class CreateCotizacionDto {
-    @IsString()   
+   
+  @IsNotEmpty()  
     nombreServicio: string;
-    @IsString()   
+   
+  @IsNotEmpty() 
     UM: string;
     @IsDecimal()
     cantidad: number;
@@ -10,7 +12,8 @@ export class CreateCotizacionDto {
     precio: number;
     @IsDecimal()
     valorimpuesto: number; 
-    @IsString()
+  
+    @IsNotEmpty()
     proyectoId: string;
     
 

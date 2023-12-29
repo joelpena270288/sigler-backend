@@ -1,9 +1,9 @@
 
 
-import { IsString, IsDecimal } from "class-validator";
+import { IsString, IsDecimal, IsNotEmpty } from "class-validator";
 export class CreateMonedaDto {
-@IsString()   
-valor: string;
+  @IsNotEmpty()
+  valor: string;
 @IsDecimal()
 tasa: number;
 }

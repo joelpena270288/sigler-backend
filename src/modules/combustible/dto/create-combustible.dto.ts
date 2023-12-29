@@ -1,5 +1,6 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsNotEmpty } from 'class-validator';
 export class CreateCombustibleDto {
-    @IsString()
+   
+  @IsNotEmpty()
     name: string;
 }

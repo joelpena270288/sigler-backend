@@ -1,11 +1,11 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsNotEmpty } from 'class-validator';
 
 export class ConvertFacturaDto {
     @IsInt()
     idncf: number;
-	@IsString()
+	@IsNotEmpty()
 	idmoneda: string;
-    @IsString()
+    @IsNotEmpty()
     tipopago: string;
     @IsInt()
     dias: number;

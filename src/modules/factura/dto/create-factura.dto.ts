@@ -1,7 +1,7 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsNotEmpty } from 'class-validator';
 import {PreFactura} from '../../pre-factura/entities/pre-factura.entity';
 export class CreateFacturaDto {
-    @IsString()
+    @IsNotEmpty()
     idProyecto: string;
     prefacturas: PreFactura[];
 

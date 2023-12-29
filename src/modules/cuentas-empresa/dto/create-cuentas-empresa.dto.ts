@@ -1,11 +1,12 @@
 
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 export class CreateCuentasEmpresaDto {
-    @IsString()
+   
+  @IsNotEmpty()
     idmoneda: string;
-    @IsString()
+    @IsNotEmpty()
     numerocuenta: string;
-    @IsString()
+    @IsNotEmpty()
     banco: string;
 
 }

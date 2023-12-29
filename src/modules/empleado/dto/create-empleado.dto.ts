@@ -1,16 +1,16 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsNotEmpty } from 'class-validator';
 export class CreateEmpleadoDto {
-@IsString()
+    @IsNotEmpty()
 name: string;
-@IsString()
+@IsNotEmpty()
 lastname: string;
-@IsString()
+@IsNotEmpty()
 phone: string;
-@IsString()
+@IsNotEmpty()
 address: string;
-@IsString()
+
 passport: string;
-@IsString()
+
 cedule: string;
 cargos: string[];
 

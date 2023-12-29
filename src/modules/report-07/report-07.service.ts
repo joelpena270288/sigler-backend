@@ -24,7 +24,7 @@ export class Report07Service {
     .innerJoinAndSelect('factura.cliente','cliente') 
     .where('factura.fechafactura >= :start',{start: filtroFechaDto.start+' 00:00:00'}) 
     .andWhere('factura.fechafactura  <= :end',{end: filtroFechaDto.end+' 23:59:00'}) 
-    .andWhere('factura.status  != :estado',{estado: StatusFactura.CANCELADA}) 
+    .andWhere('factura.status  = :estado',{estado: StatusFactura.APROBADA}) 
     .andWhere('factura.tipoimpuesto  != :tipoimpuesto',{tipoimpuesto: 'B02'}) 
     .getMany();  
  

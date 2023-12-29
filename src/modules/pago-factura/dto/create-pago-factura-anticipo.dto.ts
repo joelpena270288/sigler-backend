@@ -1,8 +1,8 @@
-import { IsString, IsDecimal } from "class-validator";
+import { IsString, IsDecimal, IsNotEmpty } from "class-validator";
 export class CreatePagoFacturaAnticipoDto {
-@IsString()
+@IsNotEmpty()
 idpagoAnticipo: string;
-@IsString()
+@IsNotEmpty()
 idfactura: string;
 
 }

@@ -1,12 +1,12 @@
-import { IsString, IsDecimal } from "class-validator";
+import { IsString, IsDecimal, IsNotEmpty } from "class-validator";
 export class CreatePagoGastoDto {
-    @IsString()
+    @IsNotEmpty()
     idcuenta: string;
-    @IsString()
+    @IsNotEmpty()
     idgasto: string;
     @IsDecimal()
     pago: number;
-    @IsString()
+   
     numerocheque: string;
 
 }

@@ -1,15 +1,15 @@
-import { IsString, IsDecimal } from "class-validator";
+import { IsString, IsDecimal, IsNotEmpty } from "class-validator";
 export class CreatePagoAnticipadoDto {
 
-    @IsString()
+    @IsNotEmpty()
     idcuenta: string;
-    @IsString()
+    @IsNotEmpty()
     idcliente: string;
     @IsDecimal()
     pago: number;
-    @IsString()
+   
     numerocheque: string;
-    @IsString()
+   
     numeroTransferencia: string;
     
     }

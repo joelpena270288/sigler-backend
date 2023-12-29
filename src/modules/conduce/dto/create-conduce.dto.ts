@@ -1,19 +1,26 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateConduceDto {
-    @IsString()
+    
+  @IsNotEmpty()
     name: string;  
-    @IsString() 
+   
+  @IsNotEmpty()
     idProyecto: string;  
-    @IsString() 
+   
+  @IsNotEmpty() 
     idEmpleado: string;  
-    @IsString() 
+    
+  @IsNotEmpty()
     idServicio: string;   
-    @IsString()
+  
+    @IsNotEmpty()
     idEquipo: string;  
-    @IsString() 
+    
+  @IsNotEmpty() 
     firma_chofer: string;  
-    @IsString() 
+    
+  @IsNotEmpty()
     firma_cliente: string;  
     @IsString() 
     observaciones: string; 
@@ -23,18 +30,22 @@ export class CreateConduceDto {
     horaInicio: string;
     @IsString()
     horaFin: string;
-    @IsString()
+   
     desde: string; 
-    @IsString()  
+   
     hasta: string;   
-    @IsString()
+   
+  @IsNotEmpty()
     idMaterial: string;
     cantidadViaje: number;
     metrosCubicos: number;
-    @IsString()
+  
+   
     reportadasequipo: string;
-    @IsString()
+   
+  @IsNotEmpty()
     reportadastrabajador: string;
-    @IsString()
+ 
+    @IsNotEmpty()
     cantidadConsummoCombustible: string;
 }

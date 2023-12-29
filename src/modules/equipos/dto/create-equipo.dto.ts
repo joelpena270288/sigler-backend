@@ -1,21 +1,21 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsNotEmpty } from 'class-validator';
 export class CreateEquipoDto {
-	 @IsString()  
+    @IsNotEmpty() 
     ficha: string;
-   @IsString()
+    @IsNotEmpty()
     placa: string; 
-    @IsString()  
+    @IsNotEmpty()
     chasis: string;
     @IsInt()
      anno: number; 
-     @IsString() 
+     @IsNotEmpty()
     color: string;  
-    @IsString()  
+    @IsNotEmpty() 
     idmarca: string;
-	 @IsString()  
+    @IsNotEmpty()  
     idtipo: string;
 	metraje: string;
-	 @IsString()  
+	@IsNotEmpty() 
     modelo: string;
 	
 }
