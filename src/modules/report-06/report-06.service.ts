@@ -9,7 +9,7 @@ import { Status } from '../../EntityStatus/entity.estatus.enum';
 
 import { GastosResumen } from './dto/gasto.dto';
 import { StatusGasto } from '../gastos_empresas/entities/gasto-status.enum';
-
+import * as moment from 'moment';
 @Injectable()
 export class Report06Service {
   constructor(
@@ -45,7 +45,7 @@ export class Report06Service {
         const gastosResumen: GastosResumen = new GastosResumen();
         gastosResumen.subtotal = 0;
         gastosResumen.itbis = 0;
-        gastosResumen.fecha = gastos[index].createdAt;
+        gastosResumen.fecha = moment( gastos[index].createdAt).format( "YYYY-MM-DD");
         gastosResumen.formapago = gastos[index].tipoPago;
         gastosResumen.servicio = gastos[index].descripcion;
         gastosResumen.ncf = gastos[index].NCF;
