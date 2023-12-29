@@ -5,5 +5,5 @@ export class ReadAlertDTO{
     creacion: Moment;
     acuerdo: number;
     dias: number;
-   
+    estado: string;
 }

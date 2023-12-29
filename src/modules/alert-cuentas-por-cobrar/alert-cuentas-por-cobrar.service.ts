@@ -41,7 +41,12 @@ const readAlert: ReadAlertDTO[] = [];
     newread.acuerdo =   facturas[index].dias;
     newread.creacion =  inicio;
     newread.dias = facturas[index].dias - diferencia ;
-    
+    if(newread.dias > 0){
+      newread.estado = "Por vencer";
+    }else{
+      newread.estado = "Vencida";
+
+    }
     readAlert.push(newread);
     }
     
