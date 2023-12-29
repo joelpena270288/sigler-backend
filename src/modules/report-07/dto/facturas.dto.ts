@@ -3,7 +3,7 @@ export class FacturaResumen{
  tipoidentificacion: string;
  comprobante: string;
  fechacomprobante: string;
- itbis: string;
- monto: string;
+ itbis: number;
+ monto: number;
  formapago: string;   
 }
