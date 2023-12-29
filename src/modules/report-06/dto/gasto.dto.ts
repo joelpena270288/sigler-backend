@@ -2,7 +2,7 @@ export class GastosResumen{
    rnc: string;
    servicio: string;
    ncf: string;
-   fecha: Date;
+   fecha: string;
    subtotal: number;
    itbis: number;
    formapago: string; 
