@@ -1,8 +1,8 @@
-import { IsString, IsInt, IsDate, IsBoolean} from 'class-validator';
+import { IsString, IsInt, IsDate, IsBoolean, IsNotEmpty} from 'class-validator';
 export class FiltroFechaDto {
-@IsDate()
+ @IsNotEmpty()
 start: Date;
-@IsDate()
+@IsNotEmpty()
 end: Date;
 
 }
