@@ -39,7 +39,7 @@ const readAlert: ReadAlertDTO[] = [];
     const newread: ReadAlertDTO = new ReadAlertDTO();
     newread.consecutivo = facturas[index].consecutivofactura;
     newread.acuerdo =  facturas[index].dias;
-    newread.creacion =  inicio ;
+    newread.creacion =  inicio.toString() ;
     newread.dias = diferencia.days() ;
     newread.fechahoy = fin.toString();
     readAlert.push(newread);
