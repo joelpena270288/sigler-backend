@@ -61,11 +61,11 @@ export class Factura {
     tipoimpuesto: string;
 	 @Column({ type: 'varchar', nullable: true })
     ncf: string;
-	 @Column({ type: 'varchar', nullable: true })
+	 @Column({ type: 'timestamp', nullable: true })
     fechancf: Date;
-    @Column({ type: 'varchar', nullable: true })
+    @Column({ type: 'timestamp', nullable: true })
     fechafactura: Date;
-    @Column({ type: 'varchar', nullable: true })
+    @Column({ type: 'timestamp', nullable: true })
     fechacierre: Date;
     @Column({ type: 'decimal', nullable: false,default: 1, precision: 10, scale: 2 })
     tasadia: number;   
