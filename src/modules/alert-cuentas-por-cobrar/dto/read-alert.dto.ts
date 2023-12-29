@@ -1,7 +1,7 @@
 export class ReadAlertDTO{
     consecutivo: number;
-    creacion: Date;
+    creacion: string;
     acuerdo: number;
     dias: number;
-    fechahoy: Date;
+    fechahoy: string;
 }
