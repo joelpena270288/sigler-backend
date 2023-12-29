@@ -6,6 +6,7 @@ import { Factura } from '../factura/entities/factura.entity';
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 import { ReadReport07Dto } from './dto/read-report-07.dto';
 import { StatusFactura } from '../factura/entities/fatura-status.enum';
+import * as moment from 'moment';
 @Injectable()
 export class Report07Service {
   constructor(
@@ -36,7 +37,7 @@ export class Report07Service {
     facturaResumen.itbis = 0;
     facturaResumen.monto = 0;
     facturaResumen.comprobante = factura[index].ncf;
-    facturaResumen.fechacomprobante = factura[index].fechancf;
+    facturaResumen.fechacomprobante = moment( factura[index].fechancf).format( "YYYY-MM-DD");
     facturaResumen.formapago = factura[index].tipoPago;
     facturaResumen.rnc = factura[index].cliente.rcn;
     facturaResumen.tipoidentificacion = factura[index].cliente.tipoDocumento;

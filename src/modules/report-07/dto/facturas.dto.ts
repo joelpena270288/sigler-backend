@@ -2,7 +2,7 @@ export class FacturaResumen{
  rnc: string;
  tipoidentificacion: string;
  comprobante: string;
- fechacomprobante: Date;
+ fechacomprobante: string;
  itbis: number;
  monto: number;
  formapago: string;   
