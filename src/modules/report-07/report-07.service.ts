@@ -37,7 +37,7 @@ export class Report07Service {
     facturaResumen.itbis = 0;
     facturaResumen.monto = 0;
     facturaResumen.comprobante = factura[index].ncf;
-    facturaResumen.fechacomprobante = moment( factura[index].fechancf.toString()).format("YYYY-MM-DD");
+    facturaResumen.fechacomprobante = moment( factura[index].fechancf).format("YYYY-MM-DD");
     facturaResumen.formapago = factura[index].tipoPago;
     facturaResumen.rnc = factura[index].cliente.rcn;
     facturaResumen.tipoidentificacion = factura[index].cliente.tipoDocumento;
