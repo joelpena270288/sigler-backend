@@ -6,4 +6,7 @@ export class GastosResumen{
    subtotal: number;
    itbis: number;
    formapago: string; 
+   propina: number;
+   isc: number;
+
 }
