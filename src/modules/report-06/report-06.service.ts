@@ -50,8 +50,8 @@ export class Report06Service {
         gastosResumen.servicio = gastos[index].descripcion;
         gastosResumen.ncf = gastos[index].NCF;
         gastosResumen.rnc = gastos[index].RNC;
-        gastosResumen.isc = gastos[index].impuestoselectivoconsumo;
-        gastosResumen.propina = gastos[index].propina;
+        gastosResumen.isc = parseFloat( gastos[index].impuestoselectivoconsumo.toString());
+        gastosResumen.propina = parseFloat( gastos[index].propina.toString());
 
         for (
           let jindex = 0;
