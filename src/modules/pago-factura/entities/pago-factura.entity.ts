@@ -16,13 +16,15 @@ import {
     BeforeInsert,
   } from 'typeorm';
 import { PagoAnticipado } from '../../pago-anticipados/entities/pago-anticipado.entity';
-
+import {PagoOrigen} from './pago-origen.enum';
   @Entity('pagos_facturas')
 export class PagoFactura {
     @PrimaryGeneratedColumn('uuid')
     id: string;
     @Column({ type: 'varchar', nullable: true})    
     numerocheque: string;
+    @Column({ type: 'varchar', nullable: true})    
+    numeroTransferencia: string;
     @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
     pago: number;
     @ManyToOne(() => Factura, (factura) => factura.pagos, {   
@@ -42,7 +44,8 @@ export class PagoFactura {
       })
       @JoinColumn({ name: 'pago_anticipado' })
       pagoanticipado: PagoAnticipado;
-
+      @Column({ type: 'varchar', nullable: false, default: PagoOrigen.NORMAL})    
+      origen: string;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at' })

@@ -16,6 +16,7 @@ import { StatusFactura } from '../factura/entities/fatura-status.enum';
 import { PagoAnticipado } from '../pago-anticipados/entities/pago-anticipado.entity';
 import { CreatePagoFacturaAnticipoDto } from './dto/create-pago-factura-anticipo.dto';
 import { Cliente } from '../cliente/entities/cliente.entity';
+import { PagoOrigen } from './entities/pago-origen.enum';
 
 @Injectable()
 export class PagoFacturaService {
@@ -96,6 +97,7 @@ export class PagoFacturaService {
 
     pagoFactura.cuenta = foundCuenta;
     pagoFactura.factura = foundFactura;
+    pagoFactura.origen = PagoOrigen.NORMAL;
     pagoFactura.numerocheque = createPagoFacturaDto.numerocheque;
   const savedCredito: Cliente = await this.clienteRepository.save(updateCredito);
   if(!savedCredito){
@@ -191,6 +193,7 @@ export class PagoFacturaService {
     pagoFactura.cuenta = foundCuenta;
     pagoFactura.factura = foundFactura;
     pagoFactura.numerocheque = foundPagoAnticipo.numerocheque;
+    pagoFactura.origen = PagoOrigen.ANTICIPO;
     foundPagoAnticipo.status = Status.INACTIVO;
     foundPagoAnticipo.updatedAt = new Date();
     await this.pagoAnticipadoRepository.save(foundPagoAnticipo);
@@ -241,23 +244,7 @@ export class PagoFacturaService {
        estadofactura: StatusFactura.CANCELADA,
       })
       .getOne();
-    /*
-    return   await  this.facturaRepository.findOne({
-      relations: {
-        cuentaporcobrar: true,
-        cliente: true,
-        pagos: true,
-		
-	
-        
-    },
-    where: {
-     
-        id: idfactura,    
-        status: Not( StatusFactura.CANCELADA)
-	
-    },
-    });*/
+   
   }
 
   findAll() {
@@ -298,6 +285,21 @@ export class PagoFacturaService {
       throw new BadRequestException('Error al cancelar el pago');
     }
     foundPago.status = Status.INACTIVO;
+    if(foundPago.origen === PagoOrigen.ANTICIPO){
+      const updateCredito : Cliente = await this.clienteRepository.findOne({where:{id:  foundPago.factura.cliente.id }});
+      const newPagoAnticipo: PagoAnticipado = new PagoAnticipado();
+      newPagoAnticipo.cliente = foundPago.factura.cliente;
+      newPagoAnticipo.cuenta = foundPago.cuenta;
+      newPagoAnticipo.numeroTransferencia = foundPago.numeroTransferencia;
+      newPagoAnticipo.numerocheque = foundPago.numerocheque;
+      newPagoAnticipo.pago = foundPago.pago;
+      newPagoAnticipo.status = Status.ACTIVO;
+      await this.pagoAnticipadoRepository.save(newPagoAnticipo);
+      updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString()) + parseFloat(newPagoAnticipo.pago.toString());
+      updateCredito.credito.updatedAt = new Date();
+      const savedCredito: Cliente = await this.clienteRepository.save(updateCredito);
+       
+    }
 
     return await this.pagoRepository.save(foundPago);
   }

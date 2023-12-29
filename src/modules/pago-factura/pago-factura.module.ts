@@ -10,7 +10,7 @@ import { ClienteProviders } from '../cliente/cliente.providers';
 @Module({
   imports: [DatabaseModule],
   controllers: [PagoFacturaController],
-  providers: [PagoFacturaService,...PagoFacturaProviders, ...FacturaProviders,...CuentaEmpresaProviders,...PagoAnticipadoProviders,...ClienteProviders],
+  providers: [PagoFacturaService,...PagoFacturaProviders, ...FacturaProviders,...CuentaEmpresaProviders,...PagoAnticipadoProviders,...ClienteProviders,...PagoAnticipadoProviders],
   exports: [PagoFacturaService]
 })
 export class PagoFacturaModule {}
