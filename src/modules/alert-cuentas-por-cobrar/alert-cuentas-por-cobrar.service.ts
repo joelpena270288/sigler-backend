@@ -29,9 +29,9 @@ const readAlert: ReadAlertDTO[] = [];
  .getMany();
 
  if(facturas){
-  const fin = moment(new Date() , "YYYY-MM-DD");
+  const fin = moment(new Date()).format("YYYY-MM-DD");
   for (let index = 0; index < facturas.length; index++) {
-    const inicio = moment(facturas[index].fechafactura, "YYYY-MM-DD");   
+    const inicio = moment(facturas[index].fechafactura).format("YYYY-MM-DD");   
     const duration = moment.duration(fin.diff(inicio)).days();
    const evaluate = facturas[index].dias - 7 ;
    
@@ -39,7 +39,7 @@ const readAlert: ReadAlertDTO[] = [];
     const newread: ReadAlertDTO = new ReadAlertDTO();
     newread.consecutivo = facturas[index].consecutivofactura;
     newread.acuerdo =  facturas[index].dias;
-    newread.creacion =  moment(facturas[index].fechafactura,"YYYY-MM-DD").toString() ;
+    newread.creacion =  moment(facturas[index].fechafactura).format("YYYY-MM-DD").toString() ;
     newread.dias = duration ;
     newread.fechahoy = fin.toString();
     readAlert.push(newread);
