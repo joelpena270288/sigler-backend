@@ -19,8 +19,7 @@ export class CreateGastosEmpresaDto {
     @IsString()
     direccion: string; 
     @IsString()
-    idproyecto: string;
-    @IsString()
+    idproyecto: string;  
     tipopago: string;
     items: CreateGastoItemDto[];
 
