@@ -128,7 +128,7 @@ export class ConduceService {
       );
     }
     newConduce.horaFin = hasta;
-    newConduce.horaInicio = desde.;
+    newConduce.horaInicio = desde;
     newConduce.observaciones = createConduceDto.observaciones;
     newConduce.proyecto = foundProyecto;
     newConduce.servicio = foundServicio;
