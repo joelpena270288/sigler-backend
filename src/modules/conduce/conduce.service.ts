@@ -115,18 +115,20 @@ export class ConduceService {
     } else {
       throw new BadRequestException('Debe introducir un Modelo de Conduce');
     }
-
-    const desde = moment(new Date() +" " +  createConduceDto.horaInicio, "YYYY-MM-DD HH:mm:ss");
-   
-    const hasta = moment(new Date() +" " + createConduceDto.horaFin, "YYYY-MM-DD HH:mm:ss");
-   
+     
+    //const desde = moment(new Date() +" " +  createConduceDto.horaInicio, "YYYY-MM-DD HH:mm:ss");
+   const desde =  new Date();
+   desde.setHours( createConduceDto.horaInicio)
+    //const hasta = moment(new Date() +" " + createConduceDto.horaFin, "YYYY-MM-DD HH:mm:ss");
+   const hasta = new Date();
+   hasta.setHours(createConduceDto.horaFin);
     if (desde > hasta) {
       throw new BadRequestException(
         'La hora de inicio debe ser menor que la fin',
       );
     }
-    newConduce.horaFin = hasta.toString();
-    newConduce.horaInicio = desde.toString();
+    newConduce.horaFin = hasta;
+    newConduce.horaInicio = desde.;
     newConduce.observaciones = createConduceDto.observaciones;
     newConduce.proyecto = foundProyecto;
     newConduce.servicio = foundServicio;
@@ -135,9 +137,10 @@ export class ConduceService {
     newConduce.equipo = foundEquipo;
     newConduce.firma_chofer = createConduceDto.firma_chofer;
     newConduce.firma_cliente = createConduceDto.firma_cliente;
-  
-   
-    const duration = moment.duration(hasta.diff(desde));
+    
+    const momentDesde = moment(desde).format();
+    const momentHasta = moment(hasta).format();
+    const duration = moment.duration(momentHasta.diff(momentDesde));
    
     newConduce.horas = moment(duration.hours().toString() + " " +  duration.minutes().toString(),"HH:mm").format("HH:mm");
 
