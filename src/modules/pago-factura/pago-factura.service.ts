@@ -88,7 +88,7 @@ export class PagoFacturaService {
       newPagoAnticipado.pago = dif;
       newPagoAnticipado.cliente = foundFactura.cliente;
       newPagoAnticipado.numerocheque = createPagoFacturaDto.numerocheque;
-      newPagoAnticipado.fechaBanco = new Date(createPagoFacturaDto.fechaBanco);
+      newPagoAnticipado.fechaBanco = createPagoFacturaDto.fechaBanco;
       newPagoAnticipado.cuenta = foundCuenta;
       pagoFactura.pagoanticipado = newPagoAnticipado;      
       updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
@@ -98,7 +98,7 @@ export class PagoFacturaService {
     pagoFactura.cuenta = foundCuenta;
     pagoFactura.factura = foundFactura;
     pagoFactura.origen = PagoOrigen.NORMAL;
-    pagoFactura.fechaBanco = new Date(createPagoFacturaDto.fechaBanco);
+    pagoFactura.fechaBanco =createPagoFacturaDto.fechaBanco;
     pagoFactura.numerocheque = createPagoFacturaDto.numerocheque;
   const savedCredito: Cliente = await this.clienteRepository.save(updateCredito);
   if(!savedCredito){
@@ -196,7 +196,7 @@ export class PagoFacturaService {
     pagoFactura.factura = foundFactura;
     pagoFactura.numerocheque = foundPagoAnticipo.numerocheque;
     pagoFactura.origen = PagoOrigen.ANTICIPO;
-   
+    pagoFactura.fechaBanco =  foundPagoAnticipo.fechaBanco;
     foundPagoAnticipo.status = Status.INACTIVO;
     foundPagoAnticipo.updatedAt = new Date();
     await this.pagoAnticipadoRepository.save(foundPagoAnticipo);
