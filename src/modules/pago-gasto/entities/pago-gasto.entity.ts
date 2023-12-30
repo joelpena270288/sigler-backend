@@ -25,6 +25,8 @@ export class PagoGasto {
     id: string;
     @Column({ type: 'varchar', nullable: true})    
     numerocheque: string;
+    @Column({ type: 'varchar', nullable: true})    
+    numerocTranferencia: string;
     @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
     pago: number;
     @ManyToOne(() => GastosEmpresa, (gastoempresa) => gastoempresa.pagos, {   

@@ -8,5 +8,6 @@ export class CreatePagoGastoDto {
     pago: number;
    
     numerocheque: string;
+    numeroTransferencia: string;
 
 }
