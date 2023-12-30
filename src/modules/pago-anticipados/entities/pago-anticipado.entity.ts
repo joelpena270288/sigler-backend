@@ -37,6 +37,8 @@ export class PagoAnticipado {
       numerocheque: string;
       @Column({ type: 'varchar', nullable: true})
       numeroTransferencia: string;
+      @CreateDateColumn({ type: 'timestamp', name: 'fecha_banco' })
+      fechaBanco: Date;
       @Column({ type: 'varchar', length: 25, nullable: false,default: Status.ACTIVO })
       status: string; 
       @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })

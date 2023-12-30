@@ -1,4 +1,4 @@
-import { IsString, IsDecimal, IsNotEmpty } from "class-validator";
+import { IsString, IsDecimal, IsNotEmpty, IsDate } from "class-validator";
 export class CreatePagoFacturaDto {
     @IsNotEmpty()
 idcuenta: string;
@@ -8,5 +8,6 @@ idfactura: string;
 pago: number;
 
 numerocheque: string;
-
+@IsDate()
+fechaBanco: Date;
 }

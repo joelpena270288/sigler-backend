@@ -6,11 +6,12 @@ export class CreatePagoAnticipadoDto {
     @IsNotEmpty()
     idcliente: string;
     @IsDecimal()
-    pago: number;
-   
+    pago: number;   
     numerocheque: string;
    
     numeroTransferencia: string;
+    @IsDate()
+   fechaBanco: Date;
     
     }
 
