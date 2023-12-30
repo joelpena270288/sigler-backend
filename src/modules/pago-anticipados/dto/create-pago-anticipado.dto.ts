@@ -10,7 +10,7 @@ export class CreatePagoAnticipadoDto {
     numerocheque: string;
    
     numeroTransferencia: string;
-    @IsDate()
+    @IsNotEmpty()
    fechaBanco: Date;
     
     }

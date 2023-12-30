@@ -39,7 +39,7 @@ export class PagoAnticipadosService {
    newPago.numerocheque = createPagoAnticipadoDto.numerocheque;
    newPago.numeroTransferencia = createPagoAnticipadoDto.numeroTransferencia;
    newPago.pago = createPagoAnticipadoDto.pago;
-   newPago.fechaBanco = createPagoAnticipadoDto.fechaBanco;
+   newPago.fechaBanco = new Date(createPagoAnticipadoDto.fechaBanco) ;
    newPago.cuenta = foundCuenta;
    const savedPago: PagoAnticipado = await this.pagoRepository.save(newPago);
    if(!savedPago){
