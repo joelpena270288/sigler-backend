@@ -116,9 +116,9 @@ export class ConduceService {
       throw new BadRequestException('Debe introducir un Modelo de Conduce');
     }
 
-    const desde = moment(createConduceDto.fecha +" " +  createConduceDto.horaInicio, "YYYY-MM-DD HH:mm:ss");
+    const desde = moment(new Date() +" " +  createConduceDto.horaInicio, "YYYY-MM-DD HH:mm:ss");
    
-    const hasta = moment(createConduceDto.fecha +" " + createConduceDto.horaFin, "YYYY-MM-DD HH:mm:ss");
+    const hasta = moment(new Date() +" " + createConduceDto.horaFin, "YYYY-MM-DD HH:mm:ss");
    
     if (desde > hasta) {
       throw new BadRequestException(
