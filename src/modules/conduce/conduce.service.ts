@@ -123,8 +123,8 @@ export class ConduceService {
     desde.setMinutes(parseInt(createConduceDto.horaInicio.split(':')[1]));
     //const hasta = moment(new Date() +" " + createConduceDto.horaFin, "YYYY-MM-DD HH:mm:ss");
     const hasta = new Date();
-    hasta.setHours(parseInt(createConduceDto.horaInicio.split(':')[0]));
-    hasta.setMinutes(parseInt(createConduceDto.horaInicio.split(':')[1]));
+    hasta.setHours(parseInt(createConduceDto.horaFin.split(':')[0]));
+    hasta.setMinutes(parseInt(createConduceDto.horaFin.split(':')[1]));
     if (desde > hasta) {
       throw new BadRequestException(
         'La hora de inicio debe ser menor que la fin',
