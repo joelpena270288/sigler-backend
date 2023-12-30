@@ -22,10 +22,9 @@ export class CreateConduceDto {
     
   @IsNotEmpty()
     firma_cliente: string;  
-    @IsString() 
+
     observaciones: string; 
-    @IsString()
-    fecha: string; 
+   
     @IsString()
     horaInicio: string;
     @IsString()
@@ -35,7 +34,7 @@ export class CreateConduceDto {
    
     hasta: string;   
    
-  @IsNotEmpty()
+ 
     idMaterial: string;
     cantidadViaje: number;
     metrosCubicos: number;
