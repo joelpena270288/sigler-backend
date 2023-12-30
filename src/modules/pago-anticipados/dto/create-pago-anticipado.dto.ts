@@ -1,4 +1,4 @@
-import { IsString, IsDecimal, IsNotEmpty } from "class-validator";
+import { IsString, IsDecimal, IsNotEmpty, IsDate } from "class-validator";
 export class CreatePagoAnticipadoDto {
 
     @IsNotEmpty()
