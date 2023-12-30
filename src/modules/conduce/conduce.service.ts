@@ -130,7 +130,7 @@ export class ConduceService {
     newConduce.observaciones = createConduceDto.observaciones;
     newConduce.proyecto = foundProyecto;
     newConduce.servicio = foundServicio;
-    newConduce.fecha = new Date(createConduceDto.fecha);
+    newConduce.fecha = new Date();
     newConduce.empleado = foundEmpleado;
     newConduce.equipo = foundEquipo;
     newConduce.firma_chofer = createConduceDto.firma_chofer;
