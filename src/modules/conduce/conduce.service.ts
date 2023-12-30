@@ -138,8 +138,8 @@ export class ConduceService {
     newConduce.firma_chofer = createConduceDto.firma_chofer;
     newConduce.firma_cliente = createConduceDto.firma_cliente;
     
-    const momentDesde = moment(desde).format();
-    const momentHasta = moment(hasta).format();
+    const momentDesde = moment(desde);
+    const momentHasta = moment(hasta);
     const duration = moment.duration(momentHasta.diff(momentDesde));
    
     newConduce.horas = moment(duration.hours().toString() + " " +  duration.minutes().toString(),"HH:mm").format("HH:mm");
