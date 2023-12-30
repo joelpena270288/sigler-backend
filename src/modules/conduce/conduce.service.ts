@@ -41,7 +41,8 @@ export class ConduceService {
     const newConduce: Conduce = new Conduce();
     newConduce.horasreportadasequipo = createConduceDto.reportadasequipo;
     newConduce.horasreportadastrabajado = createConduceDto.reportadastrabajador;
-    newConduce.cantidadConsummoCombustible = createConduceDto.cantidadConsummoCombustible;
+    newConduce.cantidadConsummoCombustible =
+      createConduceDto.cantidadConsummoCombustible;
     const foundEquipo: Equipo = await this.equipoRepository.findOne({
       where: { id: createConduceDto.idEquipo },
     });
@@ -115,20 +116,23 @@ export class ConduceService {
     } else {
       throw new BadRequestException('Debe introducir un Modelo de Conduce');
     }
-     
+
     //const desde = moment(new Date() +" " +  createConduceDto.horaInicio, "YYYY-MM-DD HH:mm:ss");
-   const desde =  new Date();
-   desde.setHours( createConduceDto.horaInicio)
+    const desde = new Date();
+    desde.setHours(parseInt(createConduceDto.horaInicio.split(':')[0]));
+    desde.setMinutes(parseInt(createConduceDto.horaInicio.split(':')[1]));
     //const hasta = moment(new Date() +" " + createConduceDto.horaFin, "YYYY-MM-DD HH:mm:ss");
-   const hasta = new Date();
-   hasta.setHours(createConduceDto.horaFin);
+    const hasta = new Date();
+    hasta.setHours(parseInt(createConduceDto.horaInicio.split(':')[0]));
+    hasta.setMinutes(parseInt(createConduceDto.horaInicio.split(':')[1]));
     if (desde > hasta) {
       throw new BadRequestException(
         'La hora de inicio debe ser menor que la fin',
       );
     }
-    newConduce.horaFin = hasta;
-    newConduce.horaInicio = desde;
+
+    newConduce.horaFin = moment(hasta).format('HH:mm:ss');
+    newConduce.horaInicio =  moment(desde).format('HH:mm:ss');
     newConduce.observaciones = createConduceDto.observaciones;
     newConduce.proyecto = foundProyecto;
     newConduce.servicio = foundServicio;
@@ -137,12 +141,15 @@ export class ConduceService {
     newConduce.equipo = foundEquipo;
     newConduce.firma_chofer = createConduceDto.firma_chofer;
     newConduce.firma_cliente = createConduceDto.firma_cliente;
-    
+
     const momentDesde = moment(desde);
     const momentHasta = moment(hasta);
     const duration = moment.duration(momentHasta.diff(momentDesde));
-   
-    newConduce.horas = moment(duration.hours().toString() + " " +  duration.minutes().toString(),"HH:mm").format("HH:mm");
+
+    newConduce.horas = moment(
+      duration.hours().toString() + ' ' + duration.minutes().toString(),
+      'HH:mm',
+    ).format('HH:mm');
 
     return await this.conduceRepository.save(newConduce);
   }
