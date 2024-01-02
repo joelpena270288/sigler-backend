@@ -1,28 +1,27 @@
-import { IsString, IsInt,IsDecimal,IsDate } from "class-validator";
+import { IsString, IsInt,IsDecimal,IsDate, IsNotEmpty } from "class-validator";
 export class CreateConsumoCombustibleDto {
  @IsDecimal()
 galones: number;
-@IsString()
+@IsNotEmpty()
 Nombre: string;
-@IsString()
+@IsNotEmpty()
 idcombustible: string;
-@IsString()
+@IsNotEmpty()
 idequipo: string;
-@IsString()
+
 idproyecto: string;
-@IsString() 
+@IsNotEmpty()
  NCF: string;
- @IsString() 
+ @IsNotEmpty()
 factura: string;
-@IsString()   
+@IsNotEmpty()  
 RNC: string;
 @IsString()  
  direccion: string; 
- @IsString()   
-  proyecto: string; 
-@IsDate()
+
+ @IsNotEmpty()
 fecha: Date; 
-@IsDecimal()
+
 importeimpuesto: number;
 @IsDecimal()
 importe: number;
