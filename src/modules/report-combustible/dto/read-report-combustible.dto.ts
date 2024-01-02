@@ -8,6 +8,7 @@ consumocombustible: string;
 proyecto: string;
 cantidadHorasReportadasTrabajador: string;
 cantidadHorasReportadasEquipo: string;
+servicio: string;
 
 
 }

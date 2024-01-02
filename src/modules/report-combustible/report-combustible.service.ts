@@ -19,6 +19,7 @@ export class ReportCombustibleService {
       .createQueryBuilder('conduce')
       .innerJoinAndSelect('conduce.proyecto', 'proyecto')
       .innerJoinAndSelect('conduce.empleado', 'empleado')
+      innerJoinAndSelect('conduce.servicio', 'servicio')
       .innerJoinAndSelect('conduce.equipo', 'equipo')
       .innerJoinAndSelect('equipo.marca', 'marca')
       .innerJoinAndSelect('proyecto.cliente', 'cliente')
@@ -61,6 +62,7 @@ export class ReportCombustibleService {
           listConduce[index].horasreportadasequipo;
         newReport.cantidadHorasReportadasTrabajador =
           listConduce[index].horasreportadastrabajado;
+          newReport.servicio =  listConduce[index].servicio.name;
         readReportCombustible.push(newReport);
       }
     }
