@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateReportCombustibleDto } from './dto/create-report-combustible.dto';
-import { UpdateReportCombustibleDto } from './dto/update-report-combustible.dto';
+
 import { Repository } from 'typeorm';
 import { Conduce } from '../conduce/entities/conduce.entity';
 import { Filtro } from './dto/filto.dto';
 import { ReadReportCombustibleDTO } from './dto/read-report-combustible.dto';
+import { StatusProyecto } from '../proyecto/status.enum';
+import { EstatusConduce } from '../conduce/status.enum';
 
 @Injectable()
 export class ReportCombustibleService {

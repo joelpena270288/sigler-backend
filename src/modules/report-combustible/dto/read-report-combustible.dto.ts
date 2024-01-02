@@ -1,5 +1,5 @@
 export class ReadReportCombustibleDTO{
-consecutivo: string;
+consecutivo: number;
 nombreempleado: string;
 equipo: string;
 horainicial: string;

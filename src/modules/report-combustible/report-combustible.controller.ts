@@ -15,7 +15,7 @@ export class ReportCombustibleController {
   @Post()
 
   create(@Body() filtro: Filtro) {
-    return this.reportCombustibleService.create(filtro);
+    return this.reportCombustibleService.getReport(filtro);
   }
 
   
