@@ -40,7 +40,7 @@ export class ConsumoCombustibleService {
     if (!foundEquipo) {
       throw new NotFoundException('El equipo introducido no esta disponible');
     }
-    if (createConsumoCombustibleDto.idproyecto !== '') {
+    if (createConsumoCombustibleDto.idproyecto !== null) {
       const foundproyecto: Proyecto = await this.proyectoRepository.findOne({
         where: {
           id: createConsumoCombustibleDto.idproyecto,
