@@ -2,15 +2,15 @@
 import { IsString, IsInt,IsDecimal } from "class-validator";
 import {CreateGastoItemDto} from '../../gasto_item/dto/create-gasto_item.dto';
 export class CreateGastosEmpresaDto {
-    @IsString()
+    @IsNotEmpty()
     descripcion: string;
-    @IsString()
+    @IsNotEmpty()
     Nombre: string;
-    @IsString()
+    @IsNotEmpty()
     NCF: string;
-    @IsString()
+    @IsNotEmpty()
     factura: string;
-    @IsString()
+    @IsNotEmpty()
     RNC: string;
     @IsDecimal()
     propina: number;  
@@ -18,7 +18,7 @@ export class CreateGastosEmpresaDto {
     impuestoselectivoconsumo: number;
     @IsString()
     direccion: string; 
-    @IsString()
+   
     idproyecto: string;  
     tipopago: string;
     items: CreateGastoItemDto[];
