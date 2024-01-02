@@ -8,7 +8,7 @@ Nombre: string;
 idcombustible: string;
 @IsNotEmpty()
 idequipo: string;
-
+proyecto:string;
 idproyecto: string;
 @IsNotEmpty()
  NCF: string;

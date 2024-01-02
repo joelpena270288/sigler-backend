@@ -30,23 +30,7 @@ export class ConsumoCombustibleService {
     createConsumoCombustibleDto: CreateConsumoCombustibleDto,
   ): Promise<ConsumoCombustible> {
     const newConsumoCombustible: ConsumoCombustible = new ConsumoCombustible();
-    if (createConsumoCombustibleDto.idequipo == '') {
-      throw new BadRequestException('Debe introducir un equipo');
-    }
-    if (
-      createConsumoCombustibleDto.galones == 0 ||
-      createConsumoCombustibleDto.importe == 0 ||
-      createConsumoCombustibleDto.importeimpuesto == 0 ||
-      createConsumoCombustibleDto.valortotal == 0
-    ) {
-      throw new BadRequestException(
-        'Debe introducir todos los datos de la factura de combustible',
-      );
-    }
-
-    if (createConsumoCombustibleDto.idcombustible == '') {
-      throw new BadRequestException('Debe escoger un combustible');
-    }
+ 
     const foundEquipo: Equipo = await this.equipoRepository.findOne({
       where: {
         id: createConsumoCombustibleDto.idequipo,
