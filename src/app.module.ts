@@ -54,6 +54,7 @@ import { ReportTrabajadorConduceModule } from './modules/report-trabajador-condu
 import { Report06Module } from './modules/report-06/report-06.module';
 import { Report07Module } from './modules/report-07/report-07.module';
 import { AlertCuentasPorCobrarModule } from './modules/alert-cuentas-por-cobrar/alert-cuentas-por-cobrar.module';
+import { ReportCombustibleModule } from './modules/report-combustible/report-combustible.module';
 
 @Module({
    
@@ -122,7 +123,9 @@ import { AlertCuentasPorCobrarModule } from './modules/alert-cuentas-por-cobrar/
    
      Report07Module,
    
-     AlertCuentasPorCobrarModule]
+     AlertCuentasPorCobrarModule,
+   
+     ReportCombustibleModule]
 })
 export class AppModule {
  static port: number | string;

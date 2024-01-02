@@ -5,6 +5,6 @@ start: Date;
 @IsNotEmpty()
 end: Date;
 @IsNotEmpty()
-idempleado: string;
+idequipo: string;
 
 }
