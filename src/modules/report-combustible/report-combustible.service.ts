@@ -19,7 +19,7 @@ export class ReportCombustibleService {
       .createQueryBuilder('conduce')
       .innerJoinAndSelect('conduce.proyecto', 'proyecto')
       .innerJoinAndSelect('conduce.empleado', 'empleado')
-      innerJoinAndSelect('conduce.servicio', 'servicio')
+      .innerJoinAndSelect('conduce.servicio', 'servicio')
       .innerJoinAndSelect('conduce.equipo', 'equipo')
       .innerJoinAndSelect('equipo.marca', 'marca')
       .innerJoinAndSelect('proyecto.cliente', 'cliente')
