@@ -14,7 +14,7 @@ export class CreateClienteDto {
   tipoDocumento: string;
  
   email: string;
-  @IsString()
+  
   nombrecontacto: string;
 
 }
