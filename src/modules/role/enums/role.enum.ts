@@ -3,5 +3,6 @@ export enum RoleEnum {
     ADMIN = 'admin',
     FACTURADOR = 'facturador',
     RH = 'recursos_humanos',
-    DIGITADOR = 'digitador'
+    DIGITADOR = 'digitador',
+    ADMINISTRATIVO = 'administrativo'
   }
