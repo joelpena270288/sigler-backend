@@ -12,10 +12,7 @@ import { RoleEnum } from '../role/enums/role.enum';
 @Controller('proyecto')
 export class ProyectoController {
   constructor(private readonly proyectoService: ProyectoService) {}
-  @HasRoles(
-    RoleEnum.ADMIN,   
-    RoleEnum.FACTURADOR,  
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createProyectoDto: CreateProyectoDto) {
@@ -55,11 +52,7 @@ export class ProyectoController {
   remove(@Param('id') id: string) {
     return this.proyectoService.remove(id);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,   
-    RoleEnum.FACTURADOR
-  
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/aprobar/:id')
   aprobar(@Param('id') id: string) {
