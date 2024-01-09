@@ -107,7 +107,7 @@ export class ConsumoCombustibleService {
 
   async remove(id: string): Promise<ConsumoCombustible> {
     const foundConsumoCombustible: ConsumoCombustible =
-      await this.consumoCombustibleRepositoryfoundentrada.createQueryBuilder('consumo')
+      await this.consumoCombustibleRepository.createQueryBuilder('consumo')
       .innerJoinAndSelect('consumo.combustible','combustible')
       .getOne();
     if (!foundConsumoCombustible) {
