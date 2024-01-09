@@ -67,6 +67,9 @@ export class EntradaCombustibleService {
   async findOne(id: string): Promise<EntradaCombustible> {
     return await this.entradaCombustibleRepository.findOne({
       where: { id: id, status: Status.ACTIVO },
+      relations: {
+        combustible: true
+      }
     });
   }
 
