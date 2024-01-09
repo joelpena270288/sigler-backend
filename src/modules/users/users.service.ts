@@ -52,8 +52,8 @@ export class UsersService {
     }
 
     const user = new User();
-
-    user.username = username;
+ 
+    user.username = username.toLowerCase();
     user.roles = rolesfound;
     const detail = new UserDetails();
     detail.name = name;
@@ -103,7 +103,7 @@ export class UsersService {
       throw new ConflictException('el usuario no existe');
     }
     const salt = await bcrypt.genSalt(10);
-
+   
     userExists.details.name = updateUserDto.name;
     userExists.details.lastname = updateUserDto.lastname;
     userExists.details.email = updateUserDto.email;

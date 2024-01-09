@@ -29,6 +29,16 @@ export class ConsumoCombustibleService {
   async create(
     createConsumoCombustibleDto: CreateConsumoCombustibleDto,
   ): Promise<ConsumoCombustible> {
+    const foundCombustible: Combustible =
+    await this.combustibleRepository.findOne({
+      where: { id: createConsumoCombustibleDto.idcombustible },
+    });
+  if (!foundCombustible) {
+    throw new NotFoundException('El Combustible introducido no es valido');
+  }
+  if(parseFloat(foundCombustible.capacidadTanque.capacidad.toString()) < parseFloat(createConsumoCombustibleDto.galones.toString())){
+    throw new BadRequestException("La capacidad en Tanque es menor que la introducida");
+  }
     const newConsumoCombustible: ConsumoCombustible = new ConsumoCombustible();
  
     const foundEquipo: Equipo = await this.equipoRepository.findOne({
@@ -54,13 +64,7 @@ export class ConsumoCombustibleService {
       newConsumoCombustible.nombreProyecto = foundproyecto.name;
       newConsumoCombustible.cliente = foundproyecto.cliente.nombre;
     }
-    const foundCombustible: Combustible =
-      await this.combustibleRepository.findOne({
-        where: { id: createConsumoCombustibleDto.idcombustible },
-      });
-    if (!foundCombustible) {
-      throw new NotFoundException('El Combustible introducido no es valido');
-    }
+  
     newConsumoCombustible.equipo = foundEquipo;
   
    
