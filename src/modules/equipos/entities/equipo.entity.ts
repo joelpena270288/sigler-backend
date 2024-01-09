@@ -17,6 +17,7 @@ import {
 import { TipoEquipo } from '../../tipo_equipo/entities/tipo_equipo.entity';
 import { Marca } from '../../marca/entities/marca.entity';
 import { ConsumoCombustible } from '../../consumo_combustible/entities/consumo_combustible.entity';
+import { GastosEmpresa } from '../../gastos_empresas/entities/gastos_empresa.entity';
   @Entity('equipos')
 export class Equipo {
     @PrimaryGeneratedColumn('uuid')
@@ -49,6 +50,8 @@ export class Equipo {
     tipo: TipoEquipo;
     @OneToMany(() => ConsumoCombustible, (consumo_combustible) => consumo_combustible.equipo)
     consumo_combustibles: ConsumoCombustible[];
+    @OneToMany(() => GastosEmpresa, (gasto) => gasto.equipo)
+    gastos: GastosEmpresa[];
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
     createdAt: Date;
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at' })

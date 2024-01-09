@@ -16,6 +16,7 @@ import { Proyecto } from '../proyecto/entities/proyecto.entity';
 import { StatusProyecto } from '../proyecto/status.enum';
 import { GastoItem } from '../gasto_item/entities/gasto_item.entity';
 import { StatusGasto } from './entities/gasto-status.enum';
+import { Equipo } from '../equipos/entities/equipo.entity';
 
 @Injectable()
 export class GastosEmpresasService {
@@ -26,6 +27,8 @@ export class GastosEmpresasService {
     private proyectoRepository: Repository<Proyecto>,
     @Inject('GASTOITEM_REPOSITORY')
     private itemsRepository: Repository<GastoItem>,
+    @Inject('EQUIPO_REPOSITORY')
+    private equipoRepository: Repository<Equipo>,
   ) {}
   async create(
     createGastosEmpresaDto: CreateGastosEmpresaDto,
@@ -54,6 +57,19 @@ export class GastosEmpresasService {
         throw new BadRequestException('El proyecto introducido no es valido');
       } else {
         gasto.proyecto = foundProyecto;
+      }
+    }
+    if (createGastosEmpresaDto.idequipo !== null) {
+      const foundEquipo: Equipo = await this.equipoRepository.findOne({
+        where: {
+          status: Not(StatusProyecto.CANCELADO),
+          id: createGastosEmpresaDto.idequipo,
+        },
+      });
+      if (!foundEquipo) {
+        throw new BadRequestException('El equipo introducido no es valido');
+      } else {
+        gasto.equipo = foundEquipo;
       }
     }
     const creategasto: GastosEmpresa = await this.gastoRepository.save(gasto);

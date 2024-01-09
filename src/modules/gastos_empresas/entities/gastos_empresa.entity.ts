@@ -18,6 +18,7 @@ import { PagoGasto } from '../../pago-gasto/entities/pago-gasto.entity';
 import { CuentasPorPagarEmpresa } from './cuenta-por-pagar-empresa.entity';
 import { GastoItem } from '../../gasto_item/entities/gasto_item.entity';
 import { TipoPagoGasto } from './gasto-tipo-pago.enum';
+import { Equipo } from '../../equipos/entities/equipo.entity';
 @Entity('gastos_empresa')
 export class GastosEmpresa {
   @PrimaryGeneratedColumn('uuid')
@@ -37,6 +38,8 @@ export class GastosEmpresa {
 
   @ManyToOne(() => Proyecto, (proyecto) => proyecto.gastos, { nullable: true })
   proyecto: Proyecto;
+  @ManyToOne(() => Equipo, (equipo) => equipo.gastos, { nullable: true })
+  equipo: Equipo;
 
   @OneToOne((type) => CuentasPorPagarEmpresa, {
     cascade: true,

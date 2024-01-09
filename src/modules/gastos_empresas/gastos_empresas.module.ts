@@ -5,6 +5,7 @@ import { DatabaseModule } from '../../database/database.module';
 import { GastoEmpresaProviders } from './gastos_empresas.providers';
 import { ProyectoProviders } from '../proyecto/proyecto.providers';
 import { GastoItemProviders } from '../gasto_item/gasto_item.providers';
+import { EquipoProviders } from '../equipos/equipos.providers';
 
 @Module({
   imports: [DatabaseModule],
@@ -13,7 +14,7 @@ import { GastoItemProviders } from '../gasto_item/gasto_item.providers';
    
   ],
   providers: [GastosEmpresasService, ...GastoEmpresaProviders,
-    ...ProyectoProviders,...GastoItemProviders],
+    ...ProyectoProviders,...GastoItemProviders,...EquipoProviders],
   exports: [GastosEmpresasService],
 })
 export class GastosEmpresasModule {}
