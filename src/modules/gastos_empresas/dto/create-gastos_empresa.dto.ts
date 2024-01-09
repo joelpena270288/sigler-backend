@@ -18,7 +18,8 @@ export class CreateGastosEmpresaDto {
     impuestoselectivoconsumo: number;
     @IsString()
     direccion: string; 
-   
+    @IsNotEmpty()
+    fecha: Date;
     idproyecto: string;  
     tipopago: string;
     items: CreateGastoItemDto[];

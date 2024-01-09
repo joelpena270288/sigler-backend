@@ -42,7 +42,7 @@ export class GastosEmpresasService {
     gasto.tipoPago = createGastosEmpresaDto.tipopago;
     gasto.impuestoselectivoconsumo = createGastosEmpresaDto.impuestoselectivoconsumo;
     gasto.propina = createGastosEmpresaDto.propina;
-
+    gasto.createdAt = createGastosEmpresaDto.fecha;
     if (createGastosEmpresaDto.idproyecto !== null) {
       const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
         where: {
