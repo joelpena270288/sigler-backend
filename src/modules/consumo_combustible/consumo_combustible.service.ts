@@ -107,9 +107,9 @@ export class ConsumoCombustibleService {
 
   async remove(id: string): Promise<ConsumoCombustible> {
     const foundConsumoCombustible: ConsumoCombustible =
-      await this.consumoCombustibleRepository.findOne({
-        where: { id: id, status: Status.ACTIVO },
-      });
+      await this.consumoCombustibleRepositoryfoundentrada.createQueryBuilder('consumo')
+      .innerJoinAndSelect('consumo.combustible','combustible')
+      .getOne();
     if (!foundConsumoCombustible) {
       throw new NotFoundException('El consumo introducido no es valido');
     }
