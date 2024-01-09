@@ -43,7 +43,7 @@ export class GastosEmpresasService {
     gasto.impuestoselectivoconsumo = createGastosEmpresaDto.impuestoselectivoconsumo;
     gasto.propina = createGastosEmpresaDto.propina;
 
-    if (createGastosEmpresaDto.idproyecto !== '') {
+    if (createGastosEmpresaDto.idproyecto !== null) {
       const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
         where: {
           status: Not(StatusProyecto.CANCELADO),
