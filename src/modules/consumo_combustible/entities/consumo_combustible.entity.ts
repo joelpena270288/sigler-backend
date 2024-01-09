@@ -1,3 +1,4 @@
+import { Combustible } from '../../combustible/entities/combustible.entity';
 import { Equipo } from   '../../equipos/entities/equipo.entity';
 import { Proyecto } from '../../proyecto/entities/proyecto.entity';
 import {
@@ -20,24 +21,8 @@ export class ConsumoCombustible {
     id: string;
     @Column({type: 'decimal', nullable: false, default: 0, precision: 10, scale: 2 } )
     galones: number;
-    @Column({ type: 'varchar', nullable: false })
-    combustible: string;
-    @Column({ type: 'varchar', nullable: false })
-    Nombre: string;
-    @Column({ type: 'varchar', nullable: false })
-    NCF: string;
-    @Column({ type: 'varchar', nullable: false })
-    factura: string;
-    @Column({ type: 'varchar', nullable: false })
-    RNC: string;
-    @Column({ type: 'varchar', nullable: false })
-    direccion: string; 
-    @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
-    importeimpuesto: number;
-    @Column({ type: 'decimal', nullable: false,  precision: 10, scale: 2 })
-    importe: number;
-    @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
-    valortotal: number;
+    @ManyToOne(() => Combustible, (combustible) => combustible.consumo)
+    combustible: Combustible  
     @Column({ type: 'varchar', nullable: true })
     nombreProyecto: string;
     @Column({ type: 'varchar', nullable: true })

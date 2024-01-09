@@ -40,7 +40,7 @@ export class ConsumoCombustibleService {
     if (!foundEquipo) {
       throw new NotFoundException('El equipo introducido no esta disponible');
     }
-    if (createConsumoCombustibleDto.idproyecto !== null) {
+    if (createConsumoCombustibleDto.idproyecto !== '') {
       const foundproyecto: Proyecto = await this.proyectoRepository.findOne({
         where: {
           id: createConsumoCombustibleDto.idproyecto,
@@ -62,27 +62,24 @@ export class ConsumoCombustibleService {
       throw new NotFoundException('El Combustible introducido no es valido');
     }
     newConsumoCombustible.equipo = foundEquipo;
-    newConsumoCombustible.Nombre = createConsumoCombustibleDto.Nombre;
-    newConsumoCombustible.NCF = 'B'+ createConsumoCombustibleDto.NCF;
-    newConsumoCombustible.RNC = createConsumoCombustibleDto.RNC;
-    newConsumoCombustible.direccion = createConsumoCombustibleDto.direccion;
-    newConsumoCombustible.factura = createConsumoCombustibleDto.factura;
+  
+   
     newConsumoCombustible.fecha = createConsumoCombustibleDto.fecha;
     newConsumoCombustible.galones = parseFloat(
       createConsumoCombustibleDto.galones.toString(),
     );
-    newConsumoCombustible.importe = parseFloat(
-      createConsumoCombustibleDto.importe.toString(),
-    );
-    newConsumoCombustible.importeimpuesto = parseFloat(
-      createConsumoCombustibleDto.importeimpuesto.toString(),
-    );
-    newConsumoCombustible.valortotal =
-      parseFloat(newConsumoCombustible.importe.toString()) +
-      parseFloat(newConsumoCombustible.importeimpuesto.toString());
-    newConsumoCombustible.combustible = foundCombustible.name;
+     
+  
+    newConsumoCombustible.combustible = foundCombustible;
+   const savedConsumo: ConsumoCombustible = await this.consumoCombustibleRepository.save(newConsumoCombustible);
+   if(!savedConsumo){
+    throw new BadRequestException("No se pudo asignar el combustible");
+   }
 
-    return await this.consumoCombustibleRepository.save(newConsumoCombustible);
+   foundCombustible.capacidadTanque.capacidad = parseFloat(foundCombustible.capacidadTanque.capacidad.toString()) - parseFloat(createConsumoCombustibleDto.galones.toString());
+   foundCombustible.capacidadTanque.updatedAt = new Date();
+   await this.combustibleRepository.save(foundCombustible);
+   return savedConsumo;
   }
 
   async findAll(): Promise<ConsumoCombustible[]> {
@@ -113,8 +110,14 @@ export class ConsumoCombustibleService {
       throw new NotFoundException('El consumo introducido no es valido');
     }
     foundConsumoCombustible.status = Status.INACTIVO;
-
-    return await this.consumoCombustibleRepository.save(
+    const foundCombustible: Combustible =
+      await this.combustibleRepository.findOne({
+        where: { id: foundConsumoCombustible.combustible.id },
+      });
+      foundCombustible.capacidadTanque.capacidad = parseFloat(foundCombustible.capacidadTanque.capacidad.toString()) + parseFloat(foundConsumoCombustible.galones.toString());
+      foundCombustible.capacidadTanque.updatedAt = new Date();
+   await this.combustibleRepository.save(foundCombustible);
+      return await this.consumoCombustibleRepository.save(
       foundConsumoCombustible,
     );
   }

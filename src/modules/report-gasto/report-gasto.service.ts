@@ -5,13 +5,14 @@ import { ConsumoCombustible } from '../consumo_combustible/entities/consumo_comb
 import {FiltroFechaDto}  from './dto/filtro-fecha.dto';
 import { Status } from '../../EntityStatus/entity.estatus.enum';
 import { Repository } from 'typeorm';
+import { EntradaCombustible } from '../entrada-combustible/entities/entrada-combustible.entity';
 @Injectable()
 export class ReportGastoService {
   constructor(
     @Inject('GASTOEMPRESA_REPOSITORY')
     private gastoempresaRepository: Repository<GastosEmpresa>,
-    @Inject('CONSUMOCOMBUSTIBLE_REPOSITORY')
-    private combustibleRepository: Repository<ConsumoCombustible>,
+    @Inject('ENTRADACOMBUSTIBLE_REPOSITORY')
+    private entradacombustibleRepository: Repository<EntradaCombustible>,
    
   ) {}
 
@@ -35,7 +36,7 @@ export class ReportGastoService {
   .andWhere('gasto.status =:status',{status:Status.ACTIVO})
   .getMany();
 
-  const combustible: ConsumoCombustible[] = await this.combustibleRepository.createQueryBuilder('combustible')
+  const combustible: EntradaCombustible[] = await this.entradacombustibleRepository.createQueryBuilder('combustible')
   .where('combustible.fecha >= :start',{start: filtroFechaDto.start+' 00:00:00'}) 
   .andWhere('combustible.fecha  <= :end',{end: filtroFechaDto.end+' 23:59:00'})
   .andWhere('combustible.status =:status',{status:Status.ACTIVO})
