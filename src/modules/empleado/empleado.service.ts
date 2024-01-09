@@ -53,6 +53,7 @@ export class EmpleadoService {
     newEmpleado.phone = createEmpleadoDto.phone;
     newEmpleado.passport = createEmpleadoDto.passport;
 	newEmpleado.name = createEmpleadoDto.name;
+  newEmpleado.fecha = createEmpleadoDto.fecha;
     return await this.empleadoRepository.save(newEmpleado);
   }
 
@@ -105,6 +106,7 @@ export class EmpleadoService {
     foundEmpleado.passport = updateEmpleadoDto.passport;
     foundEmpleado.phone = updateEmpleadoDto.phone;
     foundEmpleado.updatedAt = new Date();
+    foundEmpleado.fecha = updateEmpleadoDto.fecha;
     return await this.empleadoRepository.save(foundEmpleado);
   }
 

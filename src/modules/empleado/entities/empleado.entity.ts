@@ -41,7 +41,8 @@ export class Empleado {
   cargos: Cargo[];
   @OneToMany(() => Conduce, (conduce) => conduce.empleado)
   conduces: Conduce[];
-
+  @CreateDateColumn({ type: 'timestamp', name: 'fecha_ingreso', nullable: true })
+  fecha: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

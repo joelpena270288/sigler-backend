@@ -13,5 +13,7 @@ passport: string;
 
 cedule: string;
 cargos: string[];
+@IsNotEmpty()
+fecha: Date;
 
 }
