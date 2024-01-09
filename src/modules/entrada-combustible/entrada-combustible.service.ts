@@ -76,9 +76,9 @@ export class EntradaCombustibleService {
   }
 
   async remove(id: string): Promise<EntradaCombustible> {
-    const foundentrada = await this.entradaCombustibleRepository.findOne({
-      where: { id: id, status: Status.ACTIVO },
-    });
+    const foundentrada =  await this.entradaCombustibleRepository.createQueryBuilder('entrada')
+    .innerJoinAndSelect('entrada.combustible','combustible')
+    .getOne();
     if (!foundentrada) {
       throw new BadRequestException(
         'La Entrada de combustible intrododucida no es valida',
