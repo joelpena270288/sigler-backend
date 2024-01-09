@@ -3,6 +3,7 @@ import { CreateCombustibleDto } from './dto/create-combustible.dto';
 import { UpdateCombustibleDto } from './dto/update-combustible.dto';
 import { Combustible } from './entities/combustible.entity';
 import { Repository } from 'typeorm';
+import { CapacidadTanque } from './entities/capacidad-tanque.entity';
 
 @Injectable()
 export class CombustibleService {
@@ -11,9 +12,10 @@ export class CombustibleService {
     private combustibleRepository: Repository<Combustible>,
   ) {}
  async create(createCombustibleDto: CreateCombustibleDto): Promise<Combustible> {
+  const capacidadTanque: CapacidadTanque = new CapacidadTanque();
     const newCombustible: Combustible = new Combustible();
     newCombustible.name = createCombustibleDto.name.toUpperCase();
- 
+    newCombustible.capacidadTanque = capacidadTanque;
     return await this.combustibleRepository.save(newCombustible);
   }
 
