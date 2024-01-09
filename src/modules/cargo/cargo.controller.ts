@@ -11,9 +11,8 @@ import { RolesGuard } from '../role/guards/roles.guard';
 export class CargoController {
   constructor(private readonly cargoService: CargoService) {}
   @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
+    RoleEnum.ADMIN,  
+   
     RoleEnum.RH,
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,23 +20,13 @@ export class CargoController {
   create(@Body() createCargoDto: CreateCargoDto) {
     return this.cargoService.create(createCargoDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.cargoService.findAll();
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -45,8 +34,7 @@ export class CargoController {
   }
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
+   
     RoleEnum.RH,
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -56,8 +44,7 @@ export class CargoController {
   }
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
+   
     RoleEnum.RH,
   )
   @UseGuards(JwtAuthGuard, RolesGuard)

@@ -25,13 +25,13 @@ export class ImpuestosController {
   create(@Body() createImpuestoDto: CreateImpuestoDto) {
     return this.impuestosService.create(createImpuestoDto);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.impuestosService.findAll();
   }
-  @HasRoles(RoleEnum.ADMIN,  RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {

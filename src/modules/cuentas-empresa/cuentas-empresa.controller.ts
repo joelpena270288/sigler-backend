@@ -16,13 +16,13 @@ export class CuentasEmpresaController {
   create(@Body() createCuentasEmpresaDto: CreateCuentasEmpresaDto) {
     return this.cuentasEmpresaService.create(createCuentasEmpresaDto);
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.cuentasEmpresaService.findAll();
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {

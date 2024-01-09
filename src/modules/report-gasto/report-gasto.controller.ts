@@ -19,7 +19,7 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('report-gasto')
 export class ReportGastoController {
   constructor(private readonly reportGastoService: ReportGastoService) {}
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   getReport(@Body() filtroFechaDto: FiltroFechaDto) {

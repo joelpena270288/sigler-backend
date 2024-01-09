@@ -10,56 +10,31 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('marca')
 export class MarcaController {
   constructor(private readonly marcaService: MarcaService) {}
-  @HasRoles(
-    RoleEnum.ADMIN,
-   
-    RoleEnum.FACTURADOR,
-    
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createMarcaDto: CreateMarcaDto) {
     return this.marcaService.create(createMarcaDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.marcaService.findAll();
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.marcaService.findOne(id);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
- 
-    RoleEnum.FACTURADOR,
-   
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMarcaDto: UpdateMarcaDto) {
     return this.marcaService.update(id, updateMarcaDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    
-    RoleEnum.FACTURADOR,
-
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

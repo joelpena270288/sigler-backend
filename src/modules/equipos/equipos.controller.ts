@@ -10,56 +10,34 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('equipos')
 export class EquiposController {
   constructor(private readonly equiposService: EquiposService) {}
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-  
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO)
   @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Post()
   create(@Body() createEquipoDto: CreateEquipoDto) {
     return this.equiposService.create(createEquipoDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
+ 
   @Get()
   findAll() {
     return this.equiposService.findAll();
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
+ 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.equiposService.findOne(id);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-   
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEquipoDto: UpdateEquipoDto) {
     return this.equiposService.update(id, updateEquipoDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
- 
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

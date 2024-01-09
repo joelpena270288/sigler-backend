@@ -10,19 +10,19 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('pre-factura')
 export class PreFacturaController {
   constructor(private readonly preFacturaService: PreFacturaService) {}
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createPreFacturaDto: CreatePreFacturaDto) {
     return this.preFacturaService.create(createPreFacturaDto);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.preFacturaService.findAll();
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -40,13 +40,13 @@ export class PreFacturaController {
   remove(@Param('id') id: string) {
     return this.preFacturaService.remove(+id);
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/ByIdProyecto/:id')
   findByIdProyecto(@Param('id') id: string) {
     return this.preFacturaService.findByIdProyecto(id);
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/ByIdProyecto/Activa:id')
   findByIdProyectoActiva(@Param('id') id: string) {

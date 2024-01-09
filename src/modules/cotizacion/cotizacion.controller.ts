@@ -16,7 +16,8 @@ export class CotizacionController {
   create(@Body() createCotizacionDto: CreateCotizacionDto) {
     return this.cotizacionService.create(createCotizacionDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.cotizacionService.findAll();

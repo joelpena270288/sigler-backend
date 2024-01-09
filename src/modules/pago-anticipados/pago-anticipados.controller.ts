@@ -27,29 +27,19 @@ export class PagoAnticipadosController {
   create(@Body() createPagoAnticipadoDto: CreatePagoAnticipadoDto) {
     return this.pagoAnticipadosService.create(createPagoAnticipadoDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.pagoAnticipadosService.findAll();
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pagoAnticipadosService.findOne(+id);
   }
-  @HasRoles(RoleEnum.ADMIN)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(
@@ -58,17 +48,14 @@ export class PagoAnticipadosController {
   ) {
     return this.pagoAnticipadosService.update(+id, updatePagoAnticipadoDto);
   }
-  @HasRoles(RoleEnum.ADMIN)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.pagoAnticipadosService.remove(id);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,  
-    RoleEnum.FACTURADOR,
-  
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/getAllByIdCliente/:id')
   getAllByIdCliente(@Param('id') id: string) {

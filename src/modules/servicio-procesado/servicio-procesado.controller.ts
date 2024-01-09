@@ -15,14 +15,14 @@ export class ServicioProcesadoController {
   create(@Body() createServicioProcesadoDto: CreateServicioProcesadoDto) {
     return this.servicioProcesadoService.create(createServicioProcesadoDto);
   }
-   @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
 
   @Get()
   findAll() {
     return this.servicioProcesadoService.findAll();
   }
- @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {

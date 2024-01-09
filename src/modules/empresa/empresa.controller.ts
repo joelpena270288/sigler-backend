@@ -21,7 +21,7 @@ export class EmpresaController {
     return this.empresaService.findAll();
   }
 */
-@HasRoles(RoleEnum.ADMIN)
+@HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
 @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findOne() {

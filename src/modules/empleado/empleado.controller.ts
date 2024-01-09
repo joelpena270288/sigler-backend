@@ -12,8 +12,7 @@ export class EmpleadoController {
   constructor(private readonly empleadoService: EmpleadoService) {}
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
+   
     RoleEnum.RH,
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,23 +20,13 @@ export class EmpleadoController {
   create(@Body() createEmpleadoDto: CreateEmpleadoDto) {
     return this.empleadoService.create(createEmpleadoDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.empleadoService.findAll();
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
 
   @Get(':id')
@@ -46,8 +35,7 @@ export class EmpleadoController {
   }
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
+
     RoleEnum.RH,
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -57,8 +45,7 @@ export class EmpleadoController {
   }
   @HasRoles(
     RoleEnum.ADMIN,
-    RoleEnum.DIGITADOR,
-    RoleEnum.FACTURADOR,
+  
     RoleEnum.RH,
   )
   @UseGuards(JwtAuthGuard, RolesGuard)

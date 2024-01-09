@@ -10,7 +10,7 @@ import { Filtro } from './dto/filto.dto';
 @Controller('report-combustible')
 export class ReportCombustibleController {
   constructor(private readonly reportCombustibleService: ReportCombustibleService) {}
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
 
