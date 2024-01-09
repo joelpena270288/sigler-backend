@@ -6,6 +6,7 @@ import { HasRoles } from '../role/roles.decorator';
 import { RoleEnum } from '../role/enums/role.enum';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
+import { DeleteConduceDto } from './dto/delete-conduce.dto';
 
 @Controller('conduce')
 export class ConduceController {
@@ -36,10 +37,13 @@ export class ConduceController {
   }
   @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.conduceService.remove(id);
+  @Patch('/cancel/:id')
+  cancel(@Param('id') id: string, @Body() deleteConduceDto: DeleteConduceDto) {
+    return this.conduceService.cancel(id, deleteConduceDto);
   }
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  
   @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/getacarreo/:idProyecto')

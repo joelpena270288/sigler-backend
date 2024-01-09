@@ -25,6 +25,7 @@ export class Conduce {
   id: string;
   @Column({ type: 'varchar', length: 100, nullable: false })
   name: string;
+ 
   @ManyToOne(() => Proyecto, (proyecto) => proyecto.conduces, {   
     nullable: false,
   })
@@ -86,7 +87,8 @@ export class Conduce {
   horasreportadasequipo: string;
   @Column({ type: 'varchar', nullable: false ,default: '0.00'})
   cantidadConsummoCombustible: string;
-
+  @Column({ type: 'varchar',  nullable: true })
+  motivo: string;
   @PrimaryGeneratedColumn()
   consecutivo: number;
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })

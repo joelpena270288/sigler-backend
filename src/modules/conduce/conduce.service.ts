@@ -19,6 +19,7 @@ import { TipoConduce } from './type-conduce.enum';
 import { EstatusConduce } from './status.enum';
 import { ApiTooManyRequestsResponse } from '@nestjs/swagger';
 import * as moment from 'moment';
+import { DeleteConduceDto } from './dto/delete-conduce.dto';
 
 @Injectable()
 export class ConduceService {
@@ -173,7 +174,7 @@ export class ConduceService {
     return `This action updates a #${id} conduce`;
   }
 
-  async remove(id: string): Promise<Conduce> {
+  async cancel(id: string, eleteConduceDto: DeleteConduceDto): Promise<Conduce> {
     const foundConduce: Conduce = await this.conduceRepository.findOne({
       where: { id: id },
     });
@@ -181,7 +182,8 @@ export class ConduceService {
       throw new NotFoundException('No existe el conduce');
     }
     foundConduce.status = EstatusConduce.CANCELADO;
-
+    foundConduce.motivo = eleteConduceDto.motivo;
+    foundConduce.updatedAt = new Date();
     return await this.conduceRepository.save(foundConduce);
   }
   async getAcarreoByIdProyecto(idProyecto: string): Promise<Conduce[]> {
