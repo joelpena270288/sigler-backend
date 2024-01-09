@@ -90,6 +90,7 @@ export class ConsumoCombustibleService {
     return await this.consumoCombustibleRepository.find({
       relations: {
         equipo: true,
+        combustible: true
       },
       where: {
         status: Status.ACTIVO,
