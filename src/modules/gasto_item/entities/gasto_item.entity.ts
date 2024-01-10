@@ -15,6 +15,7 @@ import {
   } from 'typeorm';
   import {GastosEmpresa } from '../../gastos_empresas/entities/gastos_empresa.entity';
 import { Status } from '../../../EntityStatus/entity.estatus.enum';
+import { Equipo } from '../../equipos/entities/equipo.entity';
   @Entity('gastos_items') 
 export class GastoItem {
     @PrimaryGeneratedColumn('uuid')
@@ -33,6 +34,10 @@ export class GastoItem {
         nullable: false,
       })
      gasto: GastosEmpresa;
+     @ManyToOne(() => Equipo, (equipo) => equipo.gastosItems, {
+      nullable: true,
+    })
+   equipo: Equipo;
 	
     @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
     status: string;

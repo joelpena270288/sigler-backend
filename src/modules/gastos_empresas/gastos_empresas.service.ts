@@ -59,19 +59,7 @@ export class GastosEmpresasService {
         gasto.proyecto = foundProyecto;
       }
     }
-    if (createGastosEmpresaDto.idequipo !== null) {
-      const foundEquipo: Equipo = await this.equipoRepository.findOne({
-        where: {
-          status: Not(StatusProyecto.CANCELADO),
-          id: createGastosEmpresaDto.idequipo,
-        },
-      });
-      if (!foundEquipo) {
-        throw new BadRequestException('El equipo introducido no es valido');
-      } else {
-        gasto.equipo = foundEquipo;
-      }
-    }
+ 
     const creategasto: GastosEmpresa = await this.gastoRepository.save(gasto);
     if (!creategasto) {
       throw new BadRequestException('Error al generar el gasto');
@@ -101,6 +89,20 @@ export class GastosEmpresasService {
           parseFloat(gasto_item.importe.toString()) +
           parseFloat(gasto_item.importeimpuesto.toString());
         gasto_item.gasto = creategasto;
+        gasto_item.createdAt = createGastosEmpresaDto.fecha;
+        if (createGastosEmpresaDto.items[index].idequipo !== null) {
+          const foundEquipo: Equipo = await this.equipoRepository.findOne({
+            where: {
+              status: Not(StatusProyecto.CANCELADO),
+              id: createGastosEmpresaDto.items[index].idequipo,
+            },
+          });
+          if (!foundEquipo) {
+            throw new BadRequestException('El equipo introducido no es valido');
+          } else {
+            gasto_item.equipo = foundEquipo;
+          }
+        }
         try {
           await this.itemsRepository.save(gasto_item);
         } catch (error) {

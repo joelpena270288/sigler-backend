@@ -21,7 +21,7 @@ export class CreateGastosEmpresaDto {
     @IsNotEmpty()
     fecha: Date;
     idproyecto: string; 
-    idequipo: string; 
+    
     tipopago: string;
     items: CreateGastoItemDto[];
 
