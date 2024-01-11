@@ -10,7 +10,7 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('cotizacion')
 export class CotizacionController {
   constructor(private readonly cotizacionService: CotizacionService) {}
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createCotizacionDto: CreateCotizacionDto) {
@@ -27,13 +27,13 @@ export class CotizacionController {
   findOne(@Param('id') id: string) {
     return this.cotizacionService.findOne(+id);
   }
- @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+ @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCotizacionDto: UpdateCotizacionDto) {
     return this.cotizacionService.update(id, updateCotizacionDto);
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
