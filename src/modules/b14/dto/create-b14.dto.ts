@@ -1,9 +1,9 @@
-import { IsString, IsInt, IsDate } from 'class-validator';
+import { IsString, IsInt, IsDate, IsNotEmpty } from 'class-validator';
 export class CreateB14Dto {
    @IsInt()
     init: number;
     @IsInt()
     end: number;
-    @IsDate()
+    @IsNotEmpty() 
     fecha: Date;
 }
