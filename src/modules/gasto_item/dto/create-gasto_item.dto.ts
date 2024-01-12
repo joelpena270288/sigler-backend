@@ -9,6 +9,8 @@ export class CreateGastoItemDto {
     importeimpuesto: number;  
     @IsDecimal() 
     importe: number;
+    @IsDecimal() 
+    preciounitario: number;
     idequipo: string; 
  
 }

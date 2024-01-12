@@ -89,6 +89,7 @@ export class GastosEmpresasService {
           parseFloat(gasto_item.importe.toString()) +
           parseFloat(gasto_item.importeimpuesto.toString());
         gasto_item.gasto = creategasto;
+        gasto_item.preciounitario = createGastosEmpresaDto.items[index].preciounitario;
         gasto_item.createdAt = createGastosEmpresaDto.fecha;
         if (createGastosEmpresaDto.items[index].idequipo !== null) {
           const foundEquipo: Equipo = await this.equipoRepository.findOne({

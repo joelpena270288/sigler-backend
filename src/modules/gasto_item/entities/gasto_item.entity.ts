@@ -26,6 +26,8 @@ export class GastoItem {
     cantidad: number;	
     @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
     importeimpuesto: number;
+    @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
+    preciounitario: number;
     @Column({ type: 'decimal', nullable: false,  precision: 10, scale: 2 })
     importe: number;
     @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
