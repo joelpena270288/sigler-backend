@@ -170,6 +170,7 @@ export class GastosEmpresasService {
       .leftJoinAndSelect('gasto.proyecto', 'proyecto')
       .leftJoinAndSelect('proyecto.cliente', 'cliente')
       .innerJoinAndSelect('gasto.cuentaporpagar', 'cuentaporpagar')
+      .innerJoinAndSelect('gasto.provedor', 'provedor')
       .leftJoinAndSelect('gasto.pagos', 'pago','pago.status = :estadopago', { estadopago: Status.ACTIVO })
       .leftJoinAndSelect('pago.cuenta', 'cuenta')
       .leftJoinAndSelect('cuenta.moneda', 'moneda')
