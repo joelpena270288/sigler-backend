@@ -32,7 +32,7 @@ export class EntradaCombustibleService {
         'El combustible intrododucido no es valido',
       );
     }
-    const foundProvedor: Provedor = this.provedorRepository.findOne({where:{id: createEntradaCombustibleDto.idprovedor}});
+    const foundProvedor: Provedor = await this.provedorRepository.findOne({where:{id: createEntradaCombustibleDto.idprovedor}});
     if(!foundProvedor){
       throw new NotFoundException("El provedor introducido no es valido");
     }
