@@ -25,8 +25,7 @@ export class GastosEmpresa {
   id: string;
   @Column({ type: 'varchar', nullable: false })
   descripcion: string;
-  @Column({ type: 'varchar', nullable: false })
-  Nombre: string;
+
   @Column({ type: 'varchar', nullable: true })
   NCF: string;
   @Column({ type: 'varchar', nullable: true })
