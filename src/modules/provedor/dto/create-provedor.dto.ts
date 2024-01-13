@@ -7,6 +7,6 @@ export class CreateProvedorDto {
     @IsString()
     documento: string;
     @IsString()
-    tipoDocumento: string; 
+    tipodocumento: string; 
    
 }
