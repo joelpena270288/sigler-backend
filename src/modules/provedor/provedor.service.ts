@@ -1,0 +1,94 @@
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { CreateProvedorDto } from './dto/create-provedor.dto';
+import { UpdateProvedorDto } from './dto/update-provedor.dto';
+import { Provedor } from './entities/provedor.entity';
+import { Repository } from 'typeorm';
+import {Status} from '../../EntityStatus/entity.estatus.enum';
+import { TipoDocumento } from './dto/tipo-documento.enum';
+
+@Injectable()
+export class ProvedorService {
+  constructor(
+    @Inject('PROVEDOR_REPOSITORY')
+    private provedorRepository: Repository<Provedor>,
+  ) {}
+
+ async create(createProvedorDto: CreateProvedorDto): Promise<Provedor> {
+    const findProvedor = await this.provedorRepository.findOne({
+      where: { nombre: createProvedorDto.nombre.toUpperCase() },
+    });
+
+    if (findProvedor) {
+      findProvedor.status = Status.ACTIVO;
+     return await this.provedorRepository.save(findProvedor);
+    }
+    const provedor: Provedor = new Provedor();
+  
+   if(createProvedorDto.tipoDocumento == 'cedula'){
+    if(createProvedorDto.documento.length != 13){
+      throw new BadRequestException("El formato de la cedula esta mal");
+    }
+    provedor.tipodocumento = TipoDocumento.CEDULA;
+   }else{
+    if(createProvedorDto.documento.length != 11){
+      throw new BadRequestException("El formato del RNC esta mal");
+    }
+    provedor.tipodocumento = TipoDocumento.RNC;
+   }
+    
+   provedor.nombre = createProvedorDto.nombre.toUpperCase();
+   provedor.direccion = createProvedorDto.direccion;
+  
+   provedor.documento = createProvedorDto.documento;
+   
+
+    return await this.provedorRepository.save(provedor);
+
+  }
+
+ async findAll(): Promise<Provedor[]> {
+    return await this.provedorRepository.find({ where: { status: Status.ACTIVO } });
+  }
+
+ async findOne(id: string): Promise<Provedor> {
+    return await this.provedorRepository.findOne({ where: { id: id } });
+  }
+
+ async update(id: string, updateProvedorDto: UpdateProvedorDto):Promise<Provedor> {
+    const findProvedor = await this.provedorRepository.findOne({
+      where: { id: id, status: Status.ACTIVO },
+    });
+    if(!findProvedor){
+      throw new NotFoundException("El proveedor no existe");
+  
+    }
+    if(updateProvedorDto.tipoDocumento == 'cedula'){
+      if(updateProvedorDto.documento.length !=13){
+        throw new BadRequestException("El formato de la cedula esta mal");
+      }
+      findProvedor.tipodocumento = TipoDocumento.CEDULA;
+      }else{
+        if(updateProvedorDto.documento.length !=11){
+          throw new BadRequestException("El formato del RNC esta mal");
+        }
+        findProvedor.tipodocumento = TipoDocumento.RNC;
+      }
+      findProvedor.nombre = updateProvedorDto.nombre.toUpperCase();
+      findProvedor.direccion = updateProvedorDto.direccion;  
+      findProvedor.documento = updateProvedorDto.documento;
+    
+      return await this.provedorRepository.save(findProvedor);
+  }
+
+ async remove(id: string):Promise<Provedor> {
+    const findProvedor = await this.provedorRepository.findOne({
+      where: { id: id},
+    });
+    if(!findProvedor){
+      throw new NotFoundException("El proveedor no existe");
+  
+    }
+    findProvedor.status = Status.INACTIVO;
+    return await this.provedorRepository.save(findProvedor);
+  }
+}

@@ -17,6 +17,7 @@ import { StatusProyecto } from '../proyecto/status.enum';
 import { GastoItem } from '../gasto_item/entities/gasto_item.entity';
 import { StatusGasto } from './entities/gasto-status.enum';
 import { Equipo } from '../equipos/entities/equipo.entity';
+import { Provedor } from '../provedor/entities/provedor.entity';
 
 @Injectable()
 export class GastosEmpresasService {
@@ -29,17 +30,24 @@ export class GastosEmpresasService {
     private itemsRepository: Repository<GastoItem>,
     @Inject('EQUIPO_REPOSITORY')
     private equipoRepository: Repository<Equipo>,
+    @Inject('PROVEDOR_REPOSITORY')
+    private provedorRepository: Repository<Provedor>,
   ) {}
   async create(
     createGastosEmpresaDto: CreateGastosEmpresaDto,
   ): Promise<GastosEmpresa> {
+    const foundProvedor: Provedor = await this.provedorRepository.findOne({where:{id: createGastosEmpresaDto.idprovedor}});
+   if(!foundProvedor){
+    throw new NotFoundException("No existe el provedor");
+
+   }
+  
     const cuentaporpagar: CuentasPorPagarEmpresa = new CuentasPorPagarEmpresa();
     const gasto: GastosEmpresa = new GastosEmpresa();
+    gasto.provedor = foundProvedor;
     gasto.descripcion = createGastosEmpresaDto.descripcion;
     gasto.Nombre = createGastosEmpresaDto.Nombre;
-    gasto.NCF = 'B' + createGastosEmpresaDto.NCF.toUpperCase();
-    gasto.RNC = createGastosEmpresaDto.RNC.toUpperCase();
-    gasto.direccion = createGastosEmpresaDto.direccion;
+    gasto.NCF = 'B' + createGastosEmpresaDto.NCF.toUpperCase();    
     gasto.factura = createGastosEmpresaDto.factura.toUpperCase();
     gasto.cuentaporpagar = cuentaporpagar;
     gasto.tipoPago = createGastosEmpresaDto.tipopago;

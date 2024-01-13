@@ -18,7 +18,7 @@ import { PagoGasto } from '../../pago-gasto/entities/pago-gasto.entity';
 import { CuentasPorPagarEmpresa } from './cuenta-por-pagar-empresa.entity';
 import { GastoItem } from '../../gasto_item/entities/gasto_item.entity';
 import { TipoPagoGasto } from './gasto-tipo-pago.enum';
-
+import {Provedor} from '../../provedor/entities/provedor.entity';
 @Entity('gastos_empresa')
 export class GastosEmpresa {
   @PrimaryGeneratedColumn('uuid')
@@ -31,10 +31,7 @@ export class GastosEmpresa {
   NCF: string;
   @Column({ type: 'varchar', nullable: true })
   factura: string;
-  @Column({ type: 'varchar', nullable: true })
-  RNC: string;
-  @Column({ type: 'varchar', nullable: true })
-  direccion: string;
+
 
   @ManyToOne(() => Proyecto, (proyecto) => proyecto.gastos, { nullable: true })
   proyecto: Proyecto;
@@ -54,6 +51,9 @@ export class GastosEmpresa {
     cascade: true,
   })
   pagos: PagoGasto[];
+
+  
+
   @OneToMany(() => GastoItem, (items) => items.gasto, {
     nullable: true,
     eager: true,
@@ -71,7 +71,8 @@ export class GastosEmpresa {
   propina: number;
   @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
   impuestoselectivoconsumo: number;		
- 
+  @ManyToOne(() => Provedor, (provedor) => provedor.gastos, { nullable: false })
+  provedor: Provedor;
   @Column({ type: 'varchar', nullable: false, default: StatusGasto.ACTIVO })
   status: string;
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })

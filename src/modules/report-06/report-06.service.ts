@@ -49,7 +49,7 @@ export class Report06Service {
         gastosResumen.formapago = gastos[index].tipoPago;
         gastosResumen.servicio = gastos[index].descripcion;
         gastosResumen.ncf = gastos[index].NCF;
-        gastosResumen.rnc = gastos[index].RNC;
+        gastosResumen.rnc = gastos[index].provedor.documento;
         gastosResumen.isc = parseFloat( gastos[index].impuestoselectivoconsumo.toString());
         gastosResumen.propina = parseFloat( gastos[index].propina.toString());
 
