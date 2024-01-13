@@ -66,6 +66,7 @@ export class EntradaCombustibleService {
   async findAll(): Promise<EntradaCombustible[]> {
     return await await this.entradaCombustibleRepository.createQueryBuilder('entrada')
     .innerJoinAndSelect('entrada.combustible','combustible')
+    .innerJoinAndSelect('entrada.provedor','provedor')
     .where('entrada.status = :status',{status: Status.ACTIVO})
     .getMany();
   }
@@ -73,6 +74,7 @@ export class EntradaCombustibleService {
   async findOne(id: string): Promise<EntradaCombustible> {
     return await this.entradaCombustibleRepository.createQueryBuilder('entrada')
     .innerJoinAndSelect('entrada.combustible','combustible')
+    .innerJoinAndSelect('entrada.provedor','provedor')
     .getOne();
   }
 
