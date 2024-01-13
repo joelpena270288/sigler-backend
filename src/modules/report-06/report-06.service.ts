@@ -29,6 +29,11 @@ export class Report06Service {
         'gastoItem.status = :estadoitem',
         { estadoitem: Status.ACTIVO },
       )
+      .innerJoinAndSelect(
+        'gasto.provedor',
+        'provedor',
+       
+      )
       .where('gasto.createdAt >= :start', {
         start: filtroFechaDto.start + ' 00:00:00',
       })
