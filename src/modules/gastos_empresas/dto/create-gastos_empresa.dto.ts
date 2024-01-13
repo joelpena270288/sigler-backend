@@ -4,17 +4,17 @@ import {CreateGastoItemDto} from '../../gasto_item/dto/create-gasto_item.dto';
 export class CreateGastosEmpresaDto {
     @IsNotEmpty()
     descripcion: string;
-   
   
     @IsNotEmpty()
-    factura: string;
+    NCF: string;
     @IsNotEmpty()
-    RNC: string;
+    factura: string;
+   
     @IsDecimal()
     propina: number;  
     @IsDecimal()
     impuestoselectivoconsumo: number;
-   
+    
     @IsNotEmpty()
     fecha: Date;
     idproyecto: string; 
