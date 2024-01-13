@@ -14,6 +14,7 @@ import {
   } from 'typeorm';
   import {Combustible} from '../../combustible/entities/combustible.entity';
   import {Status} from '../../../EntityStatus/entity.estatus.enum';
+import { Provedor } from '../../provedor/entities/provedor.entity';
 @Entity('entradas_combustibles')
 export class EntradaCombustible {
     @PrimaryGeneratedColumn('uuid')
