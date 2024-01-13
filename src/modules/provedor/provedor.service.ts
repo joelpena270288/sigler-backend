@@ -24,7 +24,7 @@ export class ProvedorService {
     }
     const provedor: Provedor = new Provedor();
   
-   if(createProvedorDto.tipoDocumento == 'cedula'){
+   if(createProvedorDto.tipodocumento == 'cedula'){
     if(createProvedorDto.documento.length != 13){
       throw new BadRequestException("El formato de la cedula esta mal");
     }
@@ -62,7 +62,7 @@ export class ProvedorService {
       throw new NotFoundException("El proveedor no existe");
   
     }
-    if(updateProvedorDto.tipoDocumento == 'cedula'){
+    if(updateProvedorDto.tipodocumento == 'cedula'){
       if(updateProvedorDto.documento.length !=13){
         throw new BadRequestException("El formato de la cedula esta mal");
       }
