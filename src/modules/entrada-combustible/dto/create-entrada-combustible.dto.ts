@@ -4,17 +4,14 @@ export class CreateEntradaCombustibleDto {
     @IsDecimal()
 galones: number;
 @IsNotEmpty()
-Nombre: string;
+idprovedor: string;
 @IsNotEmpty()
 idcombustible: string;
 @IsNotEmpty()
  NCF: string;
  @IsNotEmpty()
 factura: string;
-@IsNotEmpty()  
-RNC: string;
-@IsString()  
- direccion: string; 
+
  @IsNotEmpty()
 fecha: Date; 
 importeimpuesto: number;

@@ -21,17 +21,15 @@ export class EntradaCombustible {
     @Column({type: 'decimal', nullable: false, default: 0, precision: 10, scale: 2 } )
     galones: number;
     @ManyToOne(() => Combustible, (combustible) => combustible.entradaCombustible)
-    combustible: Combustible
-    @Column({ type: 'varchar', nullable: false })
-    Nombre: string;
+    combustible: Combustible;
+    @ManyToOne(() => Provedor, (provedor) => provedor.entradaCombustible)
+    provedor: Provedor;
     @Column({ type: 'varchar', nullable: false })
     NCF: string;
     @Column({ type: 'varchar', nullable: false })
     factura: string;
-    @Column({ type: 'varchar', nullable: false })
-    RNC: string;
-    @Column({ type: 'varchar', nullable: false })
-    direccion: string; 
+   
+ 
     @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
     importeimpuesto: number;
     @Column({ type: 'decimal', nullable: false,  precision: 10, scale: 2 })

@@ -1,10 +1,11 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEntradaCombustibleDto } from './dto/create-entrada-combustible.dto';
 import { UpdateEntradaCombustibleDto } from './dto/update-entrada-combustible.dto';
 import { EntradaCombustible } from './entities/entrada-combustible.entity';
 import { Repository } from 'typeorm';
 import { Combustible } from '../combustible/entities/combustible.entity';
 import { Status } from '../../EntityStatus/entity.estatus.enum';
+import { Provedor } from '../provedor/entities/provedor.entity';
 
 @Injectable()
 export class EntradaCombustibleService {
@@ -13,6 +14,8 @@ export class EntradaCombustibleService {
     private combustibleRepository: Repository<Combustible>,
     @Inject('ENTRADACOMBUSTIBLE_REPOSITORY')
     private entradaCombustibleRepository: Repository<EntradaCombustible>,
+    @Inject('PROVEDOR_REPOSITORY')
+    private provedorRepository: Repository<Provedor>,
   ) {}
   async create(
     createEntradaCombustibleDto: CreateEntradaCombustibleDto,
@@ -29,12 +32,14 @@ export class EntradaCombustibleService {
         'El combustible intrododucido no es valido',
       );
     }
+    const foundProvedor: Provedor = this.provedorRepository.findOne({where:{id: createEntradaCombustibleDto.idprovedor}});
+    if(!foundProvedor){
+      throw new NotFoundException("El provedor introducido no es valido");
+    }
     const newEntrada: EntradaCombustible = new EntradaCombustible();
-    newEntrada.NCF =  'B'+ createEntradaCombustibleDto.NCF;
-    newEntrada.Nombre = createEntradaCombustibleDto.Nombre;
-    newEntrada.RNC = createEntradaCombustibleDto.RNC;
-    newEntrada.combustible = foundCombustible;
-    newEntrada.direccion = createEntradaCombustibleDto.direccion;
+    newEntrada.NCF =  'B'+ createEntradaCombustibleDto.NCF;   
+    newEntrada.provedor = foundProvedor;
+    newEntrada.combustible = foundCombustible;   
     newEntrada.factura = createEntradaCombustibleDto.factura;
     newEntrada.fecha = createEntradaCombustibleDto.fecha;
     newEntrada.galones = createEntradaCombustibleDto.galones;

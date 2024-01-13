@@ -15,6 +15,7 @@ import {
   import {Status} from '../../../EntityStatus/entity.estatus.enum';
 import { GastosEmpresa } from '../../gastos_empresas/entities/gastos_empresa.entity';
 import { TipoDocumento } from '../dto/tipo-documento.enum';
+import { EntradaCombustible } from '../../entrada-combustible/entities/entrada-combustible.entity';
   
   @Entity('provedores') 
 export class Provedor {
@@ -30,6 +31,8 @@ export class Provedor {
     tipodocumento: string;
     @OneToMany(() => GastosEmpresa, (gasto) => gasto.provedor)
     gastos: GastosEmpresa[];
+    @OneToMany(() => EntradaCombustible, (gasto) => gasto.provedor)
+    entradaCombustible: EntradaCombustible[];
     @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
     status: string;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
