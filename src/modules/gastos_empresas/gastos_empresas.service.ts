@@ -142,6 +142,7 @@ export class GastosEmpresasService {
         cuentaporpagar: true,
         proyecto: true,
         gastosItems: true,
+        provedor: true,
       },
 
       where: {
