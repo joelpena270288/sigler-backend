@@ -80,7 +80,7 @@ export class ProvedorService {
       }
       findProvedor.nombre = updateProvedorDto.nombre.toUpperCase();
       findProvedor.direccion = updateProvedorDto.direccion;  
-      findProvedor.documento = updateProvedorDto.documento;
+      findProvedor.documento = updateProvedorDto.documento.toUpperCase();
     
       return await this.provedorRepository.save(findProvedor);
   }
