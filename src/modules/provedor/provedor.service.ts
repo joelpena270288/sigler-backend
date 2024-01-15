@@ -70,7 +70,7 @@ export class ProvedorService {
         throw new BadRequestException("El formato de la cedula esta mal");
       }
       findProvedor.tipodocumento = TipoDocumento.CEDULA;
-      }else if(createProvedorDto.tipodocumento == 'rnc'){
+      }else if(updateProvedorDto.tipodocumento == 'rnc'){
         if(updateProvedorDto.documento.length !=11){
           throw new BadRequestException("El formato del RNC esta mal");
         }
