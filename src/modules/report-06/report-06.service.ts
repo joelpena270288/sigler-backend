@@ -46,7 +46,7 @@ export class Report06Service {
         estadogasto: StatusGasto.CANCELADO,
       })
       .andWhere('provedor.tipodocumento  != :tipodocumento', {
-        estadogasto: TipoDocumento.PASAPORTE,
+        tipodocumento: TipoDocumento.PASAPORTE,
       })
       .getMany();
 
