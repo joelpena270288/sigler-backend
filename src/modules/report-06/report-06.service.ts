@@ -10,6 +10,7 @@ import { Status } from '../../EntityStatus/entity.estatus.enum';
 import { GastosResumen } from './dto/gasto.dto';
 import { StatusGasto } from '../gastos_empresas/entities/gasto-status.enum';
 import * as moment from 'moment';
+import { TipoDocumento } from '../provedor/dto/tipo-documento.enum';
 @Injectable()
 export class Report06Service {
   constructor(
@@ -25,6 +26,7 @@ export class Report06Service {
       .createQueryBuilder('gasto')
       .innerJoinAndSelect(
         'gasto.gastosItems',
+
         'gastoItem',
         'gastoItem.status = :estadoitem',
         { estadoitem: Status.ACTIVO },
@@ -42,6 +44,9 @@ export class Report06Service {
       })
       .andWhere('gasto.status  != :estadogasto', {
         estadogasto: StatusGasto.CANCELADO,
+      })
+      .andWhere('provedor.tipodocumento  != :tipodocumento', {
+        estadogasto: TipoDocumento.PASAPORTE,
       })
       .getMany();
 

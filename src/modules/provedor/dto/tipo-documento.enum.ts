@@ -1,4 +1,5 @@
 export enum TipoDocumento{
     CEDULA = 'CEDULA',
-    RNC = 'RNC'
+    RNC = 'RNC',
+    PASAPORTE = 'PASAPORTE'
 }

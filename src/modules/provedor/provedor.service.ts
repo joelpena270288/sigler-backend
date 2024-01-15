@@ -29,11 +29,14 @@ export class ProvedorService {
       throw new BadRequestException("El formato de la cedula esta mal");
     }
     provedor.tipodocumento = TipoDocumento.CEDULA;
-   }else{
+   }else if(createProvedorDto.tipodocumento == 'rnc'){
     if(createProvedorDto.documento.length != 11){
       throw new BadRequestException("El formato del RNC esta mal");
     }
     provedor.tipodocumento = TipoDocumento.RNC;
+   }else{
+    provedor.tipodocumento = TipoDocumento.PASAPORTE;
+
    }
     
    provedor.nombre = createProvedorDto.nombre.toUpperCase();
@@ -67,11 +70,13 @@ export class ProvedorService {
         throw new BadRequestException("El formato de la cedula esta mal");
       }
       findProvedor.tipodocumento = TipoDocumento.CEDULA;
-      }else{
+      }else if(createProvedorDto.tipodocumento == 'rnc'){
         if(updateProvedorDto.documento.length !=11){
           throw new BadRequestException("El formato del RNC esta mal");
         }
         findProvedor.tipodocumento = TipoDocumento.RNC;
+      }else{
+        findProvedor.tipodocumento = TipoDocumento.PASAPORTE;
       }
       findProvedor.nombre = updateProvedorDto.nombre.toUpperCase();
       findProvedor.direccion = updateProvedorDto.direccion;  
