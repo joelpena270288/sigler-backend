@@ -27,7 +27,7 @@ export class UmService {
   async update(id: string, updateUmDto: UpdateUmDto) {
     const foundUm: Um = await this.umRepository.findOne({ where: { id: id } });
     if (!foundUm) {
-      return new NotFoundException('El id introducido no es valido');
+      throw new NotFoundException('El id introducido no es valido');
     }
     foundUm.name = updateUmDto.name.toUpperCase();
     foundUm.updatedAt = new Date();
@@ -37,7 +37,7 @@ export class UmService {
   async remove(id: string): Promise<Um> {
     const foundUm: Um = await this.umRepository.findOne({ where: { id: id } });
     if (!foundUm) {
-      return new NotFoundException('El id introducido no es valido');
+      throw new NotFoundException('El id introducido no es valido');
     }
     return await this.umRepository.remove(foundUm);
   }
