@@ -12,7 +12,7 @@ export class UmService {
   ) {}
   async create(createUmDto: CreateUmDto): Promise<Um> {
     const um: Um = new Um();
-    um.name = createUmDto.name;
+    um.name = createUmDto.name.toUpperCase();
     return await this.umRepository.save(um);
   }
 
@@ -29,7 +29,7 @@ export class UmService {
     if (!foundUm) {
       return new NotFoundException('El id introducido no es valido');
     }
-    foundUm.name = updateUmDto.name;
+    foundUm.name = updateUmDto.name.toUpperCase();
     foundUm.updatedAt = new Date();
     return await this.umRepository.save(foundUm);
   }
