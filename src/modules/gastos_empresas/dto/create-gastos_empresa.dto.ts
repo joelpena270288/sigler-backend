@@ -4,8 +4,7 @@ import {CreateGastoItemDto} from '../../gasto_item/dto/create-gasto_item.dto';
 export class CreateGastosEmpresaDto {
     @IsNotEmpty()
     descripcion: string;
-  
-    @IsNotEmpty()
+      
     NCF: string;
     @IsNotEmpty()
     factura: string;

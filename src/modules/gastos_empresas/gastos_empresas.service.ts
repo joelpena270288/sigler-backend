@@ -46,8 +46,10 @@ export class GastosEmpresasService {
     const gasto: GastosEmpresa = new GastosEmpresa();
     gasto.provedor = foundProvedor;
     gasto.descripcion = createGastosEmpresaDto.descripcion;
-   
-    gasto.NCF = 'B' + createGastosEmpresaDto.NCF.toUpperCase();    
+   if(createGastosEmpresaDto.NCF !==""){
+    gasto.NCF = 'B' + createGastosEmpresaDto.NCF.toUpperCase(); 
+   } 
+     
     gasto.factura = createGastosEmpresaDto.factura.toUpperCase();
     gasto.cuentaporpagar = cuentaporpagar;
     gasto.tipoPago = createGastosEmpresaDto.tipopago;
