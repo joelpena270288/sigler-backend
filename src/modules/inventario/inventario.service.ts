@@ -1,10 +1,11 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateInventarioDto } from './dto/create-inventario.dto';
 import { UpdateInventarioDto } from './dto/update-inventario.dto';
 import { Repository } from 'typeorm';
 import { Inventario } from './entities/inventario.entity';
 import { Equipo } from '../equipos/entities/equipo.entity';
 import {FiltroFechaDto} from './dto/filtro-fecha.dto'
+import { Pieza } from '../piezas/entities/pieza.entity';
 
 @Injectable()
 export class InventarioService {
@@ -13,6 +14,8 @@ export class InventarioService {
     private inventarioRepository: Repository<Inventario>,
     @Inject('EQUIPO_REPOSITORY')
     private equipoRepository: Repository<Equipo>,
+    @Inject('PIEZA_REPOSITORY')
+    private piezaRepository: Repository<Pieza>,
   ) {}
  async create(createInventarioDto: CreateInventarioDto): Promise<Inventario> {
    const foundEquipo: Equipo = await this.equipoRepository.findOne({where:{id: createInventarioDto.idequipo}})
@@ -20,6 +23,15 @@ export class InventarioService {
     throw new NotFoundException('El equipo no es valido');
 
   }
+  const foundPieza: Pieza = await this.piezaRepository.findOne({where:{serie: createInventarioDto.serie;}})
+ if(!foundPieza){
+  throw new NotFoundException('El numero de serie de la pieza no existe');
+ }
+ foundPieza.cantidad = parseFloat(foundPieza.cantidad.toString()) - parseFloat(createInventarioDto.cantidad.toString());
+ const savedPieza: Pieza = await this.piezaRepository.save(foundPieza); 
+ if(!savedPieza){
+  throw new BadRequestException("No se pudo revajar del almacen");
+ }
  const inventario: Inventario = new Inventario();
  inventario.cantidad = createInventarioDto.cantidad;
  inventario.descripcion = createInventarioDto.descripcion;
