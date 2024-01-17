@@ -89,7 +89,7 @@ export class ProyectoService {
     throw new NotFoundException('No existe el proyecto');
 
    }
-  await this.proyectoRepository.delete(foundProyecto.id)
+  await this.proyectoRepository.delete({id: foundProyecto.id,consecutivo: foundProyecto.consecutivo })
    return foundProyecto;
   }
   async aprobar(id: string): Promise<Proyecto>{
