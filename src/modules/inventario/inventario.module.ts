@@ -9,7 +9,7 @@ import { PiezaProviders } from '../piezas/piezas.providers';
 @Module({
   imports: [DatabaseModule],
   controllers: [InventarioController],
-  providers: [InventarioService],
-  exports: [InventarioService,...InventarioProviders,...EquipoProviders,...PiezaProviders],
+  providers: [InventarioService,...InventarioProviders,...EquipoProviders,...PiezaProviders],
+  exports: [InventarioService],
 })
 export class InventarioModule {}
