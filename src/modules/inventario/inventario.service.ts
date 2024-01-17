@@ -23,7 +23,7 @@ export class InventarioService {
     throw new NotFoundException('El equipo no es valido');
 
   }
-  const foundPieza: Pieza = await this.piezaRepository.findOne({where:{serie: createInventarioDto.serie;}})
+  const foundPieza: Pieza = await this.piezaRepository.findOne({where:{serie: createInventarioDto.serie}});
  if(!foundPieza){
   throw new NotFoundException('El numero de serie de la pieza no existe');
  }
