@@ -67,7 +67,7 @@ return await this.inventarioRepository.save(inventario);
     
       .getMany();
 
-
+   return inventarios;
   }
 
   update(id: number, updateInventarioDto: UpdateInventarioDto) {
