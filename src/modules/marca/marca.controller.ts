@@ -10,7 +10,7 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('marca')
 export class MarcaController {
   constructor(private readonly marcaService: MarcaService) {}
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createMarcaDto: CreateMarcaDto) {
@@ -28,13 +28,13 @@ export class MarcaController {
   findOne(@Param('id') id: string) {
     return this.marcaService.findOne(id);
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMarcaDto: UpdateMarcaDto) {
     return this.marcaService.update(id, updateMarcaDto);
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

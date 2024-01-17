@@ -19,7 +19,7 @@ import { HasRoles } from '../role/roles.decorator';
 @Controller('impuestos')
 export class ImpuestosController {
   constructor(private readonly impuestosService: ImpuestosService) {}
-  @HasRoles(RoleEnum.ADMIN,  RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createImpuestoDto: CreateImpuestoDto) {

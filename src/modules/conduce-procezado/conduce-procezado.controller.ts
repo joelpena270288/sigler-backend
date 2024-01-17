@@ -10,13 +10,14 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('conduce-procezado')
 export class ConduceProcezadoController {
   constructor(private readonly conduceProcezadoService: ConduceProcezadoService) {}
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createConduceProcezadoDto: CreateConduceProcezadoDto) {
     return this.conduceProcezadoService.create(createConduceProcezadoDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.conduceProcezadoService.findAll();
@@ -26,20 +27,20 @@ export class ConduceProcezadoController {
   findOne(@Param('id') id: string) {
     return this.conduceProcezadoService.findOne(+id);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateConduceProcezadoDto: UpdateConduceProcezadoDto) {
     return this.conduceProcezadoService.update(id, updateConduceProcezadoDto);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
    @Patch('/byidconduce/:id')
   updateByIdConduce(@Param('id') id: string, @Body() updateConduceProcezadoDto: UpdateConduceProcezadoDto) {
     return this.conduceProcezadoService.updateByIdConduce(id, updateConduceProcezadoDto);
   }
 
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

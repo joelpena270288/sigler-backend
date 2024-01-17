@@ -12,7 +12,7 @@ import { RoleEnum } from '../role/enums/role.enum';
 @Controller('proyecto')
 export class ProyectoController {
   constructor(private readonly proyectoService: ProyectoService) {}
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createProyectoDto: CreateProyectoDto) {
@@ -31,22 +31,13 @@ export class ProyectoController {
   findOne(@Param('id') id: string) {
     return this.proyectoService.findOne(id);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
- 
-    RoleEnum.FACTURADOR,
-  
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProyectoDto: UpdateProyectoDto) {
     return this.proyectoService.update(id, updateProyectoDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,   
-    RoleEnum.FACTURADOR,
-   
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
@@ -78,11 +69,9 @@ export class ProyectoController {
   }
   
   
-  @HasRoles(
-    RoleEnum.ADMIN,   
-    RoleEnum.FACTURADOR,  
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
+  
   @Post('/getfilterDate')
   getfilterDate(@Body() filtroFechaDto: FiltroFechaDto) {
     return this.proyectoService.getByFilterDate(filtroFechaDto);

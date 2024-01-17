@@ -10,11 +10,7 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('cargo')
 export class CargoController {
   constructor(private readonly cargoService: CargoService) {}
-  @HasRoles(
-    RoleEnum.ADMIN,  
-   
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createCargoDto: CreateCargoDto) {
@@ -32,21 +28,13 @@ export class CargoController {
   findOne(@Param('id') id: string) {
     return this.cargoService.findOne(id);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-   
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCargoDto: UpdateCargoDto) {
     return this.cargoService.update(id, updateCargoDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-   
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

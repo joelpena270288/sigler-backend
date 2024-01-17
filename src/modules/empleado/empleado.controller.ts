@@ -10,11 +10,7 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('empleado')
 export class EmpleadoController {
   constructor(private readonly empleadoService: EmpleadoService) {}
-  @HasRoles(
-    RoleEnum.ADMIN,
-   
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createEmpleadoDto: CreateEmpleadoDto) {
@@ -33,21 +29,13 @@ export class EmpleadoController {
   findOne(@Param('id') id: string) {
     return this.empleadoService.findOne(id);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEmpleadoDto: UpdateEmpleadoDto) {
     return this.empleadoService.update(id, updateEmpleadoDto);
   }
-  @HasRoles(
-    RoleEnum.ADMIN,
-  
-    RoleEnum.RH,
-  )
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {

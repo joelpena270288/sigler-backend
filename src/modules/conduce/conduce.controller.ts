@@ -41,24 +41,21 @@ export class ConduceController {
   cancel(@Param('id') id: string, @Body() deleteConduceDto: DeleteConduceDto) {
     return this.conduceService.cancel(id, deleteConduceDto);
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/getacarreo/:idProyecto')
   getAcarreo(@Param('idProyecto') idProyecto: string){
     return this.conduceService.getAcarreoByIdProyecto(idProyecto);
 
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/getviaje/:idProyecto')
   getControlViajes(@Param('idProyecto') idProyecto: string){
     return this.conduceService.getControlViajeByIdProyecto(idProyecto);
 
   }
-  @HasRoles(RoleEnum.ADMIN, RoleEnum.DIGITADOR, RoleEnum.FACTURADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/gethora/:idProyecto')
   getControlHoras(@Param('idProyecto') idProyecto: string){
