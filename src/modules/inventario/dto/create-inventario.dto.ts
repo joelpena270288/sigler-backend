@@ -2,18 +2,18 @@ import { IsDecimal, IsNotEmpty } from "class-validator";
 
 
 export class CreateInventarioDto {
-
-    @IsNotEmpty()
-    nombre: string;
-    @IsNotEmpty()
-
-    descripcion: string;
     @IsDecimal()
     cantidad: number;
     @IsNotEmpty()
-    descripcion: string;
+    nombre: string;
     @IsNotEmpty()
-    serie: string;	
+    serie: string;
+    @IsNotEmpty()
+
+    descripcion: string;
+   
+   
+    	
     @IsNotEmpty()
      idequipo: string;
 }
