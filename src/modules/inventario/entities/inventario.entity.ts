@@ -18,16 +18,16 @@ export class Inventario {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
+  
+    @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
+    cantidad: number;
     @Column({ type: 'varchar', nullable: false })
     nombre: string;
     @Column({ type: 'varchar', nullable: false })
-    descripcion: string;
-   @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
-    cantidad: number;
-    @Column({ type: 'varchar', nullable: false })
-    descripcion: string;
-    @Column({ type: 'varchar', nullable: false })
     serie: string;	
+    @Column({ type: 'varchar', nullable: false })
+    descripcion: string; 
+  
     @ManyToOne(() => Equipo, (equipo) => equipo.inventario, {
         nullable: true,
       })
