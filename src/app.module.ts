@@ -60,6 +60,7 @@ import { ReportCombustibleModule } from './modules/report-combustible/report-com
 import { EntradaCombustibleModule } from './modules/entrada-combustible/entrada-combustible.module';
 import { ProvedorModule } from './modules/provedor/provedor.module';
 import { UmModule } from './modules/um/um.module';
+import { InventarioModule } from './modules/inventario/inventario.module';
 
 @Module({
    
@@ -133,7 +134,7 @@ import { UmModule } from './modules/um/um.module';
      ReportCombustibleModule,  
    
    
-     EntradaCombustibleModule, ProvedorModule, UmModule]
+     EntradaCombustibleModule, ProvedorModule, UmModule, InventarioModule]
 })
 export class AppModule {
  static port: number | string;

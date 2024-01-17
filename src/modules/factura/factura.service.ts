@@ -49,6 +49,9 @@ export class FacturaService {
  if(!foundProyecto){
   throw new NotFoundException("No existe el proyecto");
  }
+ if(createFacturaDto.prefacturas.length <1){
+  throw new BadRequestException("No se puede crear una Factura Proforma sin servicios");
+ }
  const preanterior: Factura = await this.facturaRepository.createQueryBuilder('factura')
   .addOrderBy('factura.consecutivoprefactura','DESC')
    
