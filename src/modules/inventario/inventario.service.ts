@@ -34,7 +34,7 @@ return await this.inventarioRepository.save(inventario);
     return `This action returns all inventario`;
   }
 
-  findOne(id: string) {
+  findOne(id: string, filtroFechaDto: FiltroFechaDto) {
    
     const inventarios: Inventario[] = await this.inventarioRepository
       .createQueryBuilder('inventario')

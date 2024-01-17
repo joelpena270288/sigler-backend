@@ -6,6 +6,7 @@ import { HasRoles } from '../role/roles.decorator';
 import { RoleEnum } from '../role/enums/role.enum';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 
 @Controller('inventario')
 export class InventarioController {
@@ -24,8 +25,8 @@ export class InventarioController {
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.inventarioService.findOne(id);
+  findOne(@Param('id') id: string, filtroFechaDto: FiltroFechaDto) {
+    return this.inventarioService.findOne(id,filtroFechaDto);
   }
 
   @Patch(':id')
