@@ -38,7 +38,16 @@ export class ClienteService {
     }
     cliente.tipoDocumento = TipoDocumento.RNC;
    }
+   const clianterior: Cliente = await this.clienteRepository.createQueryBuilder('cliente')
+   .addOrderBy('cliente.consecutivo','DESC')
     
+   .getOne();
+   if(!clianterior){
+    cliente.consecutivo = 1;
+   
+   }else{
+    cliente.consecutivo = clianterior.consecutivo +1;
+   }
     cliente.nombre = createClienteDto.nombre.toUpperCase();
     cliente.direccion = createClienteDto.direccion;
     cliente.telefono = createClienteDto.telefono;

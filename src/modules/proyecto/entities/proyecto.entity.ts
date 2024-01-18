@@ -87,8 +87,8 @@ export class Proyecto {
   status: string;
   @Column({ type: 'boolean',default: false })
   ajuste: boolean;
-  @PrimaryGeneratedColumn()
-  consecutivo: number;
+  @Column({  nullable: false ,default: 0})
+  consecutivo: number; 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

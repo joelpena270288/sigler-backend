@@ -35,8 +35,16 @@ export class ProyectoService {
       where: { idetificador: 'SIGLER' },
     });
     const newProyecto = new Proyecto();
-
-
+    const proanterior: Proyecto = await this.proyectoRepository.createQueryBuilder('proyecto')
+    .addOrderBy('proyecto.consecutivo','DESC')
+     
+    .getOne();
+    if(!proanterior){
+      newProyecto.consecutivo = 1;
+    
+    }else{
+      newProyecto.consecutivo = proanterior.consecutivo +1;
+    }
     newProyecto.cliente = foundCliente;
     newProyecto.empresa = foundEmpresa;
     newProyecto.fecha_fin = null;

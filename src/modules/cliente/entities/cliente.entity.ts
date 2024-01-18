@@ -48,8 +48,8 @@ export class Cliente {
     pagosanticipados: PagoAnticipado[];
     @OneToMany(() => Factura, (factura) => factura.cliente)
     facturas: Factura[];
-    @PrimaryGeneratedColumn()
-    consecutivo: number;
+    @Column({  nullable: false ,default: 0})
+     consecutivo: number; 
     @OneToOne((type) => Credito, {
       cascade: true,
       nullable: false,
