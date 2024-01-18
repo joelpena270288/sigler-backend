@@ -40,6 +40,18 @@ export class ConduceService {
   async create(createConduceDto: CreateConduceDto): Promise<Conduce> {
     let foundMaterial: Material;
     const newConduce: Conduce = new Conduce();
+    const condanterior: Conduce = await this.conduceRepository.createQueryBuilder('conduce')
+    .addOrderBy('conduce.consecutivo','DESC')
+     
+    .getOne();
+    if(!condanterior){
+      newConduce.consecutivo = 1;
+    
+    }else{
+      newConduce.consecutivo = condanterior.consecutivo +1;
+    }
+
+
     newConduce.horasreportadasequipo = createConduceDto.reportadasequipo;
     newConduce.horasreportadastrabajado = createConduceDto.reportadastrabajador;
     newConduce.cantidadConsummoCombustible =

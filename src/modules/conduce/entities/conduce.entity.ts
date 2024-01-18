@@ -89,8 +89,8 @@ export class Conduce {
   cantidadConsummoCombustible: string;
   @Column({ type: 'varchar',  nullable: true })
   motivo: string;
-  @PrimaryGeneratedColumn()
-  consecutivo: number;
+  @Column({  nullable: false ,default: 0})
+     consecutivo: number; 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })
