@@ -25,7 +25,7 @@ export class Provedor {
     nombre: string;
     @Column({ type: 'varchar', nullable: false })
     direccion: string;
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar', nullable: false,, unique: true })
     documento: string;
     @Column({ type: 'varchar', nullable: false, default: TipoDocumento.RNC })
     tipodocumento: string;
