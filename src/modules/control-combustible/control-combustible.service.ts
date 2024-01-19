@@ -4,7 +4,7 @@ import {ReadControlCombustibleDto} from './dto/read-control-combustible.dto';
 import { Repository } from 'typeorm';
 import { ConsumoCombustible } from '../consumo_combustible/entities/consumo_combustible.entity';
 import {Status} from '../../EntityStatus/entity.estatus.enum';
-
+import * as moment from 'moment';
 @Injectable()
 export class ControlCombustibleService {
   constructor(
@@ -33,7 +33,7 @@ export class ControlCombustibleService {
         const newreadControlCombustible: ReadControlCombustibleDto = new ReadControlCombustibleDto;
           newreadControlCombustible.cantidad = consumos[index].galones;
           newreadControlCombustible.equipo = consumos[index].equipo.ficha + ' - ' +consumos[index].equipo.modelo + ' - ' + consumos[index].equipo.marca.name + ' - ' + consumos[index].equipo.placa;
-          newreadControlCombustible.fecha = consumos[index].createdAt; 
+          newreadControlCombustible.fecha = moment( consumos[index].createdAt).format( "YYYY-MM-DD"); 
           newreadControlCombustible.combustible = consumos[index].combustible.name;
           readControlCombustible.push(newreadControlCombustible);
       }
