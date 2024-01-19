@@ -15,7 +15,7 @@ export class ProvedorService {
 
  async create(createProvedorDto: CreateProvedorDto): Promise<Provedor> {
     const findProvedor = await this.provedorRepository.findOne({
-      where: { nombre: createProvedorDto.nombre.toUpperCase() },
+      where: { documento: createProvedorDto.documento.toUpperCase() },
     });
 
     if (findProvedor) {
