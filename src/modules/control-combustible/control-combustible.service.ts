@@ -15,6 +15,7 @@ export class ControlCombustibleService {
     const readControlCombustible: ReadControlCombustibleDto[] = [];
     const consumos: ConsumoCombustible[] = await this.consumoRepository
       .createQueryBuilder('consumo')
+      .addOrderBy('consumo.equipo.ficha')
       .innerJoinAndSelect('consumo.equipo', 'equipo')
       .innerJoinAndSelect('consumo.combustible', 'combustible')
       .innerJoinAndSelect('equipo.marca', 'marca')
