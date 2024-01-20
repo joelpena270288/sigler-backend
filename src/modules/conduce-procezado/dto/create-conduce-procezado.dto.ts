@@ -13,7 +13,7 @@ UM: string;
 cantidad: number;
 @IsDecimal()
 precio: number;
-@IsDecimal()
+
 valorimpuesto: number;
 
 
