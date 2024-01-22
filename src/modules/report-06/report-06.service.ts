@@ -45,9 +45,8 @@ export class Report06Service {
       .andWhere('gasto.status  != :estadogasto', {
         estadogasto: StatusGasto.CANCELADO,
       })
-      .andWhere('provedor.tipodocumento  != :tipodocumento', {
-        tipodocumento: TipoDocumento.PASAPORTE,
-      })
+      .andWhere('gasto.ncf  != null')
+     
       .getMany();
 
     if (gastos) {
