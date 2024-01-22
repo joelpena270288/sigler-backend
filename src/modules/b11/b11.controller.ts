@@ -18,13 +18,13 @@ export class B11Controller {
   }
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get()
+  @Get('/all')
   findAll() {
     return this.b11Service.findAll();
   }
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get('/consecutivo')
+  @Get()
   findOne() {
     return this.b11Service.findOne();
   }
