@@ -18,6 +18,7 @@ import { GastoItem } from '../gasto_item/entities/gasto_item.entity';
 import { StatusGasto } from './entities/gasto-status.enum';
 import { Equipo } from '../equipos/entities/equipo.entity';
 import { Provedor } from '../provedor/entities/provedor.entity';
+import { B11 } from '../b11/entities/b11.entity';
 
 @Injectable()
 export class GastosEmpresasService {
@@ -32,6 +33,8 @@ export class GastosEmpresasService {
     private equipoRepository: Repository<Equipo>,
     @Inject('PROVEDOR_REPOSITORY')
     private provedorRepository: Repository<Provedor>,
+    @Inject('B11_REPOSITORY')
+    private b11Repository: Repository<B11>,
   ) {}
   async create(
     createGastosEmpresaDto: CreateGastosEmpresaDto,
@@ -41,14 +44,34 @@ export class GastosEmpresasService {
     throw new NotFoundException("No existe el provedor");
 
    }
+   const cuentaporpagar: CuentasPorPagarEmpresa = new CuentasPorPagarEmpresa();
+   const gasto: GastosEmpresa = new GastosEmpresa();
+   if(foundProvedor.informal){
+    const foundb11: B11 = await this.b11Repository.createQueryBuilder('b11')
+    .addOrderBy('b11.valor')
+    .where('b11.status = :estado',{estado: Status.ACTIVO}) 
+    .andWhere('b11.fecha >= :fecha',{fecha: new Date()})  
+    .getOne();
+    if(!foundb11){
+        throw new NotFoundException('No quedan consecutivos B11 disponibles ');
+    }
+    gasto.NCF = foundb11.valor; 
+    foundb11.status = Status.INACTIVO;
+   const savedNcf: B11 =  await this.b11Repository.save(foundb11);
+   if(savedNcf){
+    throw new BadRequestException("Error al desahabilitar el consecutivo NCF");
+   }
+   }else{
+    if(createGastosEmpresaDto.NCF !==""){
+      gasto.NCF = 'B' + createGastosEmpresaDto.NCF.toUpperCase(); 
+     } 
+
+   }
   
-    const cuentaporpagar: CuentasPorPagarEmpresa = new CuentasPorPagarEmpresa();
-    const gasto: GastosEmpresa = new GastosEmpresa();
+  
     gasto.provedor = foundProvedor;
     gasto.descripcion = createGastosEmpresaDto.descripcion;
-   if(createGastosEmpresaDto.NCF !==""){
-    gasto.NCF = 'B' + createGastosEmpresaDto.NCF.toUpperCase(); 
-   } 
+  
      
     gasto.factura = createGastosEmpresaDto.factura.toUpperCase();
     gasto.cuentaporpagar = cuentaporpagar;
