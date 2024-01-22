@@ -58,7 +58,7 @@ export class GastosEmpresasService {
     gasto.NCF = foundb11.valor; 
     foundb11.status = Status.INACTIVO;
    const savedNcf: B11 =  await this.b11Repository.save(foundb11);
-   if(savedNcf){
+   if(!savedNcf){
     throw new BadRequestException("Error al desahabilitar el consecutivo NCF");
    }
    }else{
