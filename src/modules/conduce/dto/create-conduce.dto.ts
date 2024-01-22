@@ -17,10 +17,10 @@ export class CreateConduceDto {
     @IsNotEmpty()
     idEquipo: string;  
     
-  @IsNotEmpty() 
+
     firma_chofer: string;  
     
-  @IsNotEmpty()
+
     firma_cliente: string;  
 
     observaciones: string; 
@@ -42,9 +42,9 @@ export class CreateConduceDto {
    
     reportadasequipo: string;
    
-  @IsNotEmpty()
+ 
     reportadastrabajador: string;
  
-    @IsNotEmpty()
+   
     cantidadConsummoCombustible: string;
 }
