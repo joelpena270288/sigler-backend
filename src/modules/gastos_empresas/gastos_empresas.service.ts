@@ -181,6 +181,10 @@ export class GastosEmpresasService {
   }
   async findAllCuentasPorPagar(): Promise<GastosEmpresa[]> {
     return await this.gastoRepository.find({
+      order: {
+       
+        createdAt: "DESC",
+    },
       relations: {
         cuentaporpagar: true,
         proyecto: true,
