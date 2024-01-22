@@ -16,14 +16,14 @@ export class B11Service {
       const foundb11: B11 = await this.b11Repository.createQueryBuilder('b11')
  .where('b11.status = :estado',{estado: Status.ACTIVO}) 
  .andWhere('b11.fecha >= :fecha',{fecha: new Date()})
- .andWhere('b11.valor = :valor',{valor: 'B11'+index})
+ .andWhere('b11.valor = :valor',{valor: 'B1'+index})
  .getOne();
      
 
      if(!foundb11){
       const b11: B11 = new B11();
       b11.fecha = createB11Dto.fecha;
-      b11.valor = "B11"+ index;
+      b11.valor = "B1"+ index;
       try{
         await this.b11Repository.save(b11);
       }catch(e){
