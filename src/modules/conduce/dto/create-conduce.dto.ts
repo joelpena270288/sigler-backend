@@ -49,4 +49,6 @@ export class CreateConduceDto {
     cantidadConsummoCombustible: string;
     @IsInt()
     numero: number;
+    @IsNotEmpty()
+    fecha: Date; 
 }

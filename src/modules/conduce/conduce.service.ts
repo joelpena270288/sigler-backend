@@ -56,6 +56,7 @@ export class ConduceService {
     newConduce.horasreportadastrabajado = createConduceDto.reportadastrabajador;
     newConduce.cantidadConsummoCombustible =
       createConduceDto.cantidadConsummoCombustible;
+
     const foundEquipo: Equipo = await this.equipoRepository.findOne({
       where: { id: createConduceDto.idEquipo },
     });
@@ -149,7 +150,7 @@ export class ConduceService {
     newConduce.observaciones = createConduceDto.observaciones;
     newConduce.proyecto = foundProyecto;
     newConduce.servicio = foundServicio;
-    newConduce.fecha = new Date();
+    newConduce.fecha = createConduceDto.fecha;
     newConduce.empleado = foundEmpleado;
     newConduce.equipo = foundEquipo;
     newConduce.firma_chofer = createConduceDto.firma_chofer;
