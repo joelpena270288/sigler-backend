@@ -91,7 +91,7 @@ export class EquiposService {
 	foundEquipo.metraje = updateEquipoDto.metraje;
 	foundEquipo.modelo = updateEquipoDto.modelo.toUpperCase();
 	 foundEquipo.color = updateEquipoDto.color.toUpperCase();
-	
+	foundEquipo.updatedAt = new Date();
     return await this.equipoRepository.save(foundEquipo);
   }
 

@@ -35,6 +35,8 @@ export class Provedor {
     entradaCombustible: EntradaCombustible[];
     @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
     status: string;
+    @Column({ type: 'boolean', nullable: false, default: false })
+    informal: boolean;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date;
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

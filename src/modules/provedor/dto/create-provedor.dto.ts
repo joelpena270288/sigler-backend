@@ -1,4 +1,4 @@
-import { IsString, IsInt, IsDate, IsEmail } from 'class-validator';
+import { IsString, IsInt, IsDate, IsEmail, IsBoolean } from 'class-validator';
 export class CreateProvedorDto {
     @IsString()
     nombre: string;     
@@ -8,5 +8,7 @@ export class CreateProvedorDto {
     documento: string;
     @IsString()
     tipodocumento: string; 
+    @IsBoolean()
+    informal: boolean; 
    
 }
