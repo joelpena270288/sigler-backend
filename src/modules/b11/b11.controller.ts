@@ -24,7 +24,7 @@ export class B11Controller {
   }
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get(':id')
+  @Get('/consecutivo')
   findOne() {
     return this.b11Service.findOne();
   }
