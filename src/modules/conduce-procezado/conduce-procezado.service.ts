@@ -35,7 +35,6 @@ export class ConduceProcezadoService {
   if(!foundConduce){
     throw new NotFoundException('El conduce no existe');
   }
-
   const newconduceProcezado: ConduceProcezado = new ConduceProcezado();
   newconduceProcezado.UM = createConduceProcezadoDto.UM;
   newconduceProcezado.cantidad = createConduceProcezadoDto.cantidad;

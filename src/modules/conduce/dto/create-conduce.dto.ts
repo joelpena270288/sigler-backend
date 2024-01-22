@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateConduceDto {
     
@@ -47,4 +47,6 @@ export class CreateConduceDto {
  
    
     cantidadConsummoCombustible: string;
+    @IsInt()
+    numero: number;
 }

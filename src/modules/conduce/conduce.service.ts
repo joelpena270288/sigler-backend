@@ -51,7 +51,7 @@ export class ConduceService {
       newConduce.consecutivo = condanterior.consecutivo +1;
     }
 
-
+    newConduce.consecutivo = createConduceDto.numero;
     newConduce.horasreportadasequipo = createConduceDto.reportadasequipo;
     newConduce.horasreportadastrabajado = createConduceDto.reportadastrabajador;
     newConduce.cantidadConsummoCombustible =
