@@ -61,7 +61,7 @@ export class Conduce {
   hasta: string;
   @Column({ type: 'int', nullable: true })
   cantViajes: number;
-  @Column({ type: 'decimal', nullable: true, precision: 10, scale: 2 })
+  @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2, default: 0   })
   metrosCubicos: number;
    @Column({ type: 'varchar', nullable: false })
   horas: string;
