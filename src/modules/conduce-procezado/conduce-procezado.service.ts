@@ -129,6 +129,7 @@ foundConduceProcesado.cantidad = updateConduceProcezadoDto.cantidad;
 foundConduceProcesado.UM = updateConduceProcezadoDto.UM;
 foundConduceProcesado.precio = updateConduceProcezadoDto.precio;
 foundConduceProcesado.importe = foundConduceProcesado.precio * foundConduceProcesado.cantidad;
+foundConduceProcesado.valorimpuesto = updateConduceProcezadoDto.valorimpuesto;
 foundConduceProcesado.importeimpuesto = foundConduceProcesado.importe * foundConduceProcesado.valorimpuesto;
 foundConduceProcesado.valortotal = foundConduceProcesado.importe + foundConduceProcesado.importeimpuesto;
 foundConduceProcesado.updatedAt = new Date();
@@ -140,9 +141,10 @@ if(savedConduceProcesado){
   if( foundPrefactura ){
     foundPrefactura.cantidad = updateConduceProcezadoDto.cantidad;
     foundPrefactura.UM = updateConduceProcezadoDto.UM;
-    
+
     foundPrefactura.precio = savedConduceProcesado.precio;    
     foundPrefactura.importe = foundPrefactura.precio * foundPrefactura.cantidad;
+    foundPrefactura.valorimpuesto = updateConduceProcezadoDto.valorimpuesto;
     foundPrefactura.importeimpuesto = foundPrefactura.importe * foundPrefactura.valorimpuesto;
     foundPrefactura.valortotal = foundPrefactura.importe + foundPrefactura.importeimpuesto;
     foundPrefactura.updatedAt = new Date();
