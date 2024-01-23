@@ -125,6 +125,8 @@ const foundConduceProcesado: ConduceProcezado = await this.conduceprocezadoRepos
 if(!foundConduceProcesado){
   throw new NotFoundException("No existe el conduce ");
 }
+foundConduceProcesado.cantidad = updateConduceProcezadoDto.cantidad;
+foundConduceProcesado.UM = updateConduceProcezadoDto.UM;
 foundConduceProcesado.precio = updateConduceProcezadoDto.precio;
 foundConduceProcesado.importe = foundConduceProcesado.precio * foundConduceProcesado.cantidad;
 foundConduceProcesado.importeimpuesto = foundConduceProcesado.importe * foundConduceProcesado.valorimpuesto;
