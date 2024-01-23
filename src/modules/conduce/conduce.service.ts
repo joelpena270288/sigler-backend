@@ -109,7 +109,7 @@ export class ConduceService {
       newConduce.desde = createConduceDto.desde.toUpperCase();
       newConduce.hasta = createConduceDto.hasta.toUpperCase();
       newConduce.material = foundMaterial;
-      newConduce.metrosCubicos = createConduceDto.metrosCubicos;
+      
     } else if (createConduceDto.name === TipoConduce.TRANSPORTEEQUIPO) {
       if (createConduceDto.desde === '' || createConduceDto.hasta === '') {
         throw new BadRequestException(
@@ -155,7 +155,7 @@ export class ConduceService {
     newConduce.equipo = foundEquipo;
     newConduce.firma_chofer = createConduceDto.firma_chofer;
     newConduce.firma_cliente = createConduceDto.firma_cliente;
-
+    newConduce.metrosCubicos = createConduceDto.metrosCubicos;
     const momentDesde = moment(desde);
     const momentHasta = moment(hasta);
     const duration = moment.duration(momentHasta.diff(momentDesde));
