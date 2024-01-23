@@ -138,7 +138,9 @@ if(savedConduceProcesado){
 
   const foundPrefactura: PreFactura = await this.preFacturaRepository.findOne({where:{idconduceProcesado: savedConduceProcesado.id}});
   if( foundPrefactura ){
-
+    foundPrefactura.cantidad = updateConduceProcezadoDto.cantidad;
+    foundPrefactura.UM = updateConduceProcezadoDto.UM;
+    
     foundPrefactura.precio = savedConduceProcesado.precio;    
     foundPrefactura.importe = foundPrefactura.precio * foundPrefactura.cantidad;
     foundPrefactura.importeimpuesto = foundPrefactura.importe * foundPrefactura.valorimpuesto;
