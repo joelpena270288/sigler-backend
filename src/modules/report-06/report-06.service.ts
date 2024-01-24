@@ -45,7 +45,7 @@ export class Report06Service {
       .andWhere('gasto.status  != :estadogasto', {
         estadogasto: StatusGasto.CANCELADO,
       })
-      .andWhere('gasto.NCF  != :ncf',{ncf: null})
+      .andWhere('gasto.NCF  != :ncf',{ncf: ''})
      
       .getMany();
 
