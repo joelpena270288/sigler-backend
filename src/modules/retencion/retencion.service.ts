@@ -147,7 +147,7 @@ async  remove(id: string): Promise<Retencion> {
     if(!foundGasto){
       throw new BadRequestException("El gasto introducido no es valido");
     }
-
+    const result = foundGasto.retencion;
     foundGasto.cuentaporpagar.montoinicial = parseFloat(foundGasto.cuentaporpagar.montoinicial.toString()) + parseFloat(foundGasto.valorretencion.toString());
     foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante.toString()) +  parseFloat(foundGasto.valorretencion.toString());
    foundGasto.valorretencion = 0;
@@ -156,6 +156,6 @@ async  remove(id: string): Promise<Retencion> {
    if(!savedGasto){
     throw new BadRequestException('Error al eliminar la retencion del gasto');
    }
-  return foundGasto.retencion;
+  return result;
   }
 }
