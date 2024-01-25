@@ -99,6 +99,10 @@ export class Factura {
   tipoPago: string;
   @Column({  nullable: false, default: 0 })
   dias: number;
+  @Column({ type: 'varchar', nullable: true })
+  retencion: string;
+  @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
+  valorretencion: number;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date; 
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

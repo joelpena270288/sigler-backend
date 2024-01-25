@@ -7,6 +7,7 @@ import { RoleEnum } from '../role/enums/role.enum';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
 import { CreateRetencionGastoDto } from './dto/create-retencion-gasto.dto';
+import { CreateRetencionFacturaDto } from './dto/create-retencion-factura.dto';
 
 @Controller('retencion')
 export class RetencionController {
@@ -24,7 +25,12 @@ export class RetencionController {
   createGasto(@Body() createRetencionDto: CreateRetencionGastoDto) {
     return this.retencionService.adicionarRetencion(createRetencionDto);
   }
-
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/factura/retencion')
+  createFactura(@Body() createRetencionDto: CreateRetencionFacturaDto) {
+    return this.retencionService.adicionarRetencionFactura(createRetencionDto);
+  }
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
@@ -54,5 +60,12 @@ export class RetencionController {
   @Delete('/gasto/:id')
   removegasto(@Param('id') id: string) {
     return this.retencionService.EliminarRetencion(id);
+   
+  }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete('/factura/retencion/:id')
+  removefactura(@Param('id') id: string) {
+    return this.retencionService.EliminarRetencionFactura(id);
   }
 }

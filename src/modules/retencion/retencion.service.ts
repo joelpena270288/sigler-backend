@@ -8,7 +8,9 @@ import { GastosEmpresa } from '../gastos_empresas/entities/gastos_empresa.entity
 import { CreateRetencionGastoDto } from './dto/create-retencion-gasto.dto';
 import { GastoItem } from '../gasto_item/entities/gasto_item.entity';
 import { PagoGasto } from '../pago-gasto/entities/pago-gasto.entity';
-import { DeleteRetencionGastoDto } from './dto/delete-retencion-gasto.dto';
+
+import { CreateRetencionFacturaDto } from './dto/create-retencion-factura.dto';
+import { Factura } from '../factura/entities/factura.entity';
 
 @Injectable()
 export class RetencionService {
@@ -17,6 +19,8 @@ export class RetencionService {
     private retencionRepository: Repository<Retencion>,
     @Inject('GASTOEMPRESA_REPOSITORY')
     private gastoRepository: Repository<GastosEmpresa>,
+    @Inject('FACTURA_REPOSITORY')
+    private facturaRepository: Repository<Factura>,
     
   ) {}
  async create(createRetencionDto: CreateRetencionDto):Promise<Retencion> {
@@ -158,4 +162,93 @@ async  remove(id: string): Promise<Retencion> {
    }
   return result;
   }
+
+  async adicionarRetencionFactura(addRetencion: CreateRetencionFacturaDto): Promise<Retencion>{
+    const foundFactura: Factura = await this.facturaRepository 
+    .createQueryBuilder('factura')
+    .innerJoinAndSelect(
+     'factura.cuentaporcobrar',
+     'cuentaporcobrar'
+    )
+    .innerJoinAndSelect(
+     'factura.servicioProcesado',
+ 
+     'servicioProcesado',
+     'servicioProcesado.status = :estadoservicio',
+     { estadoservicio: Status.ACTIVO },
+   )
+   .leftJoinAndSelect('factura.pagos','pago', 'pago.status = :estadopago',{estadopago: Status.ACTIVO})
+   .where('factura.id = :idfactura', {
+    idfactura: addRetencion.idFactura,
+   })
+ 
+   .getOne();
+ 
+    if(!foundFactura){
+     throw new NotFoundException('La factura introducida No es valido');
+    }
+    const foundRetencion: Retencion = await this.retencionRepository.findOne({where:{id: addRetencion.idRetencion}});
+    if(!foundRetencion){
+ 
+     throw new NotFoundException('La Retencion introducida no es valida');
+    }
+    let valortotal = 0;
+    let pagosrealizados = 0;
+    for (let index = 0; index < foundFactura.servicioProcesado.length; index++) {
+     valortotal = parseFloat(valortotal.toString()) + parseFloat( foundFactura.servicioProcesado[index].importe.toString());
+     
+    }
+    valortotal = parseFloat(valortotal.toString()) * parseFloat(foundRetencion.valorimpuesto.toString());
+    valortotal = parseFloat(valortotal.toString()) * parseFloat(foundRetencion.valorretencion.toString());
+    
+    for (let index = 0; index < foundFactura.pagos.length; index++) {
+     pagosrealizados = parseFloat(foundFactura.pagos[index].pago.toString());
+     
+   }
+   
+   
+   foundFactura.cuentaporcobrar.montoinicial = parseFloat(foundFactura.cuentaporcobrar.montoinicial.toString()) - parseFloat(valortotal.toString());
+ 
+   foundFactura.cuentaporcobrar.montorestante = parseFloat(foundFactura.cuentaporcobrar.montoinicial.toString()) - parseFloat(pagosrealizados.toString());
+     
+   foundFactura.retencion = foundRetencion.name;
+   foundFactura.valorretencion = valortotal;
+ 
+    const savedFactura: Factura = await this.facturaRepository.save(foundFactura);
+    if(!savedFactura){
+     throw new BadRequestException("Error al actualizar la Factura");
+    }
+  
+   return foundRetencion;
+   
+   }
+   async EliminarRetencionFactura(id: string): Promise<String>{
+
+    const foundFactura: Factura = await this.facturaRepository.findOne({
+
+      relations: {
+        cuentaporcobrar: true
+      },
+      where: {
+      id: id
+      }
+    });
+    if(!foundFactura){
+      throw new BadRequestException("La factura introducida no es valido");
+    }
+    const result = foundFactura.retencion;
+    foundFactura.cuentaporcobrar.montoinicial = parseFloat(foundFactura.cuentaporcobrar.montoinicial.toString()) + parseFloat(foundFactura.valorretencion.toString());
+    foundFactura.cuentaporcobrar.montorestante = parseFloat(foundFactura.cuentaporcobrar.montorestante.toString()) +  parseFloat(foundFactura.valorretencion.toString());
+   foundFactura.valorretencion = 0;
+   foundFactura.retencion = '';
+   const savedFactura: Factura = await this.facturaRepository.save(foundFactura);
+   if(!savedFactura){
+    throw new BadRequestException('Error al eliminar la retencion de la factura');
+   }
+  return result;
+  }
+
+ 
+
+
 }
