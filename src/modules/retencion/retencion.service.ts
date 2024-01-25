@@ -24,6 +24,7 @@ export class RetencionService {
   retencion.name = createRetencionDto.name;
   retencion.valorimpuesto = createRetencionDto.valorimpuesto;
   retencion.valorretencion = createRetencionDto.valorretencion;
+  retencion.descripcion = createRetencionDto.descripcion;
   return await this.retencionRepository.save(retencion);
 
   }

@@ -6,5 +6,6 @@ export class CreateRetencionDto {
     valorimpuesto: number;
     @IsDecimal()
     valorretencion: number;
+    descripcion: string;
 
 }

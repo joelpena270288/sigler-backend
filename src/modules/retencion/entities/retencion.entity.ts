@@ -12,8 +12,10 @@ import {
 export class Retencion {
     @PrimaryGeneratedColumn('uuid')
     id: string;
-    @Column({ type: 'varchar', length: 20, nullable: false })
+    @Column({ type: 'varchar', nullable: false })
     name: string;
+    @Column({ type: 'varchar', nullable: true })
+    descripcion: string;
     @Column({ type: 'decimal', nullable: false, precision: 10, scale: 3 })
    valorimpuesto: number;
    @Column({ type: 'decimal', nullable: false, precision: 10, scale: 3 })
