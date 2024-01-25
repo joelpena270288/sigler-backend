@@ -173,8 +173,8 @@ async  remove(id: string): Promise<Retencion> {
     .innerJoinAndSelect(
      'factura.servicioProcesado',
  
-     'servicioProcesado',
-     'servicioProcesado.status = :estadoservicio',
+     'servicio',
+     'servicio.status = :estadoservicio',
      { estadoservicio: Status.ACTIVO },
    )
    .leftJoinAndSelect('factura.pagos','pago', 'pago.status = :estadopago',{estadopago: Status.ACTIVO})
