@@ -63,6 +63,7 @@ import { UmModule } from './modules/um/um.module';
 import { InventarioModule } from './modules/inventario/inventario.module';
 import { ControlCombustibleModule } from './modules/control-combustible/control-combustible.module';
 import { B11Module } from './modules/b11/b11.module';
+import { RetencionModule } from './modules/retencion/retencion.module';
 
 @Module({
    
@@ -136,7 +137,7 @@ import { B11Module } from './modules/b11/b11.module';
      ReportCombustibleModule,  
    
    
-     EntradaCombustibleModule, ProvedorModule, UmModule, InventarioModule, ControlCombustibleModule, B11Module]
+     EntradaCombustibleModule, ProvedorModule, UmModule, InventarioModule, ControlCombustibleModule, B11Module, RetencionModule]
 })
 export class AppModule {
  static port: number | string;

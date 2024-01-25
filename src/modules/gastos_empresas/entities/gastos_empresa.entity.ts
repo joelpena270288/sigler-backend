@@ -66,12 +66,17 @@ export class GastosEmpresa {
     default: TipoPagoGasto.TRANSFERENCIA,
   })
   tipoPago: string;
+ 
   @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
   propina: number;
   @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
   impuestoselectivoconsumo: number;		
   @ManyToOne(() => Provedor, (provedor) => provedor.gastos, { nullable: false })
   provedor: Provedor;
+  @Column({ type: 'varchar', nullable: true })
+  retencion: string;
+  @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
+  valorretencion: number;
   @Column({ type: 'varchar', nullable: false, default: StatusGasto.ACTIVO })
   status: string;
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
