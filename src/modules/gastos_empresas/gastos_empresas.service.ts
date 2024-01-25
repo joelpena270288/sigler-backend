@@ -63,7 +63,7 @@ export class GastosEmpresasService {
    }
    }else{
     if(createGastosEmpresaDto.NCF !==""){
-      gasto.NCF = 'B' + createGastosEmpresaDto.NCF.toUpperCase(); 
+      gasto.NCF =  createGastosEmpresaDto.NCF.toUpperCase(); 
      } 
 
    }
