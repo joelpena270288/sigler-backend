@@ -170,7 +170,7 @@ async  remove(id: string): Promise<Retencion> {
      'factura.cuentaporcobrar',
      'cuentaporcobrar'
     )
-    .innerJoinAndSelect(
+    .leftJoinAndSelect(
      'factura.servicioProcesado',
  
      'servicio',
