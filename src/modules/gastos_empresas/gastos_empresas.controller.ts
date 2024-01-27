@@ -30,6 +30,12 @@ export class GastosEmpresasController {
   }
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/getCuentasporPagar/:id')
+  findAllCuentaPorPagarByIdProvedor(@Param('id') id: string) {
+    return this.gastosEmpresasService.findAllCuentasPorPagarByIdProvedor(id);
+  }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.gastosEmpresasService.findOne(id);

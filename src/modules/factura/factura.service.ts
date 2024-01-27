@@ -577,5 +577,28 @@ async getCuentasPorCobrar(): Promise<Factura[]>{
   return facturas;
 }
 
+async getCuentasPorCobrarByIdCliente(id: string): Promise<Factura[]>{
+	
+	const facturas: Factura[] = await this.facturaRepository.find({
+    relations: {
+      cliente: true,
+	  cuentaporcobrar: true,
+	  servicioProcesado: true
+  },
+  where: {
+      cuentaporcobrar: {
+          status: Status.ACTIVO,
+        
+        
+      },
+    status:   StatusFactura.APROBADA,
+    cliente: {id: id}
+    
+ 
+  },
+  });
+  return facturas;
+}
+
  
 }

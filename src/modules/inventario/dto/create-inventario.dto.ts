@@ -10,9 +10,10 @@ export class CreateInventarioDto {
     serie: string;
     @IsNotEmpty()
 
-    descripcion: string;
-   
-   
+    descripcion: string; 
+    @IsDecimal()
+
+    precioUnitario: number; 
     	
     @IsNotEmpty()
      idequipo: string;

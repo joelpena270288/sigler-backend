@@ -197,6 +197,25 @@ export class GastosEmpresasService {
       },
     });
   }
+  async findAllCuentasPorPagarByIdProvedor(id: string): Promise<GastosEmpresa[]> {
+    return await this.gastoRepository.find({
+      order: {
+       
+        createdAt: "DESC",
+    },
+      relations: {
+        cuentaporpagar: true,
+        proyecto: true,
+        gastosItems: true,
+        provedor: true,
+      },
+
+      where: {
+        status: StatusGasto.ACTIVO,
+        provedor: {id: id}
+      },
+    });
+  }
 
   async findOne(id: string): Promise<GastosEmpresa> {
     return await this.gastoRepository
@@ -218,22 +237,7 @@ export class GastosEmpresasService {
 
       .getOne();
 
-    /*
-    return await this.gastoRepository.findOne({
-      relations: {
-        cuentaporpagar: true,
-		proyecto: true,
-		gastosItems: true
-		
-        
-    },
-	
-	where:{
-		status: Not(StatusGasto.CANCELADO),
-		id: id
-	}
-    
-    });*/
+   
   }
 
   update(id: number, updateGastosEmpresaDto: UpdateGastosEmpresaDto) {

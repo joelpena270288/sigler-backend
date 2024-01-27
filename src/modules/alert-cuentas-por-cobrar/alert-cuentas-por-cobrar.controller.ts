@@ -16,6 +16,12 @@ export class AlertCuentasPorCobrarController {
   findAll() {
     return this.alertCuentasPorCobrarService.findAll();
   }
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get(':id')
+  findAllByIdCliente(@Param('id') id: string) {
+    return this.alertCuentasPorCobrarService.findAllByIdCliente(id);
+  }
 
 
 

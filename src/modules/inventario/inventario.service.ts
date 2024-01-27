@@ -38,6 +38,8 @@ export class InventarioService {
  inventario.equipo = foundEquipo;
  inventario.nombre = createInventarioDto.nombre;
  inventario.serie = createInventarioDto.serie;
+ inventario.precioUnitario = createInventarioDto.precioUnitario;
+ inventario.valor = parseFloat(inventario.precioUnitario.toString()) * parseFloat(inventario.cantidad.toString());
 return await this.inventarioRepository.save(inventario);
 
   }

@@ -99,6 +99,14 @@ export class FacturaController {
   return this.facturaService.getCuentasPorCobrar();
 
   }
+  @HasRoles(RoleEnum.ADMIN, RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/cuentasporcobrar/get/:id')
+  getCuentasPorCobrarByIdCliente(@Param('id') id: string){
+
+  return this.facturaService.getCuentasPorCobrarByIdCliente(id);
+
+  }
   
   @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
