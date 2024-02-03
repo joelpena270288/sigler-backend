@@ -6,7 +6,7 @@ export class Viajes{
     equipo: string;
     cantidadViaje: number;
     volumen: number;
-    horainicio: string;
+    horaInicio: string;
     horaFin: string;
     cantidadHora: string;
     desde: string;

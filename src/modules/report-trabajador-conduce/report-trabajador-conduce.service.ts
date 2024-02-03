@@ -54,7 +54,7 @@ async  getReport(filtro: Filtro):Promise<ReadReportTrabajadorConduceDto> {
           viajes.equipo = listConduce[index].equipo.ficha;
           viajes.hasta = listConduce[index].hasta;
           viajes.horaFin = listConduce[index].horaFin;
-          viajes.horainicio = listConduce[index].horaInicio;
+          viajes.horaInicio = listConduce[index].horaInicio;
           viajes.proyecto = listConduce[index].proyecto.name;
           viajes.volumen = listConduce[index].metrosCubicos;
           viajes.fecha = listConduce[index].createdAt;
@@ -91,7 +91,7 @@ async  getReport(filtro: Filtro):Promise<ReadReportTrabajadorConduceDto> {
               transport.equipo = listConduce[index].equipo.ficha;
               transport.hasta = listConduce[index].hasta;
               transport.horaFin = listConduce[index].horaFin;
-              transport.horainicio = listConduce[index].horaInicio;
+              transport.horaInicio = listConduce[index].horaInicio;
               transport.proyecto = listConduce[index].proyecto.name;
               transport.fecha = listConduce[index].fecha;
               readReportTrabajadorConduceDto.controlTransporte.push(transport);
