@@ -10,5 +10,6 @@ export class CreateProvedorDto {
     tipodocumento: string; 
     @IsBoolean()
     informal: boolean; 
+    telefono: string;
    
 }

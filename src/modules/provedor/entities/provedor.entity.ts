@@ -37,6 +37,8 @@ export class Provedor {
     status: string;
     @Column({ type: 'boolean', nullable: false, default: false })
     informal: boolean;
+    @Column({ type: 'varchar', length: 16, nullable: true })
+    phone: string;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
     createdAt: Date;
     @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

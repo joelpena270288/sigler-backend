@@ -24,6 +24,9 @@ export class B02Service {
             if(!foundb02){
         const b02: B02 = new B02();
         b02.fecha = createB02Dto.fecha;
+        b02.fecha.setHours(23);
+        b02.fecha.setMinutes(59);
+        b02.fecha.setSeconds(59);
         b02.valor = "B0"+ index;
         try{
           await this.b02Repository.save(b02);

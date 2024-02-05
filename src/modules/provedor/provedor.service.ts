@@ -44,6 +44,7 @@ export class ProvedorService {
   
    provedor.documento = createProvedorDto.documento;
    provedor.informal = createProvedorDto.informal;
+   provedor.phone = createProvedorDto.telefono;
 
     return await this.provedorRepository.save(provedor);
 
@@ -82,6 +83,7 @@ export class ProvedorService {
       findProvedor.direccion = updateProvedorDto.direccion;  
       findProvedor.documento = updateProvedorDto.documento.toUpperCase();
       findProvedor.informal = updateProvedorDto.informal;
+      findProvedor.phone = updateProvedorDto.telefono;
       return await this.provedorRepository.save(findProvedor);
   }
 
