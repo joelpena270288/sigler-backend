@@ -26,7 +26,10 @@ export class B01Service {
 
      if(!foundb01){
       const b01: B01 = new B01();
-      b01.fecha = createB01Dto.fecha.setHours(23,59,59);
+      const newDate: Date = createB01Dto.fecha;
+      newDate.setHours(23,59,59);
+      b01.fecha =newDate ;
+      
      
       b01.valor = "B0"+ index;
       try{

@@ -12,52 +12,54 @@ export class B14Service {
     private b14Repository: Repository<B14>,
   ) {}
 
- async create(createB14Dto: CreateB14Dto): Promise<boolean> {
+  async create(createB14Dto: CreateB14Dto): Promise<boolean> {
     for (let index = createB14Dto.init; index <= createB14Dto.end; index++) {
-      const foundb14: B14 = await this.b14Repository.createQueryBuilder('b14')
-      .where('b14.status = :estado',{estado: Status.ACTIVO}) 
-      .andWhere('b14.fecha >= :fecha',{fecha: new Date()})
-      .andWhere('b14.valor = :valor',{valor: 'B1'+index})
-      .getOne();
-          
-     
-          if(!foundb14){
-      const b14: B14 = new B14();
-      b14.fecha = createB14Dto.fecha.setHours(23,59,59);
-      
-      b14.valor ='B1'+ index;
-      try{
-        await this.b14Repository.save(b14);
-      }catch(e){
-        console.log('Error al insertar');
-      }
+      const foundb14: B14 = await this.b14Repository
+        .createQueryBuilder('b14')
+        .where('b14.status = :estado', { estado: Status.ACTIVO })
+        .andWhere('b14.fecha >= :fecha', { fecha: new Date() })
+        .andWhere('b14.valor = :valor', { valor: 'B1' + index })
+        .getOne();
+
+      if (!foundb14) {
+        const b14: B14 = new B14();
+        const newDate: Date = createB14Dto.fecha;
+        newDate.setHours(23,59,59);
+        b14.fecha = newDate;
+
+        b14.valor = 'B1' + index;
+        try {
+          await this.b14Repository.save(b14);
+        } catch (e) {
+          console.log('Error al insertar');
+        }
       }
     }
-return true;
+    return true;
   }
 
-  async findAll():Promise<B14[]> {	 
-	 
+  async findAll(): Promise<B14[]> {
+    const foundb14: B14[] = await this.b14Repository
+      .createQueryBuilder('b14')
+      .addOrderBy('b14.valor')
+      .where('b14.status = :estado', { estado: Status.ACTIVO })
+      .andWhere('b14.fecha >= :fecha', { fecha: new Date() })
+      .getMany();
 
-    const foundb14: B14[] = await this.b14Repository.createQueryBuilder('b14')
-  .addOrderBy('b14.valor')
-  .where('b14.status = :estado',{estado: Status.ACTIVO}) 
-  .andWhere('b14.fecha >= :fecha',{fecha: new Date()})  
-  .getMany();
-
-  return foundb14;
+    return foundb14;
   }
 
- async findOne(): Promise<B14> {
-  const foundb14: B14 = await this.b14Repository.createQueryBuilder('b14')
-  .addOrderBy('b14.valor')
-  .where('b14.status = :estado',{estado: Status.ACTIVO}) 
-  .andWhere('b14.fecha >= :fecha',{fecha: new Date()})  
-  .getOne();
-  if(!foundb14){
+  async findOne(): Promise<B14> {
+    const foundb14: B14 = await this.b14Repository
+      .createQueryBuilder('b14')
+      .addOrderBy('b14.valor')
+      .where('b14.status = :estado', { estado: Status.ACTIVO })
+      .andWhere('b14.fecha >= :fecha', { fecha: new Date() })
+      .getOne();
+    if (!foundb14) {
       throw new NotFoundException('No quedan consecutivos B14 disponibles');
-  }
-  return foundb14;
+    }
+    return foundb14;
   }
 
   update(id: number, updateB14Dto: UpdateB14Dto) {
