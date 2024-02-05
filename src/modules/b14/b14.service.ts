@@ -23,10 +23,8 @@ export class B14Service {
      
           if(!foundb14){
       const b14: B14 = new B14();
-      b14.fecha = createB14Dto.fecha;
-      b14.fecha.setHours(23);
-      b14.fecha.setMinutes(59);
-      b14.fecha.setSeconds(59);
+      b14.fecha = createB14Dto.fecha.setHours(23,59,59);
+      
       b14.valor ='B1'+ index;
       try{
         await this.b14Repository.save(b14);

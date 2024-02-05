@@ -22,10 +22,8 @@ export class B11Service {
 
      if(!foundb11){
       const b11: B11 = new B11();
-      b11.fecha = createB11Dto.fecha;
-      b11.fecha.setHours(23);
-      b11.fecha.setMinutes(59);
-      b11.fecha.setSeconds(59);
+      b11.fecha = createB11Dto.fecha.setHours(23,59,59);
+     
       b11.valor = "B1"+ index;
       try{
         await this.b11Repository.save(b11);
