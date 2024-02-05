@@ -22,9 +22,9 @@ export class B11Service {
 
      if(!foundb11){
       const b11: B11 = new B11();
-      const newDate: Date = createB11Dto.fecha;
-      newDate.setHours(23,59,59);
-      b11.fecha = newDate;
+   
+    
+      b11.fecha = createB11Dto.fecha;
      
       b11.valor = "B1"+ index;
       try{

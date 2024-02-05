@@ -23,9 +23,9 @@ export class B14Service {
 
       if (!foundb14) {
         const b14: B14 = new B14();
-        const newDate: Date = createB14Dto.fecha;
-        newDate.setHours(23,59,59);
-        b14.fecha = newDate;
+       
+       
+        b14.fecha =createB14Dto.fecha;
 
         b14.valor = 'B1' + index;
         try {
