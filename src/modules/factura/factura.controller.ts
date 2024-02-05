@@ -9,6 +9,7 @@ import { RolesGuard } from '../role/guards/roles.guard';
 import { UpdateClientePrefacturaDto } from './dto/update-cliente-factura';
 import { ConvertFacturaDto } from './dto/convert-factura.dto';
 import { UpdateNotaFacturaDto } from './dto/update-note-factura.dto';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 
 @Controller('factura')
 export class FacturaController {
@@ -113,5 +114,11 @@ export class FacturaController {
   @Post('/optional')
   createOptional(@Body() createFacturaDto: CreateFacturaDto) {
     return this.facturaService.createOptional(createFacturaDto);
+  }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/getAll/ByFilter/:id')
+  getCuentasPorCobrarByIFiltro(@Param('id') id: string,@Body() filtro: FiltroFechaDto) {
+    return this.facturaService.getCuentasPorCobrarByIFiltro(id,filtro);
   }
 }

@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException,BadRequestException } from '@nestjs/common';
 import { CreateFacturaDto } from './dto/create-factura.dto';
 import { UpdateFacturaDto } from './dto/update-factura.dto';
-import { Repository,Not } from 'typeorm';
+import { Repository,Not, MoreThanOrEqual,Between } from 'typeorm';
 import { Factura } from './entities/factura.entity';
 import { StatusFactura } from './entities/fatura-status.enum';
 import {Proyecto} from '../proyecto/entities/proyecto.entity';
@@ -19,6 +19,7 @@ import { B14 } from '../b14/entities/b14.entity';
 import { CuentasPorCobrar } from './entities/cuenta-por-cobrar.entity';
 import { UpdateNotaFacturaDto } from './dto/update-note-factura.dto';
 import { Moneda } from '../moneda/entities/moneda.entity';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 @Injectable()
 export class FacturaService {
 
@@ -592,6 +593,44 @@ async getCuentasPorCobrarByIdCliente(id: string): Promise<Factura[]>{
         
       },
     status:   StatusFactura.APROBADA,
+    cliente: {id: id}
+    
+ 
+  },
+  });
+  return facturas;
+}
+
+async getCuentasPorCobrarByIFiltro(id: string,filtro: FiltroFechaDto): Promise<Factura[]>{
+
+	let actualdate: Date = new Date();
+  let inicio: Date = new Date(actualdate.getFullYear()+'-01-01');
+  let fin: Date = new Date(actualdate.getFullYear()+'-12-31');
+ 
+  if(filtro.start!==''){
+  inicio = filtro.start;
+
+  }
+  if(filtro.end!==''){
+  fin = filtro.end;
+
+  }
+
+	const facturas: Factura[] = await this.facturaRepository.find({
+    relations: {
+      cliente: true,
+	  cuentaporcobrar: true,
+	  servicioProcesado: true
+  },
+  where: {
+      cuentaporcobrar: {
+          status: Status.ACTIVO,
+        
+        
+      },
+    status:   StatusFactura.APROBADA,
+    fechafactura: Between(inicio,fin),
+    
     cliente: {id: id}
     
  
