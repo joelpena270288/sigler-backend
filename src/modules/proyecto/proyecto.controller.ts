@@ -79,7 +79,7 @@ export class ProyectoController {
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch('/nota/:id')
-  createNotaCotizacion(@Param('id') id: string, @Body() nota: String) {
+  createNotaCotizacion(@Param('id') id: string, @Body() nota: string) {
     return this.proyectoService.createNotaCotizacion(id, nota);
   }
 
