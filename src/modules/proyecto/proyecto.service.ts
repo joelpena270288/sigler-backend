@@ -172,7 +172,7 @@ export class ProyectoService {
  return resumenProyectosDto;
 	  
   }
-  async createNotaCotizacion(id: string, nota: String):Promise<Proyecto>{
+  async createNotaCotizacion(id: string, nota: string):Promise<Proyecto>{
     const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
       where: { id: id },
    });
