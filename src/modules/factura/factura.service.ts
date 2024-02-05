@@ -607,11 +607,11 @@ async getCuentasPorCobrarByIFiltro(id: string,filtro: FiltroFechaDto): Promise<F
   let inicio: Date = new Date(actualdate.getFullYear()+'-01-01');
   let fin: Date = new Date(actualdate.getFullYear()+'-12-31');
  
-  if(filtro.start!==''){
+  if(filtro.start){
   inicio = filtro.start;
 
   }
-  if(filtro.end!==''){
+  if(filtro.end){
   fin = filtro.end;
 
   }
