@@ -76,6 +76,12 @@ export class ProyectoController {
   getfilterDate(@Body() filtroFechaDto: FiltroFechaDto) {
     return this.proyectoService.getByFilterDate(filtroFechaDto);
   }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('/nota/:id')
+  createNotaCotizacion(@Param('id') id: string, @Body() nota: String) {
+    return this.proyectoService.createNotaCotizacion(id, nota);
+  }
 
  
 }

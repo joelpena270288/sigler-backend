@@ -89,6 +89,8 @@ export class Proyecto {
   ajuste: boolean;
   @Column({  nullable: false ,default: 0})
   consecutivo: number; 
+  @Column({ type: 'varchar', nullable: true })
+  notacotizacion: string;
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

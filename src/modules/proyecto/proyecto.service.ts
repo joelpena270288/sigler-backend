@@ -172,4 +172,14 @@ export class ProyectoService {
  return resumenProyectosDto;
 	  
   }
+  async createNotaCotizacion(id: string, nota: String):Promise<Proyecto>{
+    const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
+      where: { id: id },
+   });
+   if (!foundProyecto) {
+     throw new NotFoundException('El Proyecto no existe');
+   }
+   foundProyecto.notacotizacion = nota;
+   return await this.proyectoRepository.save(foundProyecto);
+  }
 }
