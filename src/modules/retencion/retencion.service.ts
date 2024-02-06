@@ -205,7 +205,7 @@ async  remove(id: string): Promise<Retencion> {
    }
    
    
-   foundFactura.cuentaporcobrar.montoinicial = parseFloat(foundFactura.cuentaporcobrar.montoinicial.toString()) - parseFloat(valortotal.toString());
+  // foundFactura.cuentaporcobrar.montoinicial = parseFloat(foundFactura.cuentaporcobrar.montoinicial.toString()) - parseFloat(valortotal.toString());
  
    foundFactura.cuentaporcobrar.montorestante = parseFloat(foundFactura.cuentaporcobrar.montoinicial.toString()) - parseFloat(pagosrealizados.toString());
      
@@ -235,7 +235,7 @@ async  remove(id: string): Promise<Retencion> {
       throw new BadRequestException("La factura introducida no es valido");
     }
     const result = foundFactura.retencion;
-    foundFactura.cuentaporcobrar.montoinicial = parseFloat(foundFactura.cuentaporcobrar.montoinicial.toString()) + parseFloat(foundFactura.valorretencion.toString());
+   // foundFactura.cuentaporcobrar.montoinicial = parseFloat(foundFactura.cuentaporcobrar.montoinicial.toString()) + parseFloat(foundFactura.valorretencion.toString());
     foundFactura.cuentaporcobrar.montorestante = parseFloat(foundFactura.cuentaporcobrar.montorestante.toString()) +  parseFloat(foundFactura.valorretencion.toString());
    foundFactura.valorretencion = 0;
    foundFactura.retencion = '';
