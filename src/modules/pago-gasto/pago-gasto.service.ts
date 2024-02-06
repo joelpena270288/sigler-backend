@@ -78,6 +78,7 @@ export class PagoGastoService {
     pagoGasto.gastoempresa = foundGastoEmpresa;
     pagoGasto.numerocheque = createPagoGastoDto.numerocheque;
     pagoGasto.numerocTranferencia = createPagoGastoDto.numeroTransferencia;
+    pagoGasto.createdAt = createPagoGastoDto.fechaBanco;
 
     const savedGastoEmpresa: GastosEmpresa =
       await this.gastoempresaRepository.save(foundGastoEmpresa);

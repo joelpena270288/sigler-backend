@@ -9,5 +9,7 @@ export class CreatePagoGastoDto {
    
     numerocheque: string;
     numeroTransferencia: string;
+    @IsNotEmpty()
+  fechaBanco: Date;
 
 }

@@ -41,6 +41,8 @@ export class PagoGasto {
       @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
 status: string;
 @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
+fechaBanco: Date;
+@CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
 createdAt: Date;
 @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })
 updatedAt: Date;
