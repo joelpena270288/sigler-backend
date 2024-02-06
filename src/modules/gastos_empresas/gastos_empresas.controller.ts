@@ -6,6 +6,7 @@ import { HasRoles } from '../role/roles.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
 import { RoleEnum } from '../role/enums/role.enum';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 
 @Controller('gastos-empresas')
 export class GastosEmpresasController {
@@ -51,5 +52,11 @@ export class GastosEmpresasController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.gastosEmpresasService.remove(id);
+  }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/Byfilter/:id')
+  findAllCuentasPorPagarByFilter(@Param('id') id: string,@Body() filtro: FiltroFechaDto) {
+    return this.gastosEmpresasService.findAllCuentasPorPagarByFilter(id,filtro);
   }
 }

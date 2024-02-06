@@ -10,7 +10,7 @@ import { GastosEmpresa } from './entities/gastos_empresa.entity';
 import { Empresa } from '../empresa/entities/empresa.entity';
 import { CuentasPorPagarEmpresa } from './entities/cuenta-por-pagar-empresa.entity';
 import { Status } from '../../EntityStatus/entity.estatus.enum';
-import { Not, Repository } from 'typeorm';
+import { Between, Not, Repository } from 'typeorm';
 import { Proyecto } from '../proyecto/entities/proyecto.entity';
 
 import { StatusProyecto } from '../proyecto/status.enum';
@@ -19,6 +19,7 @@ import { StatusGasto } from './entities/gasto-status.enum';
 import { Equipo } from '../equipos/entities/equipo.entity';
 import { Provedor } from '../provedor/entities/provedor.entity';
 import { B11 } from '../b11/entities/b11.entity';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 
 @Injectable()
 export class GastosEmpresasService {
@@ -212,6 +213,39 @@ export class GastosEmpresasService {
 
       where: {
         status: StatusGasto.ACTIVO,
+        provedor: {id: id}
+      },
+    });
+  }
+  async findAllCuentasPorPagarByFilter(id: string, filtro:FiltroFechaDto): Promise<GastosEmpresa[]> {
+    let actualdate: Date = new Date();
+    let inicio: Date = new Date(actualdate.getFullYear()+'-01-01');
+    let fin: Date = new Date(actualdate.getFullYear()+'-12-31');
+   
+    if(filtro.start){
+    inicio = filtro.start;
+  
+    }
+    if(filtro.end){
+    fin = filtro.end;
+  
+    }
+  
+    return await this.gastoRepository.find({
+      order: {
+       
+        createdAt: "DESC",
+    },
+      relations: {
+        cuentaporpagar: true,
+        proyecto: true,
+        gastosItems: true,
+        provedor: true,
+      },
+
+      where: {
+        status: StatusGasto.ACTIVO,
+        createdAt: Between(inicio,fin),
         provedor: {id: id}
       },
     });
