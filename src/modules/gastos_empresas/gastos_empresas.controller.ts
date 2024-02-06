@@ -56,7 +56,7 @@ export class GastosEmpresasController {
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('/Byfilter/:id')
-  findAllCuentasPorPagarByFilter(@Param('id') id: string,@Body() filtro: FiltroFechaDto) {
-    return this.gastosEmpresasService.findAllCuentasPorPagarByFilter(id,filtro);
+  findAllGastoByFilter(@Param('id') id: string,@Body() filtro: FiltroFechaDto) {
+    return this.gastosEmpresasService.findAllGastoByFilter(id,filtro);
   }
 }

@@ -217,7 +217,7 @@ export class GastosEmpresasService {
       },
     });
   }
-  async findAllCuentasPorPagarByFilter(id: string, filtro:FiltroFechaDto): Promise<GastosEmpresa[]> {
+  async findAllGastoByFilter(id: string, filtro:FiltroFechaDto): Promise<GastosEmpresa[]> {
     let actualdate: Date = new Date();
     let inicio: Date = new Date(actualdate.getFullYear()+'-01-01');
     let fin: Date = new Date(actualdate.getFullYear()+'-12-31');
@@ -244,7 +244,7 @@ export class GastosEmpresasService {
       },
 
       where: {
-        status: StatusGasto.ACTIVO,
+        status: Not(StatusGasto.CANCELADO) ,
         createdAt: Between(inicio,fin),
         provedor: {id: id}
       },

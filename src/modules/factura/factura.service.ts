@@ -601,7 +601,7 @@ async getCuentasPorCobrarByIdCliente(id: string): Promise<Factura[]>{
   return facturas;
 }
 
-async getCuentasPorCobrarByIFiltro(id: string,filtro: FiltroFechaDto): Promise<Factura[]>{
+async getCuentasFacturasIFiltro(id: string,filtro: FiltroFechaDto): Promise<Factura[]>{
 
 	let actualdate: Date = new Date();
   let inicio: Date = new Date(actualdate.getFullYear()+'-01-01');
@@ -623,12 +623,8 @@ async getCuentasPorCobrarByIFiltro(id: string,filtro: FiltroFechaDto): Promise<F
 	  servicioProcesado: true
   },
   where: {
-      cuentaporcobrar: {
-          status: Status.ACTIVO,
-        
-        
-      },
-    status:   StatusFactura.APROBADA,
+     
+    status:  Not(StatusFactura.CANCELADA) ,
     fechafactura: Between(inicio,fin),
     
     cliente: {id: id}

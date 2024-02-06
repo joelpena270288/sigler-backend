@@ -118,7 +118,7 @@ export class FacturaController {
   @HasRoles(RoleEnum.ADMIN,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('/getAll/ByFilter/:id')
-  getCuentasPorCobrarByIFiltro(@Param('id') id: string,@Body() filtro: FiltroFechaDto) {
-    return this.facturaService.getCuentasPorCobrarByIFiltro(id,filtro);
+  getCuentasFacturasIFiltro(@Param('id') id: string,@Body() filtro: FiltroFechaDto) {
+    return this.facturaService.getCuentasFacturasIFiltro(id,filtro);
   }
 }
