@@ -8,6 +8,7 @@ idfactura: string;
 pago: number;
 
 numerocheque: string;
+numeroTransferencia: string;
 @IsNotEmpty()
 fechaBanco: Date;
 }

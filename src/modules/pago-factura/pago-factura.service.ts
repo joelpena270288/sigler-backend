@@ -100,6 +100,7 @@ export class PagoFacturaService {
     pagoFactura.origen = PagoOrigen.NORMAL;
     pagoFactura.fechaBanco = new Date(createPagoFacturaDto.fechaBanco) ;
     pagoFactura.numerocheque = createPagoFacturaDto.numerocheque;
+    pagoFactura.numeroTransferencia = createPagoFacturaDto.numeroTransferencia;
   const savedCredito: Cliente = await this.clienteRepository.save(updateCredito);
   if(!savedCredito){
     throw new BadRequestException('Error al generar el pago');
