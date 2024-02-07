@@ -63,7 +63,14 @@ export class GastosEmpresasController {
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch('/descuento/:id')
-  descuento(@Param('id') id: string, @Body() descuentoGastosEmpresaDto: DescuentoGastosEmpresaDto) {
-    return this.gastosEmpresasService.descuento(id, descuentoGastosEmpresaDto);
+  createDescuento(@Param('id') id: string, @Body() descuentoGastosEmpresaDto: DescuentoGastosEmpresaDto) {
+    return this.gastosEmpresasService.createDescuento(id, descuentoGastosEmpresaDto);
+  }
+
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete('/descuento/:id')
+  deleteDescuento(@Param('id') id: string) {
+    return this.gastosEmpresasService.deleteDescuento(id);
   }
 }

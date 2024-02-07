@@ -292,9 +292,12 @@ export class GastosEmpresasService {
 
     return await this.gastoRepository.save(foundGasto);
   }
-  async descuento(id: string, descuentoGastosEmpresaDto: DescuentoGastosEmpresaDto ):Promise<GastosEmpresa>{
+  async createDescuento(id: string, descuentoGastosEmpresaDto: DescuentoGastosEmpresaDto ):Promise<GastosEmpresa>{
   
     const foundGasto: GastosEmpresa = await this.gastoRepository.findOne({
+      relations:{
+        cuentaporpagar: true
+      },
       where: { id: id, status: Not(StatusGasto.CANCELADO) },
     });
     if (!foundGasto) {
@@ -305,6 +308,26 @@ export class GastosEmpresasService {
     foundGasto.descuento = descuentoGastosEmpresaDto.descuento;
     foundGasto.valordescuentoimporte = descuentoGastosEmpresaDto.valordescuentoimporte;
     foundGasto.valordescuentoimpuesto = descuentoGastosEmpresaDto.valordescuentoimpuesto;
+    foundGatos.cuentaporpagar.montorestante = parseFloat(foundGatos.cuentaporpagar.montorestante.toString()) - (parseFloat(descuentoGastosEmpresaDto.valordescuentoimporte.toString()) + parseFloat(descuentoGastosEmpresaDto.valordescuentoimpuesto.toString()) );
+    
+    return await this.gastoRepository.save(foundGasto);
+  }
+  async deleteDescuento(id: string): Promise<GastosEmpresa>{
+    const foundGasto: GastosEmpresa = await this.gastoRepository.findOne({
+      relations:{
+        cuentaporpagar: true
+      },
+      where: { id: id, status: Not(StatusGasto.CANCELADO) },
+    });
+    if (!foundGasto) {
+      throw new NotFoundException(
+        'No existe el gasto o fue cancelado anteriormente',
+      );
+    }
+    foundGasto.descuento = '';
+    foundGasto.valordescuentoimporte = 0;
+    foundGasto.valordescuentoimpuesto = 0;
+    foundGatos.cuentaporpagar.montorestante = parseFloat(foundGatos.cuentaporpagar.montorestante.toString()) + (parseFloat(descuentoGastosEmpresaDto.valordescuentoimporte.toString()) + parseFloat(descuentoGastosEmpresaDto.valordescuentoimpuesto.toString()) );
     return await this.gastoRepository.save(foundGasto);
   }
 }
