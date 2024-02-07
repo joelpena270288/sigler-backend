@@ -324,10 +324,12 @@ export class GastosEmpresasService {
         'No existe el gasto o fue cancelado anteriormente',
       );
     }
+    const valordescuentoimporte = foundGasto.valordescuentoimporte;
+    const valordescuentoimpuesto = foundGasto.valordescuentoimpuesto;
     foundGasto.descuento = '';
     foundGasto.valordescuentoimporte = 0;
     foundGasto.valordescuentoimpuesto = 0;
-    foundGatos.cuentaporpagar.montorestante = parseFloat(foundGatos.cuentaporpagar.montorestante.toString()) + (parseFloat(descuentoGastosEmpresaDto.valordescuentoimporte.toString()) + parseFloat(descuentoGastosEmpresaDto.valordescuentoimpuesto.toString()) );
+    foundGatos.cuentaporpagar.montorestante = parseFloat(foundGatos.cuentaporpagar.montorestante.toString()) + (parseFloat(valordescuentoimpuesto.toString()) + parseFloat(valordescuentoimporte.toString()) );
     return await this.gastoRepository.save(foundGasto);
   }
 }
