@@ -20,6 +20,7 @@ import { Equipo } from '../equipos/entities/equipo.entity';
 import { Provedor } from '../provedor/entities/provedor.entity';
 import { B11 } from '../b11/entities/b11.entity';
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
+import { DescuentoGastosEmpresaDto } from './dto/descuento-gastos_empresa.dto';
 
 @Injectable()
 export class GastosEmpresasService {
@@ -289,6 +290,21 @@ export class GastosEmpresasService {
     }
     foundGasto.status = StatusGasto.CANCELADO;
 
+    return await this.gastoRepository.save(foundGasto);
+  }
+  async descuento(id: string, descuentoGastosEmpresaDto: DescuentoGastosEmpresaDto ):Promise<GastosEmpresa>{
+  
+    const foundGasto: GastosEmpresa = await this.gastoRepository.findOne({
+      where: { id: id, status: Not(StatusGasto.CANCELADO) },
+    });
+    if (!foundGasto) {
+      throw new NotFoundException(
+        'No existe el gasto o fue cancelado anteriormente',
+      );
+    }
+    foundGasto.descuento = descuentoGastosEmpresaDto.descuento;
+    foundGasto.valordescuentoimporte = descuentoGastosEmpresaDto.valordescuentoimporte;
+    foundGasto.valordescuentoimpuesto = descuentoGastosEmpresaDto.valordescuentoimpuesto;
     return await this.gastoRepository.save(foundGasto);
   }
 }

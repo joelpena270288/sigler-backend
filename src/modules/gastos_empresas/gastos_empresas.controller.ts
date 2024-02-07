@@ -59,4 +59,10 @@ export class GastosEmpresasController {
   findAllGastoByFilter(@Param('id') id: string,@Body() filtro: FiltroFechaDto) {
     return this.gastosEmpresasService.findAllGastoByFilter(id,filtro);
   }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('/descuento/:id')
+  update(@Param('id') id: string, @Body() updateGastosEmpresaDto: UpdateGastosEmpresaDto) {
+    return this.gastosEmpresasService.update(+id, updateGastosEmpresaDto);
+  }
 }
