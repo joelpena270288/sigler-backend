@@ -7,6 +7,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
 import { RoleEnum } from '../role/enums/role.enum';
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
+import { DescuentoGastosEmpresaDto } from './dto/descuento-gastos_empresa.dto';
 
 @Controller('gastos-empresas')
 export class GastosEmpresasController {
@@ -62,7 +63,7 @@ export class GastosEmpresasController {
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch('/descuento/:id')
-  update(@Param('id') id: string, @Body() updateGastosEmpresaDto: UpdateGastosEmpresaDto) {
-    return this.gastosEmpresasService.update(+id, updateGastosEmpresaDto);
+  descuento(@Param('id') id: string, @Body() descuentoGastosEmpresaDto: DescuentoGastosEmpresaDto) {
+    return this.gastosEmpresasService.descuento(id, descuentoGastosEmpresaDto);
   }
 }
