@@ -308,7 +308,7 @@ export class GastosEmpresasService {
     foundGasto.descuento = descuentoGastosEmpresaDto.descuento;
     foundGasto.valordescuentoimporte = descuentoGastosEmpresaDto.valordescuentoimporte;
     foundGasto.valordescuentoimpuesto = descuentoGastosEmpresaDto.valordescuentoimpuesto;
-    foundGatos.cuentaporpagar.montorestante = parseFloat(foundGatos.cuentaporpagar.montorestante.toString()) - (parseFloat(descuentoGastosEmpresaDto.valordescuentoimporte.toString()) + parseFloat(descuentoGastosEmpresaDto.valordescuentoimpuesto.toString()) );
+    foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante.toString()) - (parseFloat(descuentoGastosEmpresaDto.valordescuentoimporte.toString()) + parseFloat(descuentoGastosEmpresaDto.valordescuentoimpuesto.toString()) );
     
     return await this.gastoRepository.save(foundGasto);
   }
