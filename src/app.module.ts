@@ -64,6 +64,8 @@ import { InventarioModule } from './modules/inventario/inventario.module';
 import { ControlCombustibleModule } from './modules/control-combustible/control-combustible.module';
 import { B11Module } from './modules/b11/b11.module';
 import { RetencionModule } from './modules/retencion/retencion.module';
+import { ImpuestosDgiModule } from './modules/impuestos_dgi/impuestos_dgi.module';
+import { TipoImpuestosDgiModule } from './modules/tipo_impuestos_dgi/tipo_impuestos_dgi.module';
 
 @Module({
    
@@ -137,7 +139,7 @@ import { RetencionModule } from './modules/retencion/retencion.module';
      ReportCombustibleModule,  
    
    
-     EntradaCombustibleModule, ProvedorModule, UmModule, InventarioModule, ControlCombustibleModule, B11Module, RetencionModule]
+     EntradaCombustibleModule, ProvedorModule, UmModule, InventarioModule, ControlCombustibleModule, B11Module, RetencionModule, ImpuestosDgiModule, TipoImpuestosDgiModule]
 })
 export class AppModule {
  static port: number | string;
