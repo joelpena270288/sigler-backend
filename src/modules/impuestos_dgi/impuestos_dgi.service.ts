@@ -5,11 +5,14 @@ import { Repository } from 'typeorm';
 import { TipoImpuestosDgi } from '../tipo_impuestos_dgi/entities/tipo_impuestos_dgi.entity';
 import { ImpuestosDgi } from './entities/impuestos_dgi.entity';
 import * as moment from 'moment';
+import { CuentasEmpresa } from '../cuentas-empresa/entities/cuentas-empresa.entity';
 @Injectable()
 export class ImpuestosDgiService {
   constructor(
     @Inject('TIPOIMPUESTODGI_REPOSITORY')
     private tipoImpuestoDgiRepository: Repository<TipoImpuestosDgi>,
+    @Inject('CUENTAEMPRESA_REPOSITORY')
+    private cuentasRepository: Repository<CuentasEmpresa>,
     @Inject('IMPUESTODGI_REPOSITORY')
     private impuestoDgiRepository: Repository<ImpuestosDgi>,
   ) {}
@@ -19,6 +22,11 @@ export class ImpuestosDgiService {
    if(!fundtipo){
     throw new NotFoundException('El tipo de impuesto Introducido no es valido');
    }
+   const foundcuenta: CuentasEmpresa = await this.cuentasRepository.findOne({where:{id: createImpuestosDgiDto.idcuenta }})
+   if(!foundcuenta){
+    throw new NotFoundException('La Cuenta Introducida no es valida');
+   }
+  
    const newImpuesto: ImpuestosDgi = new ImpuestosDgi();
    newImpuesto.tipo = fundtipo;
    
@@ -28,6 +36,7 @@ export class ImpuestosDgiService {
    newImpuesto.documento = createImpuestosDgiDto.documento;
    newImpuesto.metododepago = createImpuestosDgiDto.metododepago;
    newImpuesto.pagodesde = createImpuestosDgiDto.pagodesde;
+   newImpuesto.cuenta = foundcuenta;
   
   return  await this.impuestoDgiRepository.save(newImpuesto);
   }
@@ -55,7 +64,11 @@ export class ImpuestosDgiService {
     if(!fundtipo){
      throw new NotFoundException('El tipo de impuesto Introducido no es valido');
     }
-
+    const foundcuenta: CuentasEmpresa = await this.cuentasRepository.findOne({where:{id: updateImpuestosDgiDto.idcuenta }})
+    if(!foundcuenta){
+     throw new NotFoundException('La Cuenta Introducida no es valida');
+    }
+   
     foundImpuesto.updatedAt = new Date();
     foundImpuesto.periodo =  moment( updateImpuestosDgiDto.fecha).format( "YYYYMM");
     foundImpuesto.tipo = fundtipo;
@@ -64,6 +77,7 @@ export class ImpuestosDgiService {
     foundImpuesto.documento = updateImpuestosDgiDto.documento;
     foundImpuesto.metododepago = updateImpuestosDgiDto.metododepago;
     foundImpuesto.pagodesde = updateImpuestosDgiDto.pagodesde;
+    foundImpuesto.cuenta = foundcuenta;
     
     return  await this.impuestoDgiRepository.save(foundImpuesto);
   }

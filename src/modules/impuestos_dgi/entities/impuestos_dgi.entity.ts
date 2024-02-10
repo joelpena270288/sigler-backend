@@ -19,6 +19,8 @@ export class ImpuestosDgi {
 id: string;
 @CreateDateColumn({ type: 'timestamp', name: 'fecha' })
 fecha: Date;
+@CreateDateColumn({ type: 'timestamp', name: 'fechapago' })
+fechapago: Date;
 @Column({ type: 'varchar', unique: false, nullable: false })
 periodo: string;
 @Column({ type: 'varchar', unique: true, nullable: false })
@@ -34,6 +36,11 @@ valor: number;
     nullable: false,
   })
 tipo: TipoImpuestosDgi;
+@ManyToOne(() => CuentasEmpresa, (cuenta) => cuenta.impuestodgi, {
+  eager: true,
+  nullable: false,
+})
+cuenta: CuentasEmpresa;
 
 @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
 createdAt: Date;
