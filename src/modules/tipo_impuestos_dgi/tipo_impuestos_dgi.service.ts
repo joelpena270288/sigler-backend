@@ -14,6 +14,7 @@ export class TipoImpuestosDgiService {
  async create(createTipoImpuestosDgiDto: CreateTipoImpuestosDgiDto):Promise<TipoImpuestosDgi> {
   const  newImpuesto: TipoImpuestosDgi = new TipoImpuestosDgi();
   newImpuesto.name = createTipoImpuestosDgiDto.name.toUpperCase();
+  newImpuesto.entidad = createTipoImpuestosDgiDto.entidad.toUpperCase();
    
     const createdImpuesto: TipoImpuestosDgi =
       await this.tipoImpuestoDgiRepository.save(newImpuesto);
@@ -40,6 +41,7 @@ async  update(id: string, updateTipoImpuestosDgiDto: UpdateTipoImpuestosDgiDto):
     throw new NotFoundException('No existe el tipo de Impuesto');
   } 
   foundImpuesto.name = updateTipoImpuestosDgiDto.name.toUpperCase();
+  foundImpuesto.entidad = updateTipoImpuestosDgiDto.entidad.toUpperCase();
   foundImpuesto.updatedAt = new Date();
   return await this.tipoImpuestoDgiRepository.save(foundImpuesto);
   }

@@ -6,5 +6,11 @@ export class CreateImpuestosDgiDto {
    fecha: Date;
     @IsDecimal()
   valor: number;
+  @IsNotEmpty()
+  documento: string;
+  @IsNotEmpty()
+metododepago: string;
+@IsNotEmpty()
+pagodesde: string;
 
 }
