@@ -20,6 +20,8 @@ export class TipoImpuestosDgi {
 id: string;
 @Column({ type: 'varchar', unique: true, nullable: false })
 name: string;
+@Column({ type: 'varchar', unique: true, nullable: false })
+entidad: string;
 @OneToMany(() => ImpuestosDgi, (impuestodgi) => impuestodgi.tipo)
 impuestodgi: ImpuestosDgi[];
 @CreateDateColumn({ type: 'timestamp', name: 'created_at' })

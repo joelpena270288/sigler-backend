@@ -21,6 +21,12 @@ id: string;
 fecha: Date;
 @Column({ type: 'varchar', unique: false, nullable: false })
 periodo: string;
+@Column({ type: 'varchar', unique: true, nullable: false })
+documento: string;
+@Column({ type: 'varchar', unique: true, nullable: false })
+metododepago: string;
+@Column({ type: 'varchar', unique: true, nullable: false })
+pagodesde: string;
 @Column({ type: 'decimal', nullable: false, precision: 10, scale: 3 })
 valor: number;
   @ManyToOne(() => TipoImpuestosDgi, (tipo) => tipo.impuestodgi, {
