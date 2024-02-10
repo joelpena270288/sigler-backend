@@ -37,6 +37,7 @@ export class ImpuestosDgiService {
    newImpuesto.metododepago = createImpuestosDgiDto.metododepago;
    newImpuesto.pagodesde = createImpuestosDgiDto.pagodesde;
    newImpuesto.cuenta = foundcuenta;
+   newImpuesto.fecha = createImpuestosDgiDto.fechapago;
   
   return  await this.impuestoDgiRepository.save(newImpuesto);
   }
@@ -78,6 +79,7 @@ export class ImpuestosDgiService {
     foundImpuesto.metododepago = updateImpuestosDgiDto.metododepago;
     foundImpuesto.pagodesde = updateImpuestosDgiDto.pagodesde;
     foundImpuesto.cuenta = foundcuenta;
+    foundImpuesto.fechapago = updateImpuestosDgiDto.fechapago;
     
     return  await this.impuestoDgiRepository.save(foundImpuesto);
   }
