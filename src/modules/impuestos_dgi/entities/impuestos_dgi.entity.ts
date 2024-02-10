@@ -1,4 +1,5 @@
 import {TipoImpuestosDgi} from '../../tipo_impuestos_dgi/entities/tipo_impuestos_dgi.entity';
+import {CuentasEmpresa} from '../../cuentas-empresa/entities/cuentas-empresa.entity';
 import {
     BaseEntity,
     Column,
