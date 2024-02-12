@@ -83,7 +83,7 @@ export class ImpuestosDgiService {
     foundImpuesto.cuenta = foundcuenta;
     foundImpuesto.fechapago = updateImpuestosDgiDto.fechapago;
     foundImpuesto.comision = updateImpuestosDgiDto.comision;
-    newImpuesto.total = parseFloat(updateImpuestosDgiDto.valor.toString()) + parseFloat(updateImpuestosDgiDto.comision.toString());
+    foundImpuesto.total = parseFloat(updateImpuestosDgiDto.valor.toString()) + parseFloat(updateImpuestosDgiDto.comision.toString());
     return  await this.impuestoDgiRepository.save(foundImpuesto);
   }
 
