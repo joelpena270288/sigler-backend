@@ -32,9 +32,9 @@ metododepago: string;
 pagodesde: string;
 @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
 valor: number;
-@Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
+@Column({ type: 'decimal', default: 0, nullable: false, precision: 10, scale: 2 })
 comision: number;
-@Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
+@Column({ type: 'decimal', default: 0, nullable: false, precision: 10, scale: 2 })
 total: number;
   @ManyToOne(() => TipoImpuestosDgi, (tipo) => tipo.impuestodgi, {
     eager: true,
