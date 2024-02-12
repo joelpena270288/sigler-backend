@@ -32,7 +32,7 @@ export class ImpuestosDgiService {
    
    newImpuesto.valor = createImpuestosDgiDto.valor;
   
-   newImpuesto.fecha = createImpuestosDgiDto.fechapago;
+   newImpuesto.fechapago = createImpuestosDgiDto.fechapago;
    newImpuesto.documento = createImpuestosDgiDto.documento;
    newImpuesto.metododepago = createImpuestosDgiDto.metododepago;
    newImpuesto.pagodesde = createImpuestosDgiDto.pagodesde;
