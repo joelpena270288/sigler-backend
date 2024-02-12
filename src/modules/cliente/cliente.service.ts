@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { Status } from '../../EntityStatus/entity.estatus.enum';
 import { TipoDocumento } from './tipo-documento.enum';
 import { Credito } from './entities/credito.entity';
-
+import {StatusFactura} from '../factura/entities/fatura-status.enum'
 
 @Injectable()
 export class ClienteService {
