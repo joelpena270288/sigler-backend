@@ -20,7 +20,7 @@ export class TipoImpuestosDgi {
 id: string;
 @Column({ type: 'varchar', unique: true, nullable: false })
 name: string;
-@Column({ type: 'varchar', unique: true, nullable: false })
+@Column({ type: 'varchar', unique: false, nullable: false })
 entidad: string;
 @OneToMany(() => ImpuestosDgi, (impuestodgi) => impuestodgi.tipo)
 impuestodgi: ImpuestosDgi[];
