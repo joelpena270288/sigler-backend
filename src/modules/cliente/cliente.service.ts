@@ -110,7 +110,7 @@ export class ClienteService {
     return  await this.clienteRepository
     .createQueryBuilder('cliente')
     .innerJoin(
-      'cliente.factura',
+      'cliente.facturas',
 
       'factura',
       'factura.status = :statusFactura',
