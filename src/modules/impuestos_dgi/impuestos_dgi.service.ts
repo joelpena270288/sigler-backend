@@ -37,7 +37,7 @@ export class ImpuestosDgiService {
    newImpuesto.metododepago = createImpuestosDgiDto.metododepago;
    newImpuesto.pagodesde = createImpuestosDgiDto.pagodesde;
    newImpuesto.cuenta = foundcuenta;
-   newImpuesto.periodo = createImpuestosDgiDto.periodo;
+   newImpuesto.periodo = createImpuestosDgiDto.periodo.replace('-','');
    newImpuesto.comision = createImpuestosDgiDto.comision;
    newImpuesto.total = parseFloat(createImpuestosDgiDto.valor.toString()) + parseFloat(createImpuestosDgiDto.comision.toString());
   
@@ -76,7 +76,7 @@ export class ImpuestosDgiService {
     foundImpuesto.periodo = updateImpuestosDgiDto.periodo;
     foundImpuesto.tipo = fundtipo;
     foundImpuesto.valor = updateImpuestosDgiDto.valor;
-    foundImpuesto.periodo = updateImpuestosDgiDto.periodo;
+    foundImpuesto.periodo = updateImpuestosDgiDto.periodo.replace('-','');
     foundImpuesto.documento = updateImpuestosDgiDto.documento;
     foundImpuesto.metododepago = updateImpuestosDgiDto.metododepago;
     foundImpuesto.pagodesde = updateImpuestosDgiDto.pagodesde;
