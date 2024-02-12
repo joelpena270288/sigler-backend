@@ -31,13 +31,13 @@ export class ImpuestosDgiService {
    newImpuesto.tipo = fundtipo;
    
    newImpuesto.valor = createImpuestosDgiDto.valor;
-   newImpuesto.periodo = moment( createImpuestosDgiDto.fecha).format( "YYYYMM");
-   newImpuesto.fecha = createImpuestosDgiDto.fecha;
+  
+   newImpuesto.fecha = createImpuestosDgiDto.fechapago;
    newImpuesto.documento = createImpuestosDgiDto.documento;
    newImpuesto.metododepago = createImpuestosDgiDto.metododepago;
    newImpuesto.pagodesde = createImpuestosDgiDto.pagodesde;
    newImpuesto.cuenta = foundcuenta;
-   newImpuesto.fecha = createImpuestosDgiDto.fechapago;
+   newImpuesto.periodo = createImpuestosDgiDto.periodo;
   
   return  await this.impuestoDgiRepository.save(newImpuesto);
   }
@@ -71,10 +71,10 @@ export class ImpuestosDgiService {
     }
    
     foundImpuesto.updatedAt = new Date();
-    foundImpuesto.periodo =  moment( updateImpuestosDgiDto.fecha).format( "YYYYMM");
+    foundImpuesto.periodo = updateImpuestosDgiDto.periodo;
     foundImpuesto.tipo = fundtipo;
     foundImpuesto.valor = updateImpuestosDgiDto.valor;
-    foundImpuesto.fecha = updateImpuestosDgiDto.fecha;
+    foundImpuesto.periodo = updateImpuestosDgiDto.periodo;
     foundImpuesto.documento = updateImpuestosDgiDto.documento;
     foundImpuesto.metododepago = updateImpuestosDgiDto.metododepago;
     foundImpuesto.pagodesde = updateImpuestosDgiDto.pagodesde;

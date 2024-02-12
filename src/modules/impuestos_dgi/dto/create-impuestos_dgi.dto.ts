@@ -5,7 +5,7 @@ export class CreateImpuestosDgiDto {
     @IsNotEmpty()
     idcuenta: string;
   @IsNotEmpty()
-   fecha: Date;
+   periodo: string;
    @IsNotEmpty()
    fechapago: Date;
     @IsDecimal()
