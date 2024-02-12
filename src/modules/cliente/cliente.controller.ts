@@ -40,4 +40,10 @@ export class ClienteController {
   remove(@Param('id') id: string) {
     return this.clienteService.remove(id);
   }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR,RoleEnum.DIGITADOR,RoleEnum.RH)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/all/cuentasporcobrar')
+  findAllWihtCuentasporCobrar() {
+    return this.clienteService.getClienteWithCuentasPorCobrar();
+  }
 }

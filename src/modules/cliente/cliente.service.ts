@@ -106,4 +106,29 @@ export class ClienteService {
     findCliente.status = Status.INACTIVO;
     return await this.clienteRepository.save(findCliente);
   }
+  async getClienteWithCuentasPorCobrar(): Promise<Cliente[]>{
+
+
+	
+     return await this.clienteRepository.find({
+        relations: {
+          facturas: true,
+        cuentaporcobrar: true,
+      
+      },
+      where: {
+        facturas: { 
+           status:   StatusFactura.APROBADA
+          },
+          cuentaporcobrar: {
+              status: Status.ACTIVO,
+            
+            
+          },
+      
+        
+     
+      },
+      });
+  }
 }
