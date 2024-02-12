@@ -30,8 +30,12 @@ documento: string;
 metododepago: string;
 @Column({ type: 'varchar', unique: true, nullable: false })
 pagodesde: string;
-@Column({ type: 'decimal', nullable: false, precision: 10, scale: 3 })
+@Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
 valor: number;
+@Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
+comision: number;
+@Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
+total: number;
   @ManyToOne(() => TipoImpuestosDgi, (tipo) => tipo.impuestodgi, {
     eager: true,
     nullable: false,

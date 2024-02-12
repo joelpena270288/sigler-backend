@@ -16,5 +16,7 @@ export class CreateImpuestosDgiDto {
 metododepago: string;
 @IsNotEmpty()
 pagodesde: string;
+@IsDecimal()
+comision: number;
 
 }

@@ -38,6 +38,8 @@ export class ImpuestosDgiService {
    newImpuesto.pagodesde = createImpuestosDgiDto.pagodesde;
    newImpuesto.cuenta = foundcuenta;
    newImpuesto.periodo = createImpuestosDgiDto.periodo;
+   newImpuesto.comision = createImpuestosDgiDto.comision;
+   newImpuesto.total = parseFloat(createImpuestosDgiDto.valor.toString()) + parseFloat(createImpuestosDgiDto.comision.toString());
   
   return  await this.impuestoDgiRepository.save(newImpuesto);
   }
@@ -80,7 +82,8 @@ export class ImpuestosDgiService {
     foundImpuesto.pagodesde = updateImpuestosDgiDto.pagodesde;
     foundImpuesto.cuenta = foundcuenta;
     foundImpuesto.fechapago = updateImpuestosDgiDto.fechapago;
-    
+    foundImpuesto.comision = updateImpuestosDgiDto.comision;
+    newImpuesto.total = parseFloat(updateImpuestosDgiDto.valor.toString()) + parseFloat(updateImpuestosDgiDto.comision.toString());
     return  await this.impuestoDgiRepository.save(foundImpuesto);
   }
 
