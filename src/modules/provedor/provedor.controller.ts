@@ -83,7 +83,7 @@ export class ProvedorController {
   
   )
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get('/cuentas_por_pagar')
+  @Get('/getAll/cuentasporpagar')
   findAllCuentasPorPagar() {
     return this.provedorService.provedorCuentaPorPagar();
   }
