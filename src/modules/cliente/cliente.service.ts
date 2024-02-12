@@ -106,29 +106,25 @@ export class ClienteService {
     findCliente.status = Status.INACTIVO;
     return await this.clienteRepository.save(findCliente);
   }
- /* async getClienteWithCuentasPorCobrar(): Promise<Cliente[]>{
+  async getClienteWithCuentasPorCobrar(): Promise<Cliente[]>{
+    return  await this.clienteRepository
+    .createQueryBuilder('cliente')
+    .innerJoin(
+      'cliente.factura',
 
+      'factura',
+      'factura.status = :statusFactura',
+      { statusFactura: StatusFactura.APROBADA },
+    )
+    .innerJoin(
+      'factura.cuentaporcobrar',
 
-	
-     return await this.clienteRepository.find({
-        relations: {
-          facturas: true,
-        cuentaporcobrar: true,
-      
-      },
-      where: {
-        facturas: { 
-           status:   StatusFactura.APROBADA
-          },
-          cuentaporcobrar: {
-              status: Status.ACTIVO,
-            
-            
-          },
-      
-        
-     
-      },
-      });
-  }*/
+      'cuentaporcobrar',
+      'cuentaporcobrar.status = :statuscuenta',
+      { statuscuenta: Status.ACTIVO },
+    )
+   
+   
+    .getMany();
+  }
 }
