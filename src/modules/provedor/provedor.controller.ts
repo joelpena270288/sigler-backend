@@ -74,4 +74,17 @@ export class ProvedorController {
   remove(@Param('id') id: string) {
     return this.provedorService.remove(id);
   }
+  @HasRoles(
+    RoleEnum.ADMIN,
+    
+    RoleEnum.FACTURADOR,
+    RoleEnum.ADMINISTRATIVO,
+    RoleEnum.DIGITADOR
+  
+  )
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/cuentas_por_pagar')
+  findAllCuentasPorPagar() {
+    return this.provedorService.provedorCuentaPorPagar();
+  }
 }

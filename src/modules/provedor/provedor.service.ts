@@ -5,7 +5,7 @@ import { Provedor } from './entities/provedor.entity';
 import { Repository } from 'typeorm';
 import {Status} from '../../EntityStatus/entity.estatus.enum';
 import { TipoDocumento } from './dto/tipo-documento.enum';
-
+import {StatusGasto} from '../gastos_empresas/entities/gasto-status.enum';
 @Injectable()
 export class ProvedorService {
   constructor(
@@ -97,5 +97,19 @@ export class ProvedorService {
     }
     findProvedor.status = Status.INACTIVO;
     return await this.provedorRepository.save(findProvedor);
+  }
+  async provedorCuentaPorPagar():Promise<Provedor[]>{
+   return  await this.provedorRepository
+    .createQueryBuilder('provedor')
+    .innerJoin(
+      'provedor.gastos',
+
+      'gastos',
+      'gastos.status = :estadoGasto',
+      { estadoGasto: StatusGasto.ACTIVO },
+    )
+   
+   
+    .getMany();
   }
 }
