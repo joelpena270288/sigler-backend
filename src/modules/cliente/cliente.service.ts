@@ -106,7 +106,7 @@ export class ClienteService {
     findCliente.status = Status.INACTIVO;
     return await this.clienteRepository.save(findCliente);
   }
-  async getClienteWithCuentasPorCobrar(): Promise<Cliente[]>{
+ /* async getClienteWithCuentasPorCobrar(): Promise<Cliente[]>{
 
 
 	
@@ -130,5 +130,5 @@ export class ClienteService {
      
       },
       });
-  }
+  }*/
 }
