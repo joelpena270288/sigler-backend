@@ -18,8 +18,7 @@ import {
 export class ImpuestosDgi {
     @PrimaryGeneratedColumn('uuid')
 id: string;
-@CreateDateColumn({ type: 'timestamp', name: 'fecha' })
-fecha: Date;
+
 @CreateDateColumn({ type: 'timestamp', name: 'fechapago' })
 fechapago: Date;
 @Column({ type: 'varchar', unique: false, nullable: false })
