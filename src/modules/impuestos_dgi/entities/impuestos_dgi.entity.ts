@@ -25,9 +25,9 @@ fechapago: Date;
 periodo: string;
 @Column({ type: 'varchar', unique: true, nullable: false })
 documento: string;
-@Column({ type: 'varchar', unique: true, nullable: false })
+@Column({ type: 'varchar', nullable: false })
 metododepago: string;
-@Column({ type: 'varchar', unique: true, nullable: false })
+@Column({ type: 'varchar', nullable: false })
 pagodesde: string;
 @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2 })
 valor: number;
