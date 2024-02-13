@@ -45,7 +45,12 @@ export class ImpuestosDgiService {
   }
 
  async findAll(): Promise<ImpuestosDgi[]> {
-    return  await this.impuestoDgiRepository.find();
+    return  await this.impuestoDgiRepository.find({
+      order: {
+          periodo: "DESC",
+         
+      },
+  });
   }
 
  async findOne(id: string):Promise<ImpuestosDgi> {
