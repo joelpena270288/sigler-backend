@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateImpuestosDgiDto } from './dto/create-impuestos_dgi.dto';
 import { UpdateImpuestosDgiDto } from './dto/update-impuestos_dgi.dto';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { TipoImpuestosDgi } from '../tipo_impuestos_dgi/entities/tipo_impuestos_dgi.entity';
 import { ImpuestosDgi } from './entities/impuestos_dgi.entity';
 import * as moment from 'moment';
