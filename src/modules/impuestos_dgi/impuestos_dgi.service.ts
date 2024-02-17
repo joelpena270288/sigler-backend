@@ -6,6 +6,7 @@ import { TipoImpuestosDgi } from '../tipo_impuestos_dgi/entities/tipo_impuestos_
 import { ImpuestosDgi } from './entities/impuestos_dgi.entity';
 import * as moment from 'moment';
 import { CuentasEmpresa } from '../cuentas-empresa/entities/cuentas-empresa.entity';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 @Injectable()
 export class ImpuestosDgiService {
   constructor(
@@ -100,4 +101,37 @@ export class ImpuestosDgiService {
     }
     return await this.impuestoDgiRepository.remove(foundImpuesto);
   }
+
+  async findAllImpuestoByFilter(id: string, filtro:FiltroFechaDto): Promise<ImpuestosDgi[]> {
+    let actualdate: Date = new Date();
+    let inicio: Date = new Date(actualdate.getFullYear()+'-01-01');
+    let fin: Date = new Date(actualdate.getFullYear()+'-12-31');
+   
+    if(filtro.start){
+    inicio = filtro.start;
+  
+    }
+    if(filtro.end){
+    fin = filtro.end;
+  
+    }
+  
+    return await this.impuestoDgiRepository.find({
+      order: {
+       
+        createdAt: "DESC",
+    },
+      relations: {
+        tipo: true,
+       
+      },
+
+      where: {
+       
+        createdAt: Between(inicio,fin),
+        tipo: {id: id}
+      },
+    });
+  }
+
 }

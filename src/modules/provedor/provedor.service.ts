@@ -112,4 +112,20 @@ export class ProvedorService {
    
     .getMany();
   }
-}
+    async provedorCuentaPorPagarInformal():Promise<Provedor[]>{
+      return  await this.provedorRepository
+       .createQueryBuilder('provedor')
+       .innerJoin(
+         'provedor.gastos',
+   
+         'gastos',
+         'gastos.status = :estadoGasto',
+         { estadoGasto: StatusGasto.ACTIVO },
+       )
+       .where('prvedor.informal = true')
+      
+      
+       .getMany();
+     }
+  }
+

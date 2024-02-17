@@ -87,4 +87,17 @@ export class ProvedorController {
   findAllCuentasPorPagar() {
     return this.provedorService.provedorCuentaPorPagar();
   }
+  @HasRoles(
+    RoleEnum.ADMIN,
+    
+    RoleEnum.FACTURADOR,
+    RoleEnum.ADMINISTRATIVO,
+    RoleEnum.DIGITADOR
+  
+  )
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/getAll/cuentasporpagar/informal')
+  findAllCuentasPorPagar() {
+    return this.provedorService.provedorCuentaPorPagarInformal();
+  }
 }

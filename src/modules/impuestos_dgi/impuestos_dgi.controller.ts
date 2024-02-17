@@ -6,6 +6,7 @@ import { HasRoles } from '../role/roles.decorator';
 import { RoleEnum } from '../role/enums/role.enum';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
+import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 
 @Controller('impuestos-dgi')
 export class ImpuestosDgiController {
@@ -39,5 +40,11 @@ export class ImpuestosDgiController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.impuestosDgiService.remove(id);
+  }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/Byfilter/:id')
+  findAllImpuestoByFilter(@Param('id') id: string,@Body() filtro: FiltroFechaDto) {
+    return this.impuestosDgiService.findAllImpuestoByFilter(id,filtro);
   }
 }
