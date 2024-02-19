@@ -21,7 +21,7 @@ export class Entidad {
   id: string;
   @Column({ type: 'varchar', nullable: false })
   name: string;
-  @Column({ type: 'varchar', length: 10, nullable: false })
+  @Column({ type: 'varchar', length: 11, nullable: false })
   rnc: string;
   @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
   status: string;
