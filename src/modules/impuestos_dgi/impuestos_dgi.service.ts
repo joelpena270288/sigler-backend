@@ -122,6 +122,7 @@ export class ImpuestosDgiService {
     return await this.impuestoDgiRepository
     .createQueryBuilder('impuesto')
     .innerJoinAndSelect('impuesto.tipo','tipo')
+    .innerJoinAndSelect('impuesto.cuenta','cuenta')
     .innerJoinAndSelect('tipo.entidad','entidad','entidad.id = :identidad',{identidad: id})
     .where( 'impuesto.createdAt >= :inicio',{inicio: inicio})
     .andWhere('impuesto.createdAt <= :fin',{fin: fin})
