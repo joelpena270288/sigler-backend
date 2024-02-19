@@ -119,22 +119,14 @@ export class ImpuestosDgiService {
   
     }
   
-    return await this.impuestoDgiRepository.find({
-      order: {
-       
-        createdAt: "DESC",
-    },
-      relations: {
-        tipo: true,
-       
-      },
-
-      where: {
-       
-        createdAt: Between(inicio,fin),
-        tipo: {id: id}
-      },
-    });
+    return await this.impuestoDgiRepository
+    .createQueryBuilder('impuesto')
+    .innerJoin('impuesto.tipo','tipo')
+    .innerJoin('tipo.entidad','entidad','entidad.id = :identidad',{identidad: id})
+    .where( 'impuesto.createdAt >= :inicio',{inicio: inicio})
+    .andWhere('impuesto.createdAt <= :fin',{fin: fin})
+    .andWhere('impuesto.status = :estado',{estado: Status.ACTIVO})
+    .getMany();
   }
 
 }
