@@ -7,6 +7,7 @@ import { ImpuestosDgi } from './entities/impuestos_dgi.entity';
 import * as moment from 'moment';
 import { CuentasEmpresa } from '../cuentas-empresa/entities/cuentas-empresa.entity';
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
+import { Status } from '../../EntityStatus/entity.estatus.enum';
 @Injectable()
 export class ImpuestosDgiService {
   constructor(
@@ -99,7 +100,9 @@ export class ImpuestosDgiService {
     if(!foundImpuesto){
      throw new NotFoundException("No existe el impuesto DDGI introducido");
     }
-    return await this.impuestoDgiRepository.remove(foundImpuesto);
+    foundImpuesto.updatedAt = new Date();
+    foundImpuesto.status = Status.INACTIVO;
+    return await this.impuestoDgiRepository.save(foundImpuesto);
   }
 
   async findAllImpuestoByFilter(id: string, filtro:FiltroFechaDto): Promise<ImpuestosDgi[]> {

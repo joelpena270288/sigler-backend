@@ -1,5 +1,6 @@
 import {TipoImpuestosDgi} from '../../tipo_impuestos_dgi/entities/tipo_impuestos_dgi.entity';
 import {CuentasEmpresa} from '../../cuentas-empresa/entities/cuentas-empresa.entity';
+import { Status} from '../../../EntityStatus/entity.estatus.enum';
 import {
     BaseEntity,
     Column,
@@ -45,7 +46,8 @@ tipo: TipoImpuestosDgi;
   nullable: false,
 })
 cuenta: CuentasEmpresa;
-
+@Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
+status: string;
 @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
 createdAt: Date;
 @CreateDateColumn({ type: 'timestamp', name: 'updated_at' })

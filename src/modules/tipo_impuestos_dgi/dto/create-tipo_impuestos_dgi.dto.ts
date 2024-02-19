@@ -3,6 +3,6 @@ export class CreateTipoImpuestosDgiDto {
     @IsNotEmpty()
     name: string;
     @IsNotEmpty()
-    entidad: string;
+    identidad: string;
    
 }
