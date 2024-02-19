@@ -26,6 +26,7 @@ export class ReportGastoService {
     readReportGastoDto.sub_total_gasto_proyecto = 0;
     const gastos: GastosEmpresa[] = await this.gastoempresaRepository
       .createQueryBuilder('gasto')
+      .orderBy('gasto.createdAt',"DESC" )
       .leftJoinAndSelect('gasto.proyecto', 'proyecto')
       .leftJoinAndSelect('gasto.gastosItems', 'gastosItems')
       .where('gasto.createdAt >= :start', {

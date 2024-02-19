@@ -24,6 +24,7 @@ export class Report06Service {
 
     const gastos: GastosEmpresa[] = await this.gastoRepository
       .createQueryBuilder('gasto')
+      .orderBy('gasto.createdAt',"DESC" )
       .innerJoinAndSelect(
         'gasto.gastosItems',
 

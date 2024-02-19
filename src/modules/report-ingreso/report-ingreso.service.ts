@@ -19,6 +19,7 @@ async getReportByDate(filtroFechaDto: FiltroFechaDto): Promise<ReadReportIngreso
   readReportIngresoDto.ingresos = 0;
   readReportIngresoDto.pagos = 0;
   const factura: Factura[] = await this.facturaRepository.createQueryBuilder('factura')
+  .orderBy('factura.fechafactura',"DESC" )
   .innerJoinAndSelect('factura.cuentaporcobrar','cuentaporcobrar')  
   .where('factura.fechafactura >= :start',{start: filtroFechaDto.start+' 00:00:00'}) 
   .andWhere('factura.fechafactura  <= :end',{end: filtroFechaDto.end+' 23:59:00'}) 

@@ -121,6 +121,7 @@ export class ImpuestosDgiService {
   
     return await this.impuestoDgiRepository
     .createQueryBuilder('impuesto')
+    .orderBy('impuesto.createdAt',"DESC" )
     .innerJoinAndSelect('impuesto.tipo','tipo')
     .innerJoinAndSelect('impuesto.cuenta','cuenta')
     .innerJoinAndSelect('tipo.entidad','entidad','entidad.id = :identidad',{identidad: id})

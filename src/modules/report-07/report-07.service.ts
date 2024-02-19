@@ -21,6 +21,8 @@ export class Report07Service {
     readReport07Dto.facturasResumen = [];
    
       const factura: Factura[] = await this.facturaRepository.createQueryBuilder('factura')
+      
+      .orderBy('factura.fechafactura',"DESC" )
     .innerJoinAndSelect('factura.servicioProcesado','servicioProcesado')  
     .innerJoinAndSelect('factura.cliente','cliente') 
     .where('factura.fechafactura >= :start',{start: filtroFechaDto.start+' 00:00:00'}) 

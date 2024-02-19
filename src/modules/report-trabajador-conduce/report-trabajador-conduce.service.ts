@@ -22,6 +22,7 @@ export class ReportTrabajadorConduceService {
 async  getReport(filtro: Filtro):Promise<ReadReportTrabajadorConduceDto> {
   const  readReportTrabajadorConduceDto: ReadReportTrabajadorConduceDto = new ReadReportTrabajadorConduceDto();
   const listConduce: Conduce[] = await this.conduceRepository.createQueryBuilder('conduce')
+  .orderBy('conduce.createdAt',"DESC" )
   .innerJoinAndSelect('conduce.proyecto','proyecto')  
   .innerJoinAndSelect('conduce.empleado','empleado')
   .innerJoinAndSelect('conduce.equipo','equipo')

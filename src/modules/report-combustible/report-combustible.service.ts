@@ -17,6 +17,7 @@ export class ReportCombustibleService {
     const readReportCombustible: ReadReportCombustibleDTO[] = [];
     const listConduce: Conduce[] = await this.conduceRepository
       .createQueryBuilder('conduce')
+      .orderBy('conduce.createdAt',"DESC" )
       .innerJoinAndSelect('conduce.proyecto', 'proyecto')
       .innerJoinAndSelect('conduce.empleado', 'empleado')
       .innerJoinAndSelect('conduce.servicio', 'servicio')
