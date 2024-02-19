@@ -70,7 +70,9 @@ export class GastosEmpresa {
   @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
   propina: number;
   @Column({ type: 'decimal', nullable: false,default: 0, precision: 10, scale: 2 })
-  impuestoselectivoconsumo: number;		
+  impuestoselectivoconsumo: number;	
+  @Column({ type: 'decimal', nullable: true,default: 0, precision: 10, scale: 2 })
+  impuestoclaro: number;		
   @ManyToOne(() => Provedor, (provedor) => provedor.gastos, { nullable: false })
   provedor: Provedor;
   @Column({ type: 'varchar', nullable: true })

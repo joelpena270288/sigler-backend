@@ -13,6 +13,8 @@ export class CreateGastosEmpresaDto {
     propina: number;  
     @IsDecimal()
     impuestoselectivoconsumo: number;
+    @IsDecimal()
+    impuestoclaro: number;
     
     @IsNotEmpty()
     fecha: Date;
