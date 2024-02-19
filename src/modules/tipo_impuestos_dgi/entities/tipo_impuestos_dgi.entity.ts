@@ -20,7 +20,7 @@ export class TipoImpuestosDgi {
 
     @PrimaryGeneratedColumn('uuid')
 id: string;
-@Column({ type: 'varchar', unique: true, nullable: false })
+@Column({ type: 'varchar', unique: false, nullable: false })
 name: string;
 
 @OneToMany(() => ImpuestosDgi, (impuestodgi) => impuestodgi.tipo)
