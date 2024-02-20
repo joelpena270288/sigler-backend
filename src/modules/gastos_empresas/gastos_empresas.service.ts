@@ -339,7 +339,7 @@ export class GastosEmpresasService {
     .createQueryBuilder('gasto')
     .innerJoinAndSelect('gasto.cuentaporpagar','cuentaporpagar')
     .leftJoinAndSelect('gasto.pagos','pago','pago.status = :estadogasto',{estadogasto: Status.ACTIVO})
-    .where('gasto.id = :id',{id: id})
+    .where('gasto.id = :id',{id: idgasto})
     .getOne();
     if(!foundGasto){
       throw new NotFoundException('El Gasto introducido no es valido');
