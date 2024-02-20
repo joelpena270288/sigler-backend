@@ -8,6 +8,8 @@ import { RolesGuard } from '../role/guards/roles.guard';
 import { RoleEnum } from '../role/enums/role.enum';
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 import { DescuentoGastosEmpresaDto } from './dto/descuento-gastos_empresa.dto';
+import { CreateGastoItemDto } from '../gasto_item/dto/create-gasto_item.dto';
+import { DeleteGastoItemDto } from './dto/delete-gasto-item.dto';
 
 @Controller('gastos-empresas')
 export class GastosEmpresasController {
@@ -72,5 +74,17 @@ export class GastosEmpresasController {
   @Delete('/descuento/:id')
   deleteDescuento(@Param('id') id: string) {
     return this.gastosEmpresasService.deleteDescuento(id);
+  }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('/gastoItem/byId/:id')
+  addGastoItem(@Param('id') id: string, @Body() createGastoItem: CreateGastoItemDto) {
+    return this.gastosEmpresasService.addGastoItem(id, createGastoItem);
+  }
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete('/delete/gastoItem/byId/:id')
+  deleteGastosIntem(@Param('id') id: string,@Body() iditemgasto: DeleteGastoItemDto) {
+    return this.gastosEmpresasService.deleteGastosIntem(id,iditemgasto.idgastoitem);
   }
 }
