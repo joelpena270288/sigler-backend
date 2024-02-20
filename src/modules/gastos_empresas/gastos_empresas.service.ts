@@ -21,6 +21,7 @@ import { Provedor } from '../provedor/entities/provedor.entity';
 import { B11 } from '../b11/entities/b11.entity';
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 import { DescuentoGastosEmpresaDto } from './dto/descuento-gastos_empresa.dto';
+import { CreateGastoItemDto } from '../gasto_item/dto/create-gasto_item.dto';
 
 @Injectable()
 export class GastosEmpresasService {
@@ -332,5 +333,74 @@ export class GastosEmpresasService {
     foundGasto.valordescuentoimpuesto = 0;
     foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante.toString()) + (parseFloat(valordescuentoimpuesto.toString()) + parseFloat(valordescuentoimporte.toString()) );
     return await this.gastoRepository.save(foundGasto);
+  }
+  async deleteGastosIntem(idgasto: string, idgastoItem: string): Promise<GastosEmpresa>{
+    const foundGasto: GastosEmpresa = await this.gastoRepository.findOne({
+      relations:{
+        cuentaporpagar: true,
+        pagos: true
+      },
+      where: { id: idgasto, status: Not(StatusGasto.CANCELADO),pagos:{status: Status.ACTIVO} },
+    });
+    if(!foundGasto){
+      throw new NotFoundException('El Gasto introducido no es valido');
+    }
+    if(foundGasto.pagos.length > 0){
+      throw new BadRequestException('El gasto tiene pagos realizados');
+    }
+    const foundGastoItem: GastoItem = await this.itemsRepository.findOne({where: {id: idgastoItem, status: Status.ACTIVO}});
+    if(!foundGastoItem){
+      throw new NotFoundException('El producto introducido no es valido');
+    }
+    foundGasto.cuentaporpagar.montoinicial = parseFloat(foundGasto.cuentaporpagar.montoinicial) - parseFloat(foundGastoItem.valortotal.toString());
+    foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante) - parseFloat(foundGastoItem.valortotal.toString());
+    foundGasto.updatedAt = new Date();
+    const savedGasto: GastosEmpresa = await this.gastoRepository.save(foundGasto);
+    if(!foundGasto){
+      throw new BadRequestException('Error al eliminar el producto');
+    }
+    foundGastoItem.status = Status.INACTIVO;
+    foundGastoItem.updatedAt = new Date();
+    await this.itemsRepository.save(foundGastoItem);
+   return foundGasto;
+  }
+  async addGastoItem(id:string, creategastoItem: CreateGastoItemDto): Promise<GastosEmpresa>{
+    const foundGasto: GastosEmpresa = await this.gastoRepository.findOne({
+      relations:{
+        cuentaporpagar: true,
+        pagos: true
+      },
+      where: { id: id, status: Not(StatusGasto.CANCELADO),pagos:{status: Status.ACTIVO} },
+    });
+    if(!foundGasto){
+      throw new NotFoundException('El Gasto introducido no es valido');
+    }
+    if(foundGasto.pagos.length > 0){
+      throw new BadRequestException('El gasto tiene pagos realizados');
+    }
+    const newGastoItem: GastoItem = new GastoItem();
+    if(creategastoItem.idequipo!==''){
+      const equipo: Equipo = await this.equipoRepository.findOne({where: {id: creategastoItem.idequipo}});
+    if(!equipo){
+      throw new NotFoundException('El equipo introducido no es valido');
+    }else{
+      newGastoItem.equipo = equipo;
+    }
+    }
+   
+    newGastoItem.cantidad = creategastoItem.cantidad;
+    newGastoItem.descripcion = creategastoItem.descripcion;   
+    newGastoItem.gasto = foundGasto;
+    newGastoItem.importe = creategastoItem.importe;
+    newGastoItem.importeimpuesto = creategastoItem.importeimpuesto;
+    newGastoItem.preciounitario = creategastoItem.preciounitario;
+    newGastoItem.valortotal = parseFloat(newGastoItem.importe.toString()) + parseFloat(newGastoItem.importeimpuesto.toString());
+    const savedgastoItem: GastoItem = await this.itemsRepository.save(newGastoItem);
+    if(!savedgastoItem){
+      throw new BadRequestException('Error al guadar el servicio');
+    }
+    foundGasto.cuentaporpagar.montoinicial = parseFloat(foundGasto.cuentaporpagar.montoinicial) + parseFloat(savedgastoItem.valortotal.toString());
+    foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante) + parseFloat(savedgastoItem.valortotal.toString());
+
   }
 }
