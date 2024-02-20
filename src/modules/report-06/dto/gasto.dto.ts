@@ -8,5 +8,6 @@ export class GastosResumen{
    formapago: string; 
    propina: number;
    isc: number;
+   cdt: number;
 
 }
