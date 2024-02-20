@@ -335,13 +335,12 @@ export class GastosEmpresasService {
     return await this.gastoRepository.save(foundGasto);
   }
   async deleteGastosIntem(idgasto: string, idgastoItem: string): Promise<GastosEmpresa>{
-    const foundGasto: GastosEmpresa = await this.gastoRepository.findOne({
-      relations:{
-        cuentaporpagar: true,
-        pagos: true
-      },
-      where: { id: idgasto, status: Not(StatusGasto.CANCELADO),pagos:{status: Status.ACTIVO} },
-    });
+    const foundGasto: GastosEmpresa = await this.gastoRepository    
+    .createQueryBuilder('gasto')
+    .innerJoinAndSelect('gasto.cuentaporpagar','cuentaporpagar')
+    .leftJoinAndSelect('gasto.pagos','pago','pago.status = :estadogasto',{estadogasto: Status.ACTIVO})
+    .where('gasto.id = :id',{id: id})
+    .getOne();
     if(!foundGasto){
       throw new NotFoundException('El Gasto introducido no es valido');
     }
@@ -365,13 +364,23 @@ export class GastosEmpresasService {
    return foundGasto;
   }
   async addGastoItem(id:string, creategastoItem: CreateGastoItemDto): Promise<GastosEmpresa>{
-    const foundGasto: GastosEmpresa = await this.gastoRepository.findOne({
+ 
+ 
+    const foundGasto: GastosEmpresa = await this.gastoRepository
+    
+    .createQueryBuilder('gasto')
+    .innerJoinAndSelect('gasto.cuentaporpagar','cuentaporpagar')
+    .leftJoinAndSelect('gasto.pagos','pago','pago.status = :estadogasto',{estadogasto: Status.ACTIVO})
+    .where('gasto.id = :id',{id: id})
+    .getOne();
+    /*
+    .findOne({
       relations:{
         cuentaporpagar: true,
         pagos: true
       },
       where: { id: id, status: Not(StatusGasto.CANCELADO),pagos:{status: Status.ACTIVO} },
-    });
+    });*/
     if(!foundGasto){
       throw new NotFoundException('El Gasto introducido no es valido');
     }
