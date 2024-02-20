@@ -352,8 +352,8 @@ export class GastosEmpresasService {
     if(!foundGastoItem){
       throw new NotFoundException('El producto introducido no es valido');
     }
-    foundGasto.cuentaporpagar.montoinicial = parseFloat(foundGasto.cuentaporpagar.montoinicial) - parseFloat(foundGastoItem.valortotal.toString());
-    foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante) - parseFloat(foundGastoItem.valortotal.toString());
+    foundGasto.cuentaporpagar.montoinicial = parseFloat(foundGasto.cuentaporpagar.montoinicial.toString()) - parseFloat(foundGastoItem.valortotal.toString());
+    foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante.toString()) - parseFloat(foundGastoItem.valortotal.toString());
     foundGasto.updatedAt = new Date();
     const savedGasto: GastosEmpresa = await this.gastoRepository.save(foundGasto);
     if(!foundGasto){
@@ -399,8 +399,9 @@ export class GastosEmpresasService {
     if(!savedgastoItem){
       throw new BadRequestException('Error al guadar el servicio');
     }
-    foundGasto.cuentaporpagar.montoinicial = parseFloat(foundGasto.cuentaporpagar.montoinicial) + parseFloat(savedgastoItem.valortotal.toString());
-    foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante) + parseFloat(savedgastoItem.valortotal.toString());
+    foundGasto.cuentaporpagar.montoinicial = parseFloat(foundGasto.cuentaporpagar.montoinicial.toString()) + parseFloat(savedgastoItem.valortotal.toString());
+    foundGasto.cuentaporpagar.montorestante = parseFloat(foundGasto.cuentaporpagar.montorestante.toString()) + parseFloat(savedgastoItem.valortotal.toString());
 
+    return await this.gastoRepository.save(foundGasto);
   }
 }
