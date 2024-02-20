@@ -83,7 +83,7 @@ export class GastosEmpresasController {
   }
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Delete('/delete/gastoItem/byId/:id')
+  @Patch('/delete/gastoItem/byId/:id')
   deleteGastosIntem(@Param('id') id: string,@Body() iditemgasto: DeleteGastoItemDto) {
     return this.gastosEmpresasService.deleteGastosIntem(id,iditemgasto.idgastoitem);
   }
