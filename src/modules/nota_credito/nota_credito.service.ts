@@ -37,11 +37,16 @@ export class NotaCreditoService {
   }
 
   async findOne(id: string): Promise<NotaCredito> {
-    return await this.notaRepository
+    const foundnota: NotaCredito =  await this.notaRepository
       .createQueryBuilder('nota')
       .innerJoin('nota.gastoempresa', 'gastoempresa')
       .where('gastoempresa.id = :id', { id: id })
       .getOne();
+      if(!foundnota){
+      throw new NotFoundException('El gasto no tiene Nota de Crédito');
+
+      }
+      return foundnota;
   }
 
   async remove(id: string): Promise<NotaCredito> {
