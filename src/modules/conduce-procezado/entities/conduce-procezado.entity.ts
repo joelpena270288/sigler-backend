@@ -15,7 +15,7 @@ import {
     ManyToOne,
     BeforeInsert,
   } from 'typeorm';
-  @Entity('conduces-procezados')
+  @Entity('conduces_procezados')
 export class ConduceProcezado {
     @PrimaryGeneratedColumn('uuid')
     id: string;

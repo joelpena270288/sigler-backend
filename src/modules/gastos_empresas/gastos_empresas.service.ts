@@ -70,6 +70,20 @@ export class GastosEmpresasService {
      } 
 
    }
+   if(createGastosEmpresaDto.NCF !==""){
+    const foundGasto: GastosEmpresa = await this.gastoRepository    
+    .createQueryBuilder('gasto')
+    .innerJoinAndSelect('gasto.cuentaporpagar','cuentaporpagar')
+    .leftJoinAndSelect('gasto.pagos','pago','pago.status = :estadogasto',{estadogasto: Status.ACTIVO})
+    .innerJoin('gasto.provedor','provedor')
+    .where('gasto.NCF = :ncfgasto',{ncfgasto: gasto.NCF})
+    .andWhere('provedor.id = :idprovedor',{idprovedor: foundProvedor.id})
+    .getOne();
+     if(foundGasto){
+       throw new BadRequestException("Existe un gasto activo registrado a ese proveedor ");
+ 
+     }
+   }
   
   
     gasto.provedor = foundProvedor;
@@ -407,4 +421,5 @@ export class GastosEmpresasService {
 
     return await this.gastoRepository.save(foundGasto);
   }
+
 }

@@ -67,6 +67,8 @@ import { RetencionModule } from './modules/retencion/retencion.module';
 import { ImpuestosDgiModule } from './modules/impuestos_dgi/impuestos_dgi.module';
 import { TipoImpuestosDgiModule } from './modules/tipo_impuestos_dgi/tipo_impuestos_dgi.module';
 import { EntidadModule } from './modules/entidad/entidad.module';
+import { NotaCreditoModule } from './modules/nota_credito/nota_credito.module';
+
 
 @Module({
    
@@ -107,40 +109,32 @@ import { EntidadModule } from './modules/entidad/entidad.module';
      ServicioProcesadoModule,
      B01Module,
      B02Module,
-     B14Module,
-  
-     MonedaModule,
-   
-   
-   
-     CuentasEmpresaModule,
-   
-     PagoFacturaModule,
-   
-     PagoAnticipadosModule,
-   
-     PagoGastoModule,
-   
-     GastoItemModule,
-   
-     CombustibleModule,
-   
-     ReportGastoModule,
-   
-     ReportIngresoModule,
-   
-     ReportTrabajadorConduceModule,
-   
-     Report06Module,
-   
-     Report07Module,
-   
-     AlertCuentasPorCobrarModule,
-   
-     ReportCombustibleModule,  
-   
-   
-     EntradaCombustibleModule, ProvedorModule, UmModule, InventarioModule, ControlCombustibleModule, B11Module, RetencionModule, ImpuestosDgiModule, TipoImpuestosDgiModule, EntidadModule]
+     B14Module,  
+     MonedaModule,  
+     CuentasEmpresaModule,   
+     PagoFacturaModule,   
+     PagoAnticipadosModule,   
+     PagoGastoModule,   
+     GastoItemModule,   
+     CombustibleModule,   
+     ReportGastoModule,   
+     ReportIngresoModule,   
+     ReportTrabajadorConduceModule,   
+     Report06Module,   
+     Report07Module,   
+     AlertCuentasPorCobrarModule,   
+     ReportCombustibleModule, 
+     EntradaCombustibleModule,
+     ProvedorModule,
+     UmModule,
+     InventarioModule,
+      ControlCombustibleModule,
+      B11Module,
+      RetencionModule,
+      ImpuestosDgiModule,
+      TipoImpuestosDgiModule,
+      EntidadModule,
+      NotaCreditoModule,]
 })
 export class AppModule {
  static port: number | string;
