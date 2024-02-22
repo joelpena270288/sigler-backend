@@ -282,13 +282,14 @@ export class GastosEmpresasService {
   }
 
   async remove(id: string): Promise<GastosEmpresa> {
-    const foundGasto: GastosEmpresa = await this.gastoRepository.findOne({
-      where: { id: id, status: Not(StatusGasto.CANCELADO) },
-    });
-    if (!foundGasto) {
-      throw new NotFoundException(
-        'No existe el gasto o fue cancelado anteriormente',
-      );
+    const foundGasto: GastosEmpresa = await this.gastoRepository    
+    .createQueryBuilder('gasto')
+    .innerJoinAndSelect('gasto.cuentaporpagar','cuentaporpagar')
+    .leftJoinAndSelect('gasto.pagos','pago','pago.status = :estadogasto',{estadogasto: Status.ACTIVO})
+    .where('gasto.id = :id',{id: id})
+    .getOne();
+    if(foundGasto.pagos.length > 0){
+      throw new BadRequestException('El gasto tiene pagos realizados');
     }
     foundGasto.status = StatusGasto.CANCELADO;
 
@@ -373,14 +374,7 @@ export class GastosEmpresasService {
     .leftJoinAndSelect('gasto.pagos','pago','pago.status = :estadogasto',{estadogasto: Status.ACTIVO})
     .where('gasto.id = :id',{id: id})
     .getOne();
-    /*
-    .findOne({
-      relations:{
-        cuentaporpagar: true,
-        pagos: true
-      },
-      where: { id: id, status: Not(StatusGasto.CANCELADO),pagos:{status: Status.ACTIVO} },
-    });*/
+   
     if(!foundGasto){
       throw new NotFoundException('El Gasto introducido no es valido');
     }
