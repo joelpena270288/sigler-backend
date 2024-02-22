@@ -5,7 +5,7 @@ export class CreateNotaCreditoDto {
     @IsNotEmpty()
     descripcion: string;
     @IsNotEmpty() 
-    NCF: string;
+    ncf: string;
    
     @IsDecimal()
     importe: number;  

@@ -33,6 +33,7 @@ export class NotaCreditoService {
     newNota.gastoempresa = foudgasto;
     newNota.impuesto = createNotaCreditoDto.impuesto;
     newNota.importe = createNotaCreditoDto.importe;
+    newNota.ncf = 'B' + createNotaCreditoDto.ncf;
     return await this.notaRepository.save(newNota);
   }
 

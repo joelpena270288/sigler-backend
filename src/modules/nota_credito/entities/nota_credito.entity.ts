@@ -33,7 +33,7 @@ export class NotaCredito extends BaseEntity {
   @Column({ type: 'varchar', nullable: false })
   descripcion: string;
   @Column({ type: 'varchar', length: 11, nullable: false })
-  rnc: string;
+  ncf: string;
   @OneToOne(() => GastosEmpresa)
   @JoinColumn()
   gastoempresa: GastosEmpresa
