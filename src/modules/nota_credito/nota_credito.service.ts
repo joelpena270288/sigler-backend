@@ -57,6 +57,7 @@ export class NotaCreditoService {
     if (!foundNota) {
       throw new BadRequestException('No existe la nota introducida');
     }
-    return await this.notaRepository.remove(foundNota);
+    await this.notaRepository.remove(foundNota);
+    return {id: '', descripcion: '',importe: 0, impuesto: 0, fecha: '',ncf: ''};
   }
 }
