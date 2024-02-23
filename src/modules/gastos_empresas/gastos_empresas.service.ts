@@ -336,13 +336,13 @@ export class GastosEmpresasService {
       throw new NotFoundException('El gasto introducido no es valido');
     }
     switch (updateGastosEmpresaDto.medodoPago) {
-      case 'CREDITO':
+      case 'COMPRA A CREDITO':
         foundgasto.tipoPago = TipoPagoGasto.CREDITO;
         break;
       case 'EFECTIVO':
         foundgasto.tipoPago = TipoPagoGasto.EFECTIVO;
         break;
-      case 'TARJETACREDITO':
+      case 'TARJETA DE CREDITO':
         foundgasto.tipoPago = TipoPagoGasto.TARJETACREDITO;
         break;
       default:
