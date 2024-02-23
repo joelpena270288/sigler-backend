@@ -23,7 +23,7 @@ export class CreateGastosEmpresaDto {
     idprovedor: string;
     tipopago: string;
     @IsNotEmpty()
-    medodoPago: string;
+    metodoPago: string;
     items: CreateGastoItemDto[];
 
   

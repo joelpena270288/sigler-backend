@@ -184,7 +184,7 @@ export class GastosEmpresasService {
 
     creategasto.cuentaporpagar = cuentaporpagar;
 
-    switch (createGastosEmpresaDto.medodoPago) {
+    switch (createGastosEmpresaDto.metodoPago) {
       case 'COMPRA A CREDITO':
         creategasto.tipoPago = TipoPagoGasto.CREDITO;
         break;
@@ -335,7 +335,7 @@ export class GastosEmpresasService {
     if (!foundgasto) {
       throw new NotFoundException('El gasto introducido no es valido');
     }
-    switch (updateGastosEmpresaDto.medodoPago) {
+    switch (updateGastosEmpresaDto.metodoPago) {
       case 'COMPRA A CREDITO':
         foundgasto.tipoPago = TipoPagoGasto.CREDITO;
         break;
