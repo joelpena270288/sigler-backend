@@ -102,6 +102,6 @@ export class EntradaCombustibleService {
       foundCombustible.capacidadTanque.updatedAt = new Date();
     await this.combustibleRepository.save(foundCombustible);
 
-    return this.entradaCombustibleRepository.save(foundentrada);
+    return await this.entradaCombustibleRepository.save(foundentrada);
   }
 }
