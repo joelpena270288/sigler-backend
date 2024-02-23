@@ -173,16 +173,16 @@ export class GastosEmpresasService {
 
     switch (createGastosEmpresaDto.medodoPago) {
       case 'CREDITO':
-        cuentaporpagar.tipoPago = TipoPagoGasto.CREDITO;
+        creategasto.tipoPago = TipoPagoGasto.CREDITO;
         break;
      case 'EFECTIVO':
-      cuentaporpagar.tipoPago = TipoPagoGasto.EFECTIVO;
+      creategasto.tipoPago = TipoPagoGasto.EFECTIVO;
       break;
       case 'TARJETACREDITO':
-        cuentaporpagar.tipoPago = TipoPagoGasto.TARJETACREDITO;
+        creategasto.tipoPago = TipoPagoGasto.TARJETACREDITO;
         break;
       default:
-        cuentaporpagar.tipoPago = TipoPagoGasto.TRANSFERENCIA;
+        creategasto.tipoPago = TipoPagoGasto.TRANSFERENCIA;
         break;
     }
 
