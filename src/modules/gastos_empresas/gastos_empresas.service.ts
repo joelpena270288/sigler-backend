@@ -185,13 +185,13 @@ export class GastosEmpresasService {
     creategasto.cuentaporpagar = cuentaporpagar;
 
     switch (createGastosEmpresaDto.medodoPago) {
-      case 'CREDITO':
+      case 'COMPRA A CREDITO':
         creategasto.tipoPago = TipoPagoGasto.CREDITO;
         break;
       case 'EFECTIVO':
         creategasto.tipoPago = TipoPagoGasto.EFECTIVO;
         break;
-      case 'TARJETACREDITO':
+      case 'TARJETA DE CREDITO':
         creategasto.tipoPago = TipoPagoGasto.TARJETACREDITO;
         break;
       default:
