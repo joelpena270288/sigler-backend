@@ -309,13 +309,13 @@ export class GastosEmpresasService {
    
   }
 
- async update(id: string, metodoPago: string): Promise<GastosEmpresa> {
+ async update(id: string, UpdateGastosEmpresaDto: UpdateGastosEmpresaDto): Promise<GastosEmpresa> {
    
     const foundgasto: GastosEmpresa = await this.gastoRepository.findOne({where: {id: id}});
     if(!foundgasto){
       throw new NotFoundException('El gasto introducido no es valido');
     }
-    switch (medodoPago) {
+    switch (updateGastosEmpresaDto.medodoPago) {
       case 'CREDITO':
        foundgasto.tipoPago = TipoPagoGasto.CREDITO;
         break;
