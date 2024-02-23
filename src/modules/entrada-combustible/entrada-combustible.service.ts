@@ -85,6 +85,7 @@ export class EntradaCombustibleService {
   async remove(id: string): Promise<EntradaCombustible> {
     const foundentrada =  await this.entradaCombustibleRepository.createQueryBuilder('entrada')
     .innerJoinAndSelect('entrada.combustible','combustible')
+    .where('entrada.id = :id', {id: id})
     .getOne();
     if (!foundentrada) {
       throw new BadRequestException(
