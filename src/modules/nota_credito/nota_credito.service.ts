@@ -58,6 +58,6 @@ export class NotaCreditoService {
       throw new BadRequestException('No existe la nota introducida');
     }
     await this.notaRepository.remove(foundNota);
-    return {id: '', descripcion: '',importe: 0, impuesto: 0, fecha: '',ncf: ''};
+    return new NotaCredito();
   }
 }
