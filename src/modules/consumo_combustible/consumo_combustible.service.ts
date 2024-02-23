@@ -110,6 +110,7 @@ export class ConsumoCombustibleService {
     const foundConsumoCombustible: ConsumoCombustible =
       await this.consumoCombustibleRepository.createQueryBuilder('consumo')
       .innerJoinAndSelect('consumo.combustible','combustible')
+      .where('consumo.id = :id',{id: id})
       .getOne();
     if (!foundConsumoCombustible) {
       throw new NotFoundException('El consumo introducido no es valido');
