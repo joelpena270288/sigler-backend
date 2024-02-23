@@ -22,6 +22,7 @@ import { B11 } from '../b11/entities/b11.entity';
 import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 import { DescuentoGastosEmpresaDto } from './dto/descuento-gastos_empresa.dto';
 import { CreateGastoItemDto } from '../gasto_item/dto/create-gasto_item.dto';
+import { TipoPagoGasto } from './entities/gasto-tipo-pago.enum';
 
 @Injectable()
 export class GastosEmpresasService {
@@ -80,7 +81,7 @@ export class GastosEmpresasService {
     .andWhere('provedor.id = :idprovedor',{idprovedor: foundProvedor.id})
     .getOne();
      if(foundGasto){
-       throw new BadRequestException("Existe un gasto activo registrado a ese proveedor ");
+       throw new BadRequestException("Existe un gasto activo registrado a ese proveedor con el mismo NCF ");
  
      }
    }
@@ -169,6 +170,23 @@ export class GastosEmpresasService {
     cuentaporpagar.montorestante = valorTotal;
 
     creategasto.cuentaporpagar = cuentaporpagar;
+
+    switch (createGastosEmpresaDto.medodoPago) {
+      case 'CREDITO':
+        cuentaporpagar.tipoPago = TipoPagoGasto.CREDITO;
+        break;
+     case 'EFECTIVO':
+      cuentaporpagar.tipoPago = TipoPagoGasto.EFECTIVO;
+      break;
+      case 'TARJETACREDITO':
+        cuentaporpagar.tipoPago = TipoPagoGasto.TARJETACREDITO;
+        break;
+      default:
+        cuentaporpagar.tipoPago = TipoPagoGasto.TRANSFERENCIA;
+        break;
+    }
+
+
 
     const savedGasto: GastosEmpresa =
       await this.gastoRepository.save(creategasto);
@@ -291,8 +309,27 @@ export class GastosEmpresasService {
    
   }
 
-  update(id: number, updateGastosEmpresaDto: UpdateGastosEmpresaDto) {
-    return `This action updates a #${id} gastosEmpresa`;
+ async update(id: string, metodoPago: string): Promise<GastosEmpresa> {
+   
+    const foundgasto: GastosEmpresa = await this.gastoRepository.findOne({where: {id: id}});
+    if(!foundgasto){
+      throw new NotFoundException('El gasto introducido no es valido');
+    }
+    switch (medodoPago) {
+      case 'CREDITO':
+       foundgasto.tipoPago = TipoPagoGasto.CREDITO;
+        break;
+     case 'EFECTIVO':
+      foundgasto.tipoPago = TipoPagoGasto.EFECTIVO;
+      break;
+      case 'TARJETACREDITO':
+        foundgasto.tipoPago = TipoPagoGasto.TARJETACREDITO;
+        break;
+      default:
+        foundgasto.tipoPago = TipoPagoGasto.TRANSFERENCIA;
+        break;
+    }
+    return await this.gastoRepository.save(foundgasto);
   }
 
   async remove(id: string): Promise<GastosEmpresa> {

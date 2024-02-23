@@ -48,7 +48,7 @@ export class GastosEmpresasController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateGastosEmpresaDto: UpdateGastosEmpresaDto) {
-    return this.gastosEmpresasService.update(+id, updateGastosEmpresaDto);
+    return this.gastosEmpresasService.update(id, updateGastosEmpresaDto);
   }
   @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
