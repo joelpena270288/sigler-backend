@@ -19,6 +19,7 @@ import { CuentasPorPagarEmpresa } from './cuenta-por-pagar-empresa.entity';
 import { GastoItem } from '../../gasto_item/entities/gasto_item.entity';
 import { TipoPagoGasto } from './gasto-tipo-pago.enum';
 import {Provedor} from '../../provedor/entities/provedor.entity';
+import { NotaCredito } from '../../nota_credito/entities/nota_credito.entity';
 @Entity('gastos_empresa')
 export class GastosEmpresa {
   @PrimaryGeneratedColumn('uuid')
@@ -87,6 +88,12 @@ export class GastosEmpresa {
   valordescuentoimpuesto: number;
   @Column({ type: 'varchar', nullable: false, default: StatusGasto.ACTIVO })
   status: string;
+  @OneToMany(() => NotaCredito, (nota) => nota.gastoempresa,{
+    nullable: true,
+    eager: true,
+    cascade: true,
+  })
+  notascreditos: NotaCredito[];
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

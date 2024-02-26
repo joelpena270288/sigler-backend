@@ -37,20 +37,17 @@ export class NotaCreditoService {
     return await this.notaRepository.save(newNota);
   }
 
-  async findOne(id: string): Promise<NotaCredito> {
-    const foundnota: NotaCredito =  await this.notaRepository
+  async findOne(id: string): Promise<NotaCredito[]> {
+    const foundnota: NotaCredito[] =  await this.notaRepository
       .createQueryBuilder('nota')
       .innerJoin('nota.gastoempresa', 'gastoempresa')
       .where('gastoempresa.id = :id', { id: id })
-      .getOne();
-      if(!foundnota){
-      throw new NotFoundException('El gasto no tiene Nota de Crédito');
-
-      }
+      .getMany();
+     
       return foundnota;
   }
 
-  async remove(id: string): Promise<NotaCredito> {
+  async remove(id: string): Promise<boolean> {
     const foundNota: NotaCredito = await this.notaRepository.findOne({
       where: { id: id },
     });
@@ -58,13 +55,8 @@ export class NotaCreditoService {
       throw new BadRequestException('No existe la nota introducida');
     }
     await this.notaRepository.remove(foundNota);
-    const nota: NotaCredito = new NotaCredito();
-    nota.id = '';
-    nota.descripcion = '';
-    nota.importe = 0;
-    nota.impuesto = 0;
-    nota.fecha = null;
-    nota.ncf = '';
-    return nota;
+    
+    
+    return true;
   }
 }

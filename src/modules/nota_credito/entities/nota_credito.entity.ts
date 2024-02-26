@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -34,8 +35,8 @@ export class NotaCredito extends BaseEntity {
   descripcion: string;
   @Column({ type: 'varchar', length: 11, nullable: false })
   ncf: string;
-  @OneToOne(() => GastosEmpresa)
-  @JoinColumn()
+  @ManyToOne(() => GastosEmpresa, (gasto) => gasto.notascreditos, { nullable: false })
+ 
   gastoempresa: GastosEmpresa
   @Column({ type: 'varchar', default: Status.ACTIVO, length: 10 })
   status: string;

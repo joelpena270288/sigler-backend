@@ -77,16 +77,11 @@ export class GastosEmpresasService {
     if (createGastosEmpresaDto.NCF !== '') {
       const foundGasto: GastosEmpresa = await this.gastoRepository
         .createQueryBuilder('gasto')
-        .innerJoinAndSelect('gasto.cuentaporpagar', 'cuentaporpagar')
-        .leftJoinAndSelect(
-          'gasto.pagos',
-          'pago',
-          'pago.status = :estadogasto',
-          { estadogasto: Status.ACTIVO },
-        )
         .innerJoin('gasto.provedor', 'provedor')
         .where('gasto.NCF = :ncfgasto', { ncfgasto: gasto.NCF })
         .andWhere('provedor.id = :idprovedor', { idprovedor: foundProvedor.id })
+        .andWhere('gasto.status = :estadogasto', { estadogasto: StatusGasto.ACTIVO})
+        
         .getOne();
       if (foundGasto) {
         throw new BadRequestException(
@@ -299,8 +294,10 @@ export class GastosEmpresasService {
   async findOne(id: string): Promise<GastosEmpresa> {
     return await this.gastoRepository
       .createQueryBuilder('gasto')
+      .leftJoinAndSelect('gasto.notascreditos', 'notascreditos')
       .leftJoinAndSelect('gasto.proyecto', 'proyecto')
       .leftJoinAndSelect('proyecto.cliente', 'cliente')
+      
       .innerJoinAndSelect('gasto.cuentaporpagar', 'cuentaporpagar')
       .innerJoinAndSelect('gasto.provedor', 'provedor')
       .leftJoinAndSelect('gasto.pagos', 'pago', 'pago.status = :estadopago', {
