@@ -34,7 +34,7 @@ export class ControlCombustibleService {
         const newreadControlCombustible: ReadControlCombustibleDto = new ReadControlCombustibleDto;
           newreadControlCombustible.cantidad = consumos[index].galones;
           newreadControlCombustible.equipo = consumos[index].equipo.ficha + ' - ' +consumos[index].equipo.modelo + ' - ' + consumos[index].equipo.marca.name + ' - ' + consumos[index].equipo.placa;
-          newreadControlCombustible.fecha = moment( consumos[index].createdAt).format( "YYYY-MM-DD"); 
+          newreadControlCombustible.fecha = moment( consumos[index].fecha).format( "YYYY-MM-DD"); 
           newreadControlCombustible.combustible = consumos[index].combustible.name;
           readControlCombustible.push(newreadControlCombustible);
       }
