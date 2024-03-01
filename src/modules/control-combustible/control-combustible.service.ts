@@ -21,9 +21,9 @@ export class ControlCombustibleService {
       .innerJoinAndSelect('consumo.combustible', 'combustible')
       .innerJoinAndSelect('equipo.marca', 'marca')
       .where('consumo.fecha >= :start', {
-        start: filtro.start + ' 00:00:00',
+        start: filtro.start
       })
-      .andWhere('consumo.fecha  <= :end', { end: filtro.end + ' 23:59:00' })
+      .andWhere('consumo.fecha  <= :end', { end: filtro.end  })
       .andWhere('consumo.status !=:status', {
         status: Status.INACTIVO,
       }).getMany();
