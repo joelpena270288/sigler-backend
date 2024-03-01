@@ -272,6 +272,40 @@ export class GastosEmpresasService {
       fin = filtro.end;
     }
 
+    return await this.gastoRepository
+    .createQueryBuilder('gasto')
+    .leftJoinAndSelect('gasto.notascreditos', 'notascreditos')
+    .leftJoinAndSelect('gasto.proyecto', 'proyecto')
+    .leftJoinAndSelect('proyecto.cliente', 'cliente')
+    
+    .innerJoinAndSelect('gasto.cuentaporpagar', 'cuentaporpagar')
+    .innerJoinAndSelect('gasto.provedor', 'provedor')
+    .leftJoinAndSelect('gasto.pagos', 'pago', 'pago.status = :estadopago', {
+      estadopago: Status.ACTIVO,
+    })
+    .leftJoinAndSelect('pago.cuenta', 'cuenta')
+    .leftJoinAndSelect('cuenta.moneda', 'moneda')
+    .leftJoinAndSelect(
+      'gasto.gastosItems',
+      'gastoItem',
+      'gastoItem.status = :estadoitem',
+      { estadoitem: Status.ACTIVO },
+    )
+    .leftJoinAndSelect('gastoItem.equipo', 'equipo')
+    .leftJoinAndSelect('equipo.tipo', 'tipo')
+    .leftJoinAndSelect('equipo.marca', 'marca')
+    .where('provedor.id = :id', { id: id })
+    .andWhere('gasto.createdAt >= :fechainicio',{fechainicio: inicio})
+    .andWhere('gasto.createdAt <= :fechafin',{fechafin: fin})   
+    .andWhere('gasto.status != :estadogasto', {
+      estadogasto: StatusGasto.CANCELADO,
+    })
+
+    .getMany();
+
+
+
+/*
     return await this.gastoRepository.find({
       order: {
         createdAt: 'DESC',
@@ -288,7 +322,7 @@ export class GastosEmpresasService {
         createdAt: Between(inicio, fin),
         provedor: { id: id },
       },
-    });
+    });*/
   }
 
   async findOne(id: string): Promise<GastosEmpresa> {
