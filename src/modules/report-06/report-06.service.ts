@@ -66,6 +66,8 @@ export class Report06Service {
         );
         gastosResumen.propina = parseFloat(gastos[index].propina.toString());
         gastosResumen.cdt = parseFloat(gastos[index].impuestoclaro.toString());
+        gastosResumen.retencion = gastos[index].retencion;
+        gastosResumen.valorretencion = gastos[index].valorretencion;
 
         for (
           let jindex = 0;

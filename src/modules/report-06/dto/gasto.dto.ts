@@ -9,5 +9,7 @@ export class GastosResumen{
    propina: number;
    isc: number;
    cdt: number;
+   retencion: string;
+   valorretencion: number;
 
 }
