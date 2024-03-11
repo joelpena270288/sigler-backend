@@ -11,5 +11,6 @@ export class CreatePagoGastoDto {
     numeroTransferencia: string;
     @IsNotEmpty()
   fechaBanco: Date;
+ 
 
 }

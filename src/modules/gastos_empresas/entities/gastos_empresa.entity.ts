@@ -20,6 +20,7 @@ import { GastoItem } from '../../gasto_item/entities/gasto_item.entity';
 import { TipoPagoGasto } from './gasto-tipo-pago.enum';
 import {Provedor} from '../../provedor/entities/provedor.entity';
 import { NotaCredito } from '../../nota_credito/entities/nota_credito.entity';
+import { Moneda } from '../../moneda/entities/moneda.entity';
 @Entity('gastos_empresa')
 export class GastosEmpresa {
   @PrimaryGeneratedColumn('uuid')
@@ -94,6 +95,12 @@ export class GastosEmpresa {
     cascade: true,
   })
   notascreditos: NotaCredito[];
+  @Column({ type: 'decimal', nullable: false,default: 1, precision: 10, scale: 2 })
+  tasadgii: number; 
+
+  @Column({ type: 'varchar', nullable: false, default: 'DOP' })
+  simbolomoneda: string;
+
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: true })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })

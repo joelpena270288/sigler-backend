@@ -17,7 +17,8 @@ import { PagoAnticipado } from '../pago-anticipados/entities/pago-anticipado.ent
 import { CreatePagoFacturaAnticipoDto } from './dto/create-pago-factura-anticipo.dto';
 import { Cliente } from '../cliente/entities/cliente.entity';
 import { PagoOrigen } from './entities/pago-origen.enum';
-
+import * as moment from 'moment';
+import { Moneda } from '../moneda/entities/moneda.entity';
 @Injectable()
 export class PagoFacturaService {
   constructor(
@@ -31,6 +32,8 @@ export class PagoFacturaService {
     private pagoAnticipadoRepository: Repository<PagoAnticipado>,
     @Inject('CLIENTE_REPOSITORY')
     private clienteRepository: Repository<Cliente>,
+    @Inject('MONEDA_REPOSITORY')
+    private monedaRepository: Repository<Moneda>,
   ) {}
   async create(createPagoFacturaDto: CreatePagoFacturaDto): Promise<Factura> {
     const newPagoAnticipado: PagoAnticipado = new PagoAnticipado();
@@ -65,6 +68,22 @@ export class PagoFacturaService {
         'La cuenta de la Empresa introducida no es correcta o está desahabilitada',
       );
     }
+    const foundMoneda: Moneda = await this.monedaRepository.findOne({
+      where: { valor: foundFactura.simbolomoneda },
+    });
+    if (!foundMoneda) {
+      throw new NotFoundException(
+        'La moneda introducida no esta registrada en el sistema',
+      );
+    }
+    if (foundMoneda.tasa > 1) {
+      if (
+        moment(foundMoneda.updatedAt).format('YYYY-MM-DD') <
+        moment(new Date()).format('YYYY-MM-DD')
+      ) {
+        throw new BadRequestException('Debe actualizar la tasa del dia');
+      }
+    }
 
     if (
       foundFactura.cuentaporcobrar.montorestante >
@@ -91,8 +110,9 @@ export class PagoFacturaService {
       newPagoAnticipado.fechaBanco = new Date(createPagoFacturaDto.fechaBanco);
       newPagoAnticipado.cuenta = foundCuenta;
       pagoFactura.pagoanticipado = newPagoAnticipado;      
-      updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
+      updateCredito.credito.monto = (parseFloat(updateCredito.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()))*parseFloat(foundMoneda.tasa.toString()) ; 
       updateCredito.credito.updatedAt = new Date();
+      
     }
 
     pagoFactura.cuenta = foundCuenta;
@@ -101,6 +121,16 @@ export class PagoFacturaService {
     pagoFactura.fechaBanco = new Date(createPagoFacturaDto.fechaBanco) ;
     pagoFactura.numerocheque = createPagoFacturaDto.numerocheque;
     pagoFactura.numeroTransferencia = createPagoFacturaDto.numeroTransferencia;
+    pagoFactura.simbolomoneda = foundFactura.simbolomoneda;
+    if (foundMoneda.tasa > 1) {
+      pagoFactura.monedanacional =
+        parseFloat(createPagoFacturaDto.pago.toString()) *
+        parseFloat(foundMoneda.tasa.toString());
+      
+    } else {
+      pagoFactura.monedanacional = createPagoFacturaDto.pago;
+     
+    }
   const savedCredito: Cliente = await this.clienteRepository.save(updateCredito);
   if(!savedCredito){
     throw new BadRequestException('Error al generar el pago');
@@ -163,18 +193,35 @@ export class PagoFacturaService {
       );
     }
 
+    const foundMoneda: Moneda = await this.monedaRepository.findOne({
+      where: { valor: foundFactura.simbolomoneda },
+    });
+    if (!foundMoneda) {
+      throw new NotFoundException(
+        'La moneda introducida no esta registrada en el sistema',
+      );
+    }
+    if (foundMoneda.tasa > 1) {
+      if (
+        moment(foundMoneda.updatedAt).format('YYYY-MM-DD') <
+        moment(new Date()).format('YYYY-MM-DD')
+      ) {
+        throw new BadRequestException('Debe actualizar la tasa del dia');
+      }
+    }
+
     if (
       foundFactura.cuentaporcobrar.montorestante >
-      parseFloat(foundPagoAnticipo.pago.toString())
+      parseFloat(foundPagoAnticipo.pago.toString())/ parseFloat(foundMoneda.tasa.toString())
     ) {
       foundFactura.cuentaporcobrar.montorestante =
         parseFloat(foundFactura.cuentaporcobrar.montorestante.toString()) -
-        parseFloat(foundPagoAnticipo.pago.toString());
+       ( parseFloat(foundPagoAnticipo.pago.toString())/ parseFloat(foundMoneda.tasa.toString()));
       foundFactura.cuentaporcobrar.updatedAt = new Date();
-      pagoFactura.pago = foundPagoAnticipo.pago;
+      pagoFactura.pago = parseFloat(foundPagoAnticipo.pago.toString()) / parseFloat(foundMoneda.tasa.toString());
     } else {
       const dif =
-        parseFloat(foundPagoAnticipo.pago.toString()) -
+        (parseFloat(foundPagoAnticipo.pago.toString())/ parseFloat(foundMoneda.tasa.toString())) -
         parseFloat(foundFactura.cuentaporcobrar.montorestante.toString());
 
       foundFactura.status = StatusFactura.COMPLETADA;
@@ -188,8 +235,9 @@ export class PagoFacturaService {
       newPagoAnticipado.numeroTransferencia = foundPagoAnticipo.numeroTransferencia;
       newPagoAnticipado.cuenta = foundPagoAnticipo.cuenta;
       newPagoAnticipado.fechaBanco = foundPagoAnticipo.fechaBanco;
+      
       pagoFactura.pagoanticipado = newPagoAnticipado;
-      updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) + parseFloat(newPagoAnticipado.pago.toString()); 
+      updateCredito.credito.monto = parseFloat(updateCredito.credito.monto.toString() ) + (parseFloat(newPagoAnticipado.pago.toString())*parseFloat(foundMoneda.tasa.toString())); 
      
     }
 
@@ -198,6 +246,12 @@ export class PagoFacturaService {
     pagoFactura.numerocheque = foundPagoAnticipo.numerocheque;
     pagoFactura.origen = PagoOrigen.ANTICIPO;
     pagoFactura.fechaBanco =  foundPagoAnticipo.fechaBanco;
+    pagoFactura.simbolomoneda = foundFactura.simbolomoneda;
+      pagoFactura.monedanacional =
+        parseFloat(foundPagoAnticipo.pago.toString());
+      
+      
+    
     foundPagoAnticipo.status = Status.INACTIVO;
     foundPagoAnticipo.updatedAt = new Date();
     await this.pagoAnticipadoRepository.save(foundPagoAnticipo);

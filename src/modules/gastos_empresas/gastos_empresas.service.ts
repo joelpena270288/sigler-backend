@@ -23,6 +23,7 @@ import { FiltroFechaDto } from './dto/filtro-fecha.dto';
 import { DescuentoGastosEmpresaDto } from './dto/descuento-gastos_empresa.dto';
 import { CreateGastoItemDto } from '../gasto_item/dto/create-gasto_item.dto';
 import { TipoPagoGasto } from './entities/gasto-tipo-pago.enum';
+import {Moneda} from '../moneda/entities/moneda.entity';
 
 @Injectable()
 export class GastosEmpresasService {
@@ -39,6 +40,8 @@ export class GastosEmpresasService {
     private provedorRepository: Repository<Provedor>,
     @Inject('B11_REPOSITORY')
     private b11Repository: Repository<B11>,
+    @Inject('MONEDA_REPOSITORY')
+    private monedaRepository: Repository<Moneda>,
   ) {}
   async create(
     createGastosEmpresaDto: CreateGastosEmpresaDto,
@@ -49,6 +52,10 @@ export class GastosEmpresasService {
     if (!foundProvedor) {
       throw new NotFoundException('No existe el provedor');
     }
+  const foundMoneda: Moneda = await this.monedaRepository.findOne({where:{id: createGastosEmpresaDto.idmoneda}});
+  if(!foundMoneda){
+    throw new NotFoundException('Debe introducir una modenda existente en el sistema');
+  }
     const cuentaporpagar: CuentasPorPagarEmpresa = new CuentasPorPagarEmpresa();
     const gasto: GastosEmpresa = new GastosEmpresa();
     if (foundProvedor.informal) {
@@ -101,6 +108,8 @@ export class GastosEmpresasService {
     gasto.propina = createGastosEmpresaDto.propina;
     gasto.impuestoclaro = createGastosEmpresaDto.impuestoclaro;
     gasto.createdAt = createGastosEmpresaDto.fecha;
+    gasto.tasadgii = createGastosEmpresaDto.tasadgii;
+    gasto.simbolomoneda = foundMoneda.valor;
     if (createGastosEmpresaDto.idproyecto !== null) {
       const foundProyecto: Proyecto = await this.proyectoRepository.findOne({
         where: {

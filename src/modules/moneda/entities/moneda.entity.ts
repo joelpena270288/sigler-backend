@@ -14,6 +14,7 @@ import {
   } from 'typeorm';
   import {Status} from '../../../EntityStatus/entity.estatus.enum';
 import { CuentasEmpresa } from '../../cuentas-empresa/entities/cuentas-empresa.entity';
+import { GastosEmpresa } from '../../gastos_empresas/entities/gastos_empresa.entity';
   @Entity('monedas')
 export class Moneda {
     @PrimaryGeneratedColumn('uuid')
@@ -25,6 +26,8 @@ tasa: number;
 
 @OneToMany(() => CuentasEmpresa, (cuenta) => cuenta.moneda)
 cuentas: CuentasEmpresa[];
+
+
 @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;
   @CreateDateColumn({ type: 'timestamp', name: 'updated_at' })

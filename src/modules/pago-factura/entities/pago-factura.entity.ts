@@ -46,6 +46,10 @@ export class PagoFactura {
       pagoanticipado: PagoAnticipado;
       @Column({ type: 'varchar', nullable: false, default: PagoOrigen.NORMAL})    
       origen: string;
+      @Column({ type: 'varchar', nullable: false, default: 'DOP' })
+      simbolomoneda: string;
+      @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2, default: 0 })
+      monedanacional: number;
       @CreateDateColumn({ type: 'timestamp', name: 'fecha_banco' })
       fechaBanco: Date;
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })

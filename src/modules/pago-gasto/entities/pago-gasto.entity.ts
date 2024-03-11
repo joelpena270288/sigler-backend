@@ -38,6 +38,11 @@ export class PagoGasto {
 		 eager: true,
       })
       cuenta: CuentasEmpresa; 
+      @Column({ type: 'varchar', nullable: false, default: 'DOP' })
+      simbolomoneda: string;
+      
+      @Column({ type: 'decimal', nullable: false, precision: 10, scale: 2, default: 0 })
+      monedanacional: number;
       @Column({ type: 'varchar', nullable: false, default: Status.ACTIVO })
 status: string;
 

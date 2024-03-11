@@ -286,8 +286,14 @@ return savedFactura;
   }
    foundFactura.simbolomoneda = moneda.valor;
 	  foundFactura.tasadia = moneda.tasa;
-   foundFactura.cuentaporcobrar.montoinicial = monto; 
-   foundFactura.cuentaporcobrar.montorestante = monto;
+    if( parseFloat(moneda.tasa.toString()) > 1 ){
+      foundFactura.cuentaporcobrar.montoinicial = parseFloat(monto.toString())/ parseFloat(moneda.tasa.toString()); 
+      foundFactura.cuentaporcobrar.montorestante = parseFloat(monto.toString())/ parseFloat(moneda.tasa.toString());
+    }else{
+      foundFactura.cuentaporcobrar.montoinicial = monto; 
+      foundFactura.cuentaporcobrar.montorestante = monto;
+    }
+  
 	
    foundFactura.status = StatusFactura.APROBADA;
 	foundFactura.tipo = TipoFactura.FACTURA;
