@@ -62,7 +62,7 @@ export class Report06Service {
         gastosResumen.ncf = gastos[index].NCF;
         gastosResumen.rnc = gastos[index].provedor.documento;
         gastosResumen.isc = parseFloat(
-          gastos[index].impuestoselectivoconsumo.toString(),
+          gastos[index].impuestoselectivoconsumo.toString()
         );
         gastosResumen.propina = parseFloat(gastos[index].propina.toString());
         gastosResumen.cdt = parseFloat(gastos[index].impuestoclaro.toString());
@@ -86,9 +86,12 @@ export class Report06Service {
         gastosResumen.subtotal =
           parseFloat(gastosResumen.subtotal.toString()) -
           parseFloat(gastos[index].valordescuentoimporte.toString());
+          gastosResumen.subtotal = parseFloat( gastosResumen.subtotal.toString()) * parseFloat(gastos[index].tasadgii.toString());
         gastosResumen.itbis =
           parseFloat(gastosResumen.itbis.toString()) -
           parseFloat(gastos[index].valordescuentoimpuesto.toString());
+  gastosResumen.itbis = parseFloat (gastosResumen.itbis.toString()) * parseFloat(gastos[index].tasadgii.toString());
+
         gastosResumen.itbis.toFixed(2);
         gastosResumen.subtotal.toFixed(2);
 
