@@ -10,7 +10,7 @@ import { RolesGuard } from '../role/guards/roles.guard';
 @Controller('servicio')
 export class ServicioController {
   constructor(private readonly servicioService: ServicioService) {}
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.DIGITADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.DIGITADOR,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createServicioDto: CreateServicioDto) {
@@ -28,13 +28,13 @@ export class ServicioController {
   findOne(@Param('id') id: string) {
     return this.servicioService.findOne(id);
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.DIGITADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.DIGITADOR,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateServicioDto: UpdateServicioDto) {
     return this.servicioService.update(id, updateServicioDto);
   }
-  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.DIGITADOR)
+  @HasRoles(RoleEnum.ADMIN,RoleEnum.ADMINISTRATIVO,RoleEnum.DIGITADOR,RoleEnum.FACTURADOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
