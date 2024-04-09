@@ -24,6 +24,8 @@ export class RetencionService {
     private retencionRepository: Repository<Retencion>,
     @Inject('GASTOEMPRESA_REPOSITORY')
     private gastoRepository: Repository<GastosEmpresa>,
+    @Inject('GASTOITEM_REPOSITORY')
+    private gastoItemRepository: Repository<GastoItem>,
     @Inject('FACTURA_REPOSITORY')
     private facturaRepository: Repository<Factura>,
   ) {}
@@ -89,13 +91,7 @@ export class RetencionService {
     const foundGasto: GastosEmpresa = await this.gastoRepository
       .createQueryBuilder('gasto')
       .innerJoinAndSelect('gasto.cuentaporpagar', 'cuentaporpagar')
-      .leftJoinAndSelect(
-        'gasto.gastosItems',
-
-        'gastoItem',
-        'gastoItem.status = :estadoitem',
-        { estadoitem: Status.ACTIVO },
-      )
+     
       .leftJoinAndSelect('gasto.pagos', 'pago', 'pago.status = :estadopago', {
         estadopago: Status.ACTIVO,
       })
@@ -114,12 +110,23 @@ export class RetencionService {
     if (!foundRetencion) {
       throw new NotFoundException('La Retencion introducida no es valida');
     }
+    const founGastosItem: GastoItem[] = await this.gastoItemRepository
+    .createQueryBuilder('gastoitem')
+    .innerJoinAndSelect('gastoitem.gasto', 'gasto','gasto.id = :idgasto',{idgasto: foundGasto.id})   
+    
+    .where('gastoitem.status = :status', {
+      status: Status.ACTIVO,
+    })
+    .getMany();
+    if(founGastosItem.length<1){
+      throw new BadRequestException("El gasto no tiene servicios asociados");
+    }
     let valortotal = 0;
     let pagosrealizados = 0;
-    for (let index = 0; index < foundGasto.gastosItems.length; index++) {
+    for (let index = 0; index <founGastosItem.length; index++) {
       valortotal =
         parseFloat(valortotal.toString()) +
-        parseFloat(foundGasto.gastosItems[index].importe.toString());
+        parseFloat(founGastosItem[index].importe.toString());
     }
     valortotal =
       parseFloat(valortotal.toString()) *

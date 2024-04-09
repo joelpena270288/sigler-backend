@@ -34,10 +34,12 @@ export class GastoItem {
     valortotal: number;
     @ManyToOne(() => GastosEmpresa, (gasto) => gasto.gastosItems, {
         nullable: false,
+       
       })
      gasto: GastosEmpresa;
      @ManyToOne(() => Equipo, (equipo) => equipo.gastosItems, {
       nullable: true,
+      eager: true
     })
    equipo: Equipo;
 	
