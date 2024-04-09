@@ -87,6 +87,7 @@ export class ProyectoService {
   }
   foundProyecto.cliente = foundCliente;
   foundProyecto.name = updateProyectoDto.name;
+  foundProyecto.ajuste = updateProyectoDto.ajuste;
 
    return await this.proyectoRepository.save(foundProyecto);
   }
