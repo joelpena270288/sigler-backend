@@ -33,7 +33,7 @@ export class NotaCredito extends BaseEntity {
   impuesto: number;
   @Column({ type: 'varchar', nullable: false })
   descripcion: string;
-  @Column({ type: 'varchar', length: 11, nullable: false })
+  @Column({ type: 'varchar', length: 20, nullable: false })
   ncf: string;
   @ManyToOne(() => GastosEmpresa, (gasto) => gasto.notascreditos, { nullable: false })
  
