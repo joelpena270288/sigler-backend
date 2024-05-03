@@ -65,12 +65,18 @@ export class ProyectoService {
     return await this.proyectoRepository.findOne({  relations: {
         cliente: true,
 		conducesprocesados: true,
-		prefacturas: true
+		prefacturas: true,
+    cotizacion: true
 
     },where: { 
       
       
-      id: id } });
+      id: id },
+      order: {
+        cotizacion: {
+          createdAt: "ASC"
+        }
+        }});
   }
 
  async update(id: string, updateProyectoDto: UpdateProyectoDto): Promise<Proyecto> {
